@@ -4,8 +4,16 @@
   "bin": {
     "roadhog": "./bin/roadhog.js"
   },
+  "files": [
+    "bin",
+    "utils",
+    "scripts",
+    "config",
+    ".eslintrc"
+  ],
   "scripts": {
-    "lint": "eslint --ext .js scripts config utils bin"
+    "lint": "eslint --ext .js scripts config utils bin",
+    "test": "mocha test/**/*-test.js --no-timeouts"
   },
   "dependencies": {
     "autoprefixer": "^6.5.4",
@@ -39,6 +47,7 @@
   },
   "devDependencies": {
     "eslint": "^3.12.1",
-    "expect": "^1.20.2"
+    "expect": "^1.20.2",
+    "mocha": "^3.2.0"
   }
 }

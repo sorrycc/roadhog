@@ -20,10 +20,10 @@ function getEntry(filePath) {
   };
 }
 
-function getFiles(entry) {
+function getFiles(entry, cwd) {
   if (Array.isArray(entry)) {
     return entry.reduce((memo, entryItem) => {
-      return memo.concat(getFiles(entryItem));
+      return memo.concat(getFiles(entryItem, cwd));
     }, []);
   } else {
     assert(
@@ -31,7 +31,7 @@ function getFiles(entry) {
       `getEntry/getFiles: entry type should be string, but got ${typeof entry}`
     );
     return glob.sync(entry, {
-      cwd: paths.appDirectory,
+      cwd,
     });
   }
 }
@@ -39,12 +39,10 @@ function getFiles(entry) {
 module.exports = function() {
   const entry = getConfig().entry;
 
-  if (!entry) {
-    return getEntry(DEFAULT_ENTRY);
-  } else {
-    const files = getFiles(entry);
-    return files.reduce((memo, file) => {
-      return Object.assign(memo, getEntry(file));
-    }, {});
-  }
+  const files = entry ? getFiles(entry, paths.appDirectory) : [DEFAULT_ENTRY];
+  return files.reduce((memo, file) => {
+    return Object.assign(memo, getEntry(file));
+  }, {});
 };
+
+module.exports.getFiles = getFiles;
