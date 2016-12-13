@@ -40,7 +40,7 @@ module.exports = {
         loader: 'url',
         query: {
           limit: 10000,
-          name: 'static/media/[name].[hash:8].[ext]',
+          name: 'static/[name].[hash:8].[ext]',
         },
       },
       {
@@ -64,15 +64,15 @@ module.exports = {
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json',
       },
       {
         test: /\.svg$/,
         loader: 'file',
         query: {
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
-      }
+          name: 'static/[name].[hash:8].[ext]',
+        },
+      },
     ],
   },
   babel: {
@@ -84,7 +84,6 @@ module.exports = {
     ],
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
-      require.resolve('babel-plugin-dva-hmr'),
     ],
     cacheDirectory: true,
   },
@@ -96,7 +95,7 @@ module.exports = {
           'last 4 versions',
           'Firefox ESR',
           'not ie < 9', // React doesn't support IE8 anyway
-        ]
+        ],
       }),
     ];
   },

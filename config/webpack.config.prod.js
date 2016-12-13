@@ -40,7 +40,7 @@ module.exports = {
         loader: 'url',
         query: {
           limit: 10000,
-          name: 'static/media/[name].[hash:8].[ext]',
+          name: 'static/[name].[hash:8].[ext]',
         },
       },
       {
@@ -70,15 +70,15 @@ module.exports = {
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json',
       },
       {
         test: /\.svg$/,
         loader: 'file',
         query: {
-          name: 'static/media/[name].[hash:8].[ext]'
-        }
-      }
+          name: 'static/[name].[hash:8].[ext]',
+        },
+      },
     ],
   },
   babel: {
@@ -89,7 +89,6 @@ module.exports = {
     ],
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
-      require.resolve('babel-plugin-dva-hmr'),
     ],
     cacheDirectory: true,
   },
@@ -124,7 +123,7 @@ module.exports = {
       output: {
         comments: false,
         screw_ie8: true
-      }
+      },
     }),
     new ExtractTextPlugin('[name].css'),
   ],
