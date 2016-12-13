@@ -18,4 +18,6 @@ module.exports = {
   appSrc: resolveApp('src'),
   appNodeModules: resolveApp('node_modules'),
   ownNodeModules: resolveOwn('../node_modules'),
+  resolveApp,
+  appDirectory,
 };
