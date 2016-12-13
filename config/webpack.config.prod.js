@@ -1,7 +1,5 @@
 const autoprefixer = require('autoprefixer');
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const webpack = require('webpack');
-const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 

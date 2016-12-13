@@ -6,7 +6,7 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const prompt = require('react-dev-utils/prompt');
 const webpack = require('webpack');
 const historyApiFallback = require('connect-history-api-fallback');
-const httpProxyMiddleware = require('http-proxy-middleware');
+// const httpProxyMiddleware = require('http-proxy-middleware');
 const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk');
 const config = require('../config/webpack.config.dev');
@@ -105,7 +105,7 @@ function runDevServer(host, port, protocol) {
     watchOptions: {
       ignored: /node_modules/,
     },
-    https: protocol === "https",
+    https: protocol === 'https',
     host: host
   });
 
@@ -132,7 +132,7 @@ function runDevServer(host, port, protocol) {
 }
 
 function run(port) {
-  const protocol = process.env.HTTPS === 'true' ? "https" : "http";
+  const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   const host = process.env.HOST || 'localhost';
   setupCompiler(host, port, protocol);
   runDevServer(host, port, protocol);
