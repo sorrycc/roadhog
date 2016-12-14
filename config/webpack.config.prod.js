@@ -3,9 +3,11 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
+const getConfig = require('../utils/getConfig');
 
-// TODO: 传进来
-const publicPath = '/';
+const config = getConfig();
+
+const publicPath = config.publicPath || '/';
 
 module.exports = {
   bail: true,
