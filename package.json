@@ -1,8 +1,22 @@
 {
   "name": "roadhog",
   "version": "0.1.0",
+  "description": "Cli tool for serve and build react app, based on create-react-app, support JSON pattern config.",
   "bin": {
     "roadhog": "./bin/roadhog.js"
+  },
+  "keywords": [
+    "cli",
+    "react",
+    "roadhog",
+    "create-react-app"
+  ],
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sorrycc/roadhog/issues"
   },
   "files": [
     "bin",
