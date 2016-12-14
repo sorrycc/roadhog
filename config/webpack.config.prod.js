@@ -6,7 +6,6 @@ const getEntry = require('../utils/getEntry');
 const getConfig = require('../utils/getConfig');
 
 const config = getConfig();
-
 const publicPath = config.publicPath || '/';
 
 module.exports = {
@@ -86,7 +85,7 @@ module.exports = {
     ],
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
-    ],
+    ].concat(config.extraBabelPlugins || []),
     cacheDirectory: true,
   },
   postcss: function() {

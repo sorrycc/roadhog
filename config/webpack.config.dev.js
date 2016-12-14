@@ -4,7 +4,9 @@ const webpack = require('webpack');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
+const getConfig = require('../utils/getConfig');
 
+const config = getConfig();
 const publicPath = '/';
 
 module.exports = {
@@ -80,7 +82,7 @@ module.exports = {
     ],
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
-    ],
+    ].concat(config.extraBabelPlugins || []),
     cacheDirectory: true,
   },
   postcss: function() {
