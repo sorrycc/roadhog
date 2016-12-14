@@ -87,7 +87,7 @@ module.exports = {
   },
   postcss: function() {
     return [
-      autoprefixer({
+      autoprefixer(config.autoprefixer || {
         browsers: [
           '>1%',
           'last 4 versions',
