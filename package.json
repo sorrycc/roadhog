@@ -42,6 +42,7 @@
     "postcss": "^5.2.6",
     "postcss-loader": "^1.2.0",
     "react-dev-utils": "^0.4.2",
+    "strip-json-comments": "^2.0.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
