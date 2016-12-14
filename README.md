@@ -11,7 +11,7 @@
 
 ## Why roadhog
 
-由于 dva-cli 有不同于 create-react-app 的 webpack.config.js 配置需求，而 create-react-app 并不提供定制功能。
+由于 create-react-app 的默认配置不能满足需求，而他又不提供定制的功能，所以我们基于他实现了一个可配置版的。那么要提供 JSON 级别的约定型配置，而非 webpack.config.js 的强扩展型配置? 只要是
 
 ## Getting Started
 
