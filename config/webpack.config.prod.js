@@ -4,9 +4,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
 const getConfig = require('../utils/getConfig');
+const getCSSLoaders = require('../utils/getCSSLoaders');
 
 const config = getConfig();
 const publicPath = config.publicPath || '/';
+const cssLoaders = getCSSLoaders();
 
 module.exports = {
   bail: true,
@@ -45,19 +47,19 @@ module.exports = {
         loader: 'babel',
       },
       {
-        test: /\.css$/,
+        test: /\.(css|less)$/,
         exclude: /node_modules/,
         loader: ExtractTextPlugin.extract(
           'style',
-          'css?importLoaders=1&modules&localIdentName=[local]___[hash:base64:5]!postcss'
+          cssLoaders.own
         ),
       },
       {
-        test: /\.css$/,
+        test: /\.(css|less)$/,
         include: /node_modules/,
         loader: ExtractTextPlugin.extract(
           'style',
-          'css?importLoaders=1!postcss'
+          cssLoaders.nodeModules
         ),
       },
       {

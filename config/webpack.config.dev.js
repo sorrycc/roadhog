@@ -5,9 +5,11 @@ const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeM
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
 const getConfig = require('../utils/getConfig');
+const getCSSLoaders = require('../utils/getCSSLoaders');
 
 const config = getConfig();
 const publicPath = '/';
+const cssLoaders = getCSSLoaders();
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -47,14 +49,14 @@ module.exports = {
         loader: 'babel',
       },
       {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        loader: 'style!css?importLoaders=1&modules&localIdentName=[local]___[hash:base64:5]!postcss',
+        test: /\.(css|less)$/,
+        include: paths.appSrc,
+        loader: `style!${cssLoaders.own}`,
       },
       {
-        test: /\.css$/,
-        include: /node_modules/,
-        loader: 'style!css?importLoaders=1!postcss',
+        test: /\.(css|less)$/,
+        include: paths.appNodeModules,
+        loader: `style!${cssLoaders.nodeModules}`,
       },
       {
         test: /\.html$/,
