@@ -15,7 +15,7 @@ const getConfig = require('../utils/getConfig');
 
 process.env.NODE_ENV = 'development';
 
-const DEFAULT_PORT = process.env.PORT || 3000;
+const DEFAULT_PORT = process.env.PORT || 8000;
 const isInteractive = process.stdout.isTTY;
 let compiler;
 
