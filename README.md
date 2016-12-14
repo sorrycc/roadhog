@@ -5,7 +5,7 @@
 [![NPM downloads](http://img.shields.io/npm/dm/roadhog.svg?style=flat)](https://npmjs.org/package/roadhog)
 [![Dependencies](https://david-dm.org/sorrycc/roadhog/status.svg)](https://david-dm.org/sorrycc/roadhog)
 
-roadhog 是一个 cli 工具，提供 server 和 build 功能，在 create-react-app 的基础上进行扩展，提供 JSON 级别的简单配置。
+一个 cli 工具，提供 server 和 build 功能，在 create-react-app 的基础上进行扩展，提供 [JSON 级别的简单配置](https://github.com/sorrycc/roadhog#配置)。
 
 ---
 
@@ -118,7 +118,7 @@ $ npm i babel-runtime --save
 
 ### proxy
 
-配置代理。
+配置代理，详见 [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy)。(注意：仅支持 JSON 格式的配置，不支持 `bypass`。)
 
 如果要代理请求到其他服务器，可以这样配：
 
