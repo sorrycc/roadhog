@@ -11,6 +11,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk');
 const config = require('../config/webpack.config.dev');
 const paths = require('../config/paths');
+const getConfig = require('../utils/getConfig');
 
 process.env.NODE_ENV = 'development';
 
@@ -105,7 +106,8 @@ function runDevServer(host, port, protocol) {
       ignored: /node_modules/,
     },
     https: protocol === 'https',
-    host: host
+    host: host,
+    proxy: getConfig().proxy,
   });
 
   addMiddleware(devServer);
