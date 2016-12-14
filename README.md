@@ -136,6 +136,20 @@ $ npm i babel-runtime --save
 
 如果要做数据 mock，可以考虑和 [json-server](https://github.com/typicode/json-server) 结合使用，把 `/api` 代理到 json-server 启动的端口。
 
+## 环境变量
+
+可环境变量临时配置一些参数，包括：
+
+- `PORT`, 端口号，默认 8000
+- `HOST`, 默认 localhost
+- `HTTPS`，是否开启 https，默认关闭
+
+比如，使用 3000 端口开启服务器可以这样：
+
+```bash
+$ PORT=3000 roadhog server
+```
+
 ## LICENSE
 
 MIT
