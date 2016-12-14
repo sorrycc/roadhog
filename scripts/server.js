@@ -94,7 +94,6 @@ function addMiddleware(devServer) {
 }
 
 function runDevServer(host, port, protocol) {
-  console.log('a');
   const devServer = new WebpackDevServer(compiler, {
     compress: true,
     clientLogLevel: 'none',
@@ -109,9 +108,7 @@ function runDevServer(host, port, protocol) {
     host: host
   });
 
-  console.log('b');
   addMiddleware(devServer);
-  console.log('c');
 
   devServer.listen(port, (err) => {
     if (err) {
@@ -128,7 +125,6 @@ function runDevServer(host, port, protocol) {
       openBrowser(protocol + '://' + host + ':' + port + '/');
     }
   });
-  console.log('d');
 }
 
 function run(port) {
@@ -138,9 +134,7 @@ function run(port) {
   runDevServer(host, port, protocol);
 }
 
-console.log('x', DEFAULT_PORT);
 detect(DEFAULT_PORT).then((port) => {
-  console.log('xx', port, DEFAULT_PORT);
   if (port === DEFAULT_PORT) {
     run(port);
     return;
