@@ -3,17 +3,13 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const webpack = require('webpack');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const paths = require('./paths');
+const getEntry = require('../utils/getEntry');
 
 const publicPath = '/';
 
 module.exports = {
   devtool: 'cheap-module-source-map',
-  entry: {
-    index: [
-      require.resolve('react-dev-utils/webpackHotDevClient'),
-      './src/index.js',
-    ],
-  },
+  entry: getEntry(),
   output: {
     path: paths.appBuild,
     filename: '[name].js',

@@ -3,7 +3,7 @@ const fs = require('fs');
 const explain = require('explain-error');
 const paths = require('../config/paths');
 
-module.exports = function(fileName) {
+module.exports = function(fileName = '.roadhogrc') {
   const configPath = paths.resolveApp(fileName);
   if (pathExists.sync(configPath)) {
     try {

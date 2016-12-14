@@ -2,17 +2,14 @@ const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const paths = require('./paths');
+const getEntry = require('../utils/getEntry');
 
 // TODO: 传进来
 const publicPath = '/';
 
 module.exports = {
   bail: true,
-  entry: {
-    index: [
-      './src/index.js',
-    ],
-  },
+  entry: getEntry(),
   output: {
     path: paths.appBuild,
     filename: '[name].js',

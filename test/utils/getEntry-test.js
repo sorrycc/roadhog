@@ -19,6 +19,12 @@ describe('getEntry', () => {
     ]);
   });
 
+  it('add ./', () => {
+    expect(getFiles('src/a.js', getEntryFixture)).toEqual([
+      './src/a.js',
+    ]);
+  });
+
   it('error if entry is not string', () => {
     expect(() => {
       getFiles(null, getEntryFixture);
