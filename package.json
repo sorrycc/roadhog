@@ -36,6 +36,8 @@
     "glob": "^7.1.1",
     "http-proxy-middleware": "^0.17.3",
     "json-loader": "^0.5.4",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "path-exists": "^3.0.0",
     "postcss": "^5.2.6",
     "postcss-loader": "^1.2.0",
