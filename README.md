@@ -184,6 +184,18 @@ $ PORT=3000 roadhog server
 
 roadhog 即路霸，和 [dva](https://github.com/dvajs/dva) 一样，是守望先锋中的另一名英雄，希望能为 dva 保驾护航。
 
+### 报 `Unexpected token` 错误，类似下面这样
+
+```
+Error in ./index.js
+Module parse failed: /Users/chencheng/Documents/Work/Misc/dva-cli/boilerplates/demo/index.js Unexpected token (15:23)
+You may need an appropriate loader to handle this file type.
+SyntaxError: Unexpected token (15:23)
+ @ multi index
+```
+
+把源码放到 src 目录下，因为非 src 目录下的文件不会走 babel 编译。
+
 ## LICENSE
 
 MIT
