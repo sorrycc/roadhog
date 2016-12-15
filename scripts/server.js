@@ -1,3 +1,6 @@
+// 必须放在 webpack.config.env require 之前
+process.env.NODE_ENV = 'development';
+
 const detect = require('detect-port');
 const clearConsole = require('react-dev-utils/clearConsole');
 const getProcessForPort = require('react-dev-utils/getProcessForPort');
@@ -12,8 +15,6 @@ const chalk = require('chalk');
 const config = require('../config/webpack.config.dev');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
-
-process.env.NODE_ENV = 'development';
 
 const DEFAULT_PORT = process.env.PORT || 8000;
 const isInteractive = process.stdout.isTTY;
@@ -107,7 +108,7 @@ function runDevServer(host, port, protocol) {
     },
     https: protocol === 'https',
     host: host,
-    proxy: getConfig().proxy,
+    proxy: getConfig(process.env.NODE_ENV).proxy,
   });
 
   addMiddleware(devServer);

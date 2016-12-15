@@ -1,3 +1,6 @@
+// 必须放在 webpack.config.env require 之前
+process.env.NODE_ENV = 'production';
+
 const chalk = require('chalk');
 const fs = require('fs-extra');
 const path = require('path');
@@ -8,8 +11,6 @@ const recursive = require('recursive-readdir');
 const stripAnsi = require('strip-ansi');
 const paths = require('../config/paths');
 const config = require('../config/webpack.config.prod');
-
-process.env.NODE_ENV = 'production';
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js
@@ -66,7 +67,7 @@ function printFileSizes(stats, previousSizeMap) {
       const previousSize = previousSizeMap[removeFileNameHash(asset.name)];
       const difference = getDifferenceLabel(size, previousSize);
       return {
-        folder: path.join('build', path.dirname(asset.name)),
+        folder: path.join('dist', path.dirname(asset.name)),
         name: path.basename(asset.name),
         size: size,
         sizeLabel: filesize(size) + (difference ? ' (' + difference + ')' : '')

@@ -6,7 +6,7 @@ const getEntry = require('../utils/getEntry');
 const getConfig = require('../utils/getConfig');
 const getCSSLoaders = require('../utils/getCSSLoaders');
 
-const config = getConfig();
+const config = getConfig(process.env.NODE_ENV);
 const publicPath = config.publicPath || '/';
 const cssLoaders = getCSSLoaders();
 

@@ -53,4 +53,5 @@ describe('getEntry', () => {
       './src/a.js',
     ]);
   });
+
 });

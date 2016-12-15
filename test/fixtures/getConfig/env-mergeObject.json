@@ -1,0 +1,12 @@
+{
+  "proxy": {
+    "/a": 1
+  },
+  "env": {
+    "development": {
+      "proxy": {
+        "/b": 2
+      }
+    }
+  }
+}
