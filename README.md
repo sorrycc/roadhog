@@ -106,6 +106,8 @@ $ npm i babel-plugin-transform-runtime babel-plugin-import babel-plugin-dva-hmr 
 $ npm i babel-runtime --save
 ```
 
+注意：这么配还有个问题，`dva-hmr` 是开发环境的插件，如果 build 时也用上就会打出冗余代码。解决方案详见 [#env](#env)。
+
 ### autoprefixer
 
 配置 autoprefixer 参数，详见 [autoprefixer](https://github.com/postcss/autoprefixer) 和 [browserslist](https://github.com/ai/browserslist#queries)。
@@ -139,6 +141,23 @@ $ npm i babel-runtime --save
 然后访问 `/api/users` 就能访问到 http://jsonplaceholder.typicode.com/users 的数据。
 
 如果要做数据 mock，可以考虑和 [json-server](https://github.com/typicode/json-server) 结合使用，把 `/api` 代理到 json-server 启动的端口。
+
+### env
+
+针对特定的环境进行配置。server 的环境变量是 `development`，build 的环境变量是 `production`。
+
+比如：
+
+```
+"extraBabelPlugins": ["transform-runtime"],
+"env": {
+  "development": {
+    "extraBabelPlugins": ["dva-hmr"]
+  }
+}
+```
+
+这样，开发环境下的 extraBabelPlugins 是 `["transform-runtime", "dva-hmr"]`，而生产环境下是 `["transform-runtime"]`。
 
 ## 环境变量
 
