@@ -5,7 +5,7 @@
 [![NPM downloads](http://img.shields.io/npm/dm/roadhog.svg?style=flat)](https://npmjs.org/package/roadhog)
 [![Dependencies](https://david-dm.org/sorrycc/roadhog/status.svg)](https://david-dm.org/sorrycc/roadhog)
 
-一个 cli 工具，提供 server 和 build 功能，在 create-react-app 的基础上进行扩展，提供 [JSON 级别的简单配置](https://github.com/sorrycc/roadhog#配置)。
+一个 cli 工具，提供 server 和 build 功能，在 create-react-app 的基础上进行扩展，提供 [JSON 格式的配置](https://github.com/sorrycc/roadhog#配置)。
 
 ---
 
