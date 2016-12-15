@@ -15,7 +15,7 @@
 
 ## Why roadhog
 
-由于 [create-react-app](https://github.com/facebookincubator/create-react-app) 的默认配置不能满足需求，而他又不提供定制的功能，于是基于他实现了一个可配置版。所以如果既要 create-react-app 的优雅体验，又想定制配置，那么可以实时 roadhog 。
+由于 [create-react-app](https://github.com/facebookincubator/create-react-app) 的默认配置不能满足需求，而他又不提供定制的功能，于是基于他实现了一个可配置版。所以如果既要 create-react-app 的优雅体验，又想定制配置，那么可以试试 roadhog 。
 
 ## Getting Started
 
