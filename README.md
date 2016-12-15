@@ -186,6 +186,8 @@ $ PORT=3000 roadhog server
 
 roadhog 即路霸，和 [dva](https://github.com/dvajs/dva) 一样，是守望先锋中的另一名英雄，希望能为 dva 保驾护航。
 
+<img src="https://zos.alipayobjects.com/rmsportal/guCnwwMItoLOTmcdbaEZ.png" width="200" height="200" />
+
 ### 报 `Unexpected token` 错误，类似下面这样
 
 ```
