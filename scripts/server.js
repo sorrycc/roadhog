@@ -16,7 +16,7 @@ const config = require('../config/webpack.config.dev');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
 
-const DEFAULT_PORT = process.env.PORT || 8000;
+const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
 let compiler;
 
@@ -108,7 +108,7 @@ function runDevServer(host, port, protocol) {
     },
     https: protocol === 'https',
     host: host,
-    proxy: getConfig().proxy,
+    proxy: getConfig(process.env.NODE_ENV).proxy,
   });
 
   addMiddleware(devServer);
