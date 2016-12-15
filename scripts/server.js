@@ -108,7 +108,7 @@ function runDevServer(host, port, protocol) {
     },
     https: protocol === 'https',
     host: host,
-    proxy: getConfig(process.env.NODE_ENV).proxy,
+    proxy: getConfig().proxy,
   });
 
   addMiddleware(devServer);

@@ -1,6 +1,6 @@
 const { join } = require('path');
 const expect = require('expect');
-const getConfig  = require('../../utils/getConfig');
+const getConfig  = require('../../utils/getConfig').realGetConfig;
 
 const fixtures = join(__dirname, '..', 'fixtures');
 const getConfigFixture = join(fixtures, 'getConfig');

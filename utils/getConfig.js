@@ -17,7 +17,7 @@ function merge(oldObj, newObj) {
   }
 }
 
-module.exports = function(fileName = '.roadhogrc', env = 'development') {
+function realGetConfig(fileName, env = 'development') {
   const configPath = paths.resolveApp(fileName);
   if (pathExists.sync(configPath)) {
     try {
@@ -33,4 +33,10 @@ module.exports = function(fileName = '.roadhogrc', env = 'development') {
   } else {
     return {};
   }
+}
+
+module.exports = function() {
+  return realGetConfig('.roadhogrc', process.env.NODE_ENV);
 };
+
+module.exports.realGetConfig = realGetConfig;
