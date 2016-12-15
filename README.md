@@ -58,6 +58,7 @@ $ roadhog build
   "extraBabelPlugins": [],
   "autoprefixer": null,
   "proxy": null,
+  "env": null,
 }
 ```
 
