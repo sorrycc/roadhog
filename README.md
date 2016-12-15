@@ -15,7 +15,7 @@
 
 ## Why roadhog
 
-由于 [create-react-app](https://github.com/facebookincubator/create-react-app) 的默认配置不能满足需求，而他又不提供定制的功能，所以我们基于他实现了一个可配置版的。
+由于 [create-react-app](https://github.com/facebookincubator/create-react-app) 的默认配置不能满足需求，而他又不提供定制的功能，于是基于他实现了一个可配置版。所以如果既要 create-react-app 的优雅体验，又想定制配置，那么可以实时 roadhog 。
 
 ## Getting Started
 
@@ -180,7 +180,7 @@ $ PORT=3000 roadhog server
 
 首先是 JSON 的方式比较简单，`true`/`false` 或是一些简单的字符串就可完成配置；另外，JSON 方式能有效控制使用场景，而编程式的非常不可控，roadhog 的一个简单改动都可能导致之前的配置不可用。
 
-### 为什么叫 roadhog
+### 为什么叫 roadhog ?
 
 roadhog 即路霸，和 [dva](https://github.com/dvajs/dva) 一样，是守望先锋中的另一名英雄，希望能为 dva 保驾护航。
 
