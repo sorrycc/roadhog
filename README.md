@@ -176,6 +176,19 @@ $ npm i babel-runtime --save
 $ PORT=3000 roadhog server
 ```
 
+## 命令行参数
+
+### server
+
+```bash
+Usage: roadhog server [options]
+
+Options:
+  --open  Open url in browser after started            [boolean] [default: true]
+  -h      Show help                                                    [boolean]
+```
+
+
 ## FAQ
 
 ### 那么为什么提供 JSON 级别的约定型配置，而非类似 webpack.config.js 的编码型配置?
