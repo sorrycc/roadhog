@@ -213,6 +213,12 @@ SyntaxError: Unexpected token (15:23)
 
 把源码放到 src 目录下，因为非 src 目录下的文件不会走 babel 编译。
 
+### Windows/Ubuntu 下每次启动后打开新 Tab 比较烦
+
+```bash
+$ roadhog server --no-open
+```
+
 ## LICENSE
 
 MIT
