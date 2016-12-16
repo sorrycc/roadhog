@@ -19,6 +19,16 @@ const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
 let compiler;
 
+const argv = require('yargs')
+  .usage('Usage: roadhog server [options]')
+  .option('open', {
+    type: 'boolean',
+    describe: 'Open url in browser after started',
+    default: true,
+  })
+  .help('h')
+  .argv;
+
 let rcConfig;
 try {
   rcConfig = getConfig(process.env.NODE_ENV);
@@ -135,7 +145,7 @@ function runDevServer(host, port, protocol) {
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
 
-    if (isInteractive) {
+    if (isInteractive && argv.open) {
       openBrowser(protocol + '://' + host + ':' + port + '/');
     }
   });
