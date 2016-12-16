@@ -10,6 +10,17 @@ const webpack = require('webpack');
 const recursive = require('recursive-readdir');
 const stripAnsi = require('strip-ansi');
 const paths = require('../config/paths');
+const getConfig = require('../utils/getConfig');
+
+try {
+  getConfig(process.env.NODE_ENV);
+} catch (e) {
+  console.log(chalk.red('Failed to parse .roadhogrc config.'));
+  console.log();
+  console.log(e.message);
+  process.exit(1);
+}
+
 const config = require('../config/webpack.config.prod');
 
 // Input: /User/dan/app/build/static/js/main.82be8.js

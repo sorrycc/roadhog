@@ -12,13 +12,24 @@ const historyApiFallback = require('connect-history-api-fallback');
 // const httpProxyMiddleware = require('http-proxy-middleware');
 const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk');
-const config = require('../config/webpack.config.dev');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
 
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
 let compiler;
+
+let rcConfig;
+try {
+  rcConfig = getConfig(process.env.NODE_ENV);
+} catch (e) {
+  console.log(chalk.red('Failed to parse .roadhogrc config.'));
+  console.log();
+  console.log(e.message);
+  process.exit(1);
+}
+
+const config = require('../config/webpack.config.dev');
 
 function setupCompiler(host, port, protocol) {
   compiler = webpack(config);
@@ -107,8 +118,8 @@ function runDevServer(host, port, protocol) {
       ignored: /node_modules/,
     },
     https: protocol === 'https',
-    host: host,
-    proxy: getConfig(process.env.NODE_ENV).proxy,
+    host,
+    proxy: rcConfig.proxy,
   });
 
   addMiddleware(devServer);
