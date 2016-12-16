@@ -7,6 +7,10 @@ const args = process.argv.slice(3);
 let result;
 
 switch (script) {
+case '-v':
+case '--version':
+  console.log(require('../package.json').version);
+  break;
 case 'build':
 case 'server':
   result = spawn.sync(
