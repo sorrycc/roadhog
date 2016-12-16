@@ -1,6 +1,6 @@
 {
   "name": "roadhog",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Cli tool for serve and build react app, based on create-react-app, support JSON pattern config.",
   "bin": {
     "roadhog": "./bin/roadhog.js"
@@ -57,7 +57,7 @@
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
-    "parse-json": "^2.2.0",
+    "parse-json-pretty": "^0.1.0",
     "path-exists": "^3.0.0",
     "postcss": "^5.2.6",
     "postcss-loader": "^1.2.0",
