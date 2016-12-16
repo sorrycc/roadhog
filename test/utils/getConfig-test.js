@@ -10,7 +10,7 @@ describe.only('getConfig', () => {
   it('error', () => {
     expect(() => {
       getConfig(join(getConfigFixture, 'error.json'));
-    }).toThrow(/Syntax error: Trailing comma in object/);
+    }).toThrow(/(Syntax error: Trailing comma in object|Invalid property descriptor)/);
   });
 
   it('normal', () => {
