@@ -58,7 +58,6 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "parse-json-pretty": "^0.1.0",
-    "path-exists": "^3.0.0",
     "postcss": "^5.2.6",
     "postcss-loader": "^1.2.0",
     "react-dev-utils": "^0.4.2",

@@ -1,4 +1,3 @@
-const pathExists = require('path-exists');
 const fs = require('fs');
 const stripJsonComments = require('strip-json-comments');
 const isPlainObject = require('is-plain-object');
@@ -19,7 +18,7 @@ function merge(oldObj, newObj) {
 
 function realGetConfig(fileName, env = 'development') {
   const configPath = paths.resolveApp(fileName);
-  if (pathExists.sync(configPath)) {
+  if (fs.existsSync(configPath)) {
     const result = parseJSON(stripJsonComments(fs.readFileSync(configPath, 'utf-8')), `./${fileName}`);
     if (result.env) {
       if (result.env[env]) merge(result, result.env[env]);
