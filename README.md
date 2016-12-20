@@ -43,6 +43,44 @@ $ roadhog server
 $ roadhog build
 ```
 
+## 特性
+
+### 错误处理
+
+感谢 create-react-app，roadhog 在错误处理上有着良好的体验。此外，roadhog 针对 `.roadhogrc` 的解析错误也做了优化。
+
+#### .roadhogrc 解析错误
+
+![](https://zos.alipayobjects.com/rmsportal/wPGMQwhZmFhGddMZKFci.png)
+
+#### 语法错误
+
+控制台
+
+![](https://zos.alipayobjects.com/rmsportal/BWnfDJQqlnGvHSZxOVuY.png)
+
+浏览器
+
+![](https://zos.alipayobjects.com/rmsportal/onzXGetQRKGmWQXmICDC.png)
+
+#### 运行时错误
+
+没有捕获，在浏览器的控制台查看。
+
+### HMR (热替换)
+
+CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，所以只要保证 JavaScript 的热更新，就可实现 CSS 的热更新。
+
+如果大家使用 [dva](https://github.com/dvajs/dva) ，配上 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 即可实现 routes 和 components 以及相关 CSS 修改的热更新，其他修改会自动刷新页面。
+
+```json
+"env": {
+  "development": {
+    "extraBabelPlugins": ["dva-hmr"]
+  }
+}
+```
+
 ## 配置
 
 关于配置的一些基本概念：
