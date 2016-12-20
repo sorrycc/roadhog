@@ -31,7 +31,7 @@ module.exports = {
         exclude: [
           /\.html$/,
           /\.(js|jsx)$/,
-          /\.css$/,
+          /\.(css|less)$/,
           /\.json$/,
           /\.svg$/
         ],
@@ -48,7 +48,7 @@ module.exports = {
       },
       {
         test: /\.(css|less)$/,
-        exclude: /node_modules/,
+        include: paths.appSrc,
         loader: ExtractTextPlugin.extract(
           'style',
           cssLoaders.own
@@ -56,7 +56,7 @@ module.exports = {
       },
       {
         test: /\.(css|less)$/,
-        include: /node_modules/,
+        include: paths.appNodeModules,
         loader: ExtractTextPlugin.extract(
           'style',
           cssLoaders.nodeModules
