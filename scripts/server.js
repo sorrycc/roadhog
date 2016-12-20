@@ -145,7 +145,7 @@ function runDevServer(host, port, protocol) {
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
 
-    if (isInteractive && argv.open) {
+    if (argv.open) {
       openBrowser(protocol + '://' + host + ':' + port + '/');
     }
   });
