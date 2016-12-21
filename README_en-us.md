@@ -55,7 +55,6 @@ Default configuration:
 {
   "entry": "src/index.js",
   "disableCSSModules": false,
-  "less": false,
   "publicPath": "/",
   "extraBabelPlugins": [],
   "autoprefixer": null,
@@ -83,10 +82,6 @@ e.g.
 ### disableCSSModules
 
 CSS Modules is enabled by default.
-
-### less
-
-Enable less.
 
 ### publicPath
 

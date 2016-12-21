@@ -96,7 +96,6 @@ CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，
 {
   "entry": "src/index.js",
   "disableCSSModules": false,
-  "less": false,
   "publicPath": "/",
   "extraBabelPlugins": [],
   "autoprefixer": null,
@@ -120,10 +119,6 @@ CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，
 ### disableCSSModules
 
 禁用 [CSS Modules](https://github.com/css-modules/css-modules)。最好别关，熟悉并使用他后，你会发现写样式简单了很多。
-
-### less
-
-开启 less 。
 
 ### publicPath
 
