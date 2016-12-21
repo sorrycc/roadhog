@@ -47,7 +47,7 @@ module.exports = {
         loader: 'babel',
       },
       {
-        test: /\.(css|less)$/,
+        test: /\.css$/,
         include: paths.appSrc,
         loader: ExtractTextPlugin.extract(
           'style',
@@ -55,11 +55,27 @@ module.exports = {
         ),
       },
       {
-        test: /\.(css|less)$/,
+        test: /\.less$/,
+        include: paths.appSrc,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          `${cssLoaders.own}!less`
+        ),
+      },
+      {
+        test: /\.css$/,
         include: paths.appNodeModules,
         loader: ExtractTextPlugin.extract(
           'style',
           cssLoaders.nodeModules
+        ),
+      },
+      {
+        test: /\.less$/,
+        include: paths.appNodeModules,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          `${cssLoaders.nodeModules}!less`
         ),
       },
       {

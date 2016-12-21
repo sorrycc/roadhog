@@ -49,14 +49,24 @@ module.exports = {
         loader: 'babel',
       },
       {
-        test: /\.(css|less)$/,
+        test: /\.css$/,
         include: paths.appSrc,
-        loader: `style!${cssLoaders.own}`,
+        loader: `style!${cssLoaders.own.join('!')}`,
       },
       {
-        test: /\.(css|less)$/,
+        test: /\.less$/,
+        include: paths.appSrc,
+        loader: `style!${cssLoaders.own.join('!')}!less`,
+      },
+      {
+        test: /\.css$/,
         include: paths.appNodeModules,
         loader: `style!${cssLoaders.nodeModules}`,
+      },
+      {
+        test: /\.less$/,
+        include: paths.appNodeModules,
+        loader: `style!${cssLoaders.nodeModules}!less`,
       },
       {
         test: /\.html$/,
