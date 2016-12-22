@@ -7,10 +7,10 @@
 
 [View README in English](./README_en-us.md)
 
-roadhog 是一个 cli 工具，提供 `server` 和 `build` 两个命令，分别用于本地调试和构建。命令行体验和 create-react-app 一致，配置略有不同，比如默认开启 [css modules](https://github.com/css-modules/css-modules)，**然后还提供了 [JSON 格式的配置方式](https://github.com/sorrycc/roadhog#配置)**。
+roadhog 是一个 cli 工具，提供 `server`、 `build` 和 `test` 三个命令，分别用于本地调试和构建。命令行体验和 create-react-app 一致，配置略有不同，比如默认开启 [css modules](https://github.com/css-modules/css-modules)，**然后还提供了 [JSON 格式的配置方式](https://github.com/sorrycc/roadhog#配置)**。
 
-[介绍 roadhog —— 让 create-react-app 可配的命令行工具](https://github.com/sorrycc/blog/issues/15)
-[从 atool-build + dora 到 roadhog](https://github.com/sorrycc/blog/issues/17)
+* [介绍 roadhog —— 让 create-react-app 可配的命令行工具](https://github.com/sorrycc/blog/issues/15)
+* [从 atool-build + dora 到 roadhog](https://github.com/sorrycc/blog/issues/17)
 
 ---
 
@@ -42,6 +42,12 @@ $ roadhog server
 
 ```bash
 $ roadhog build
+```
+
+测试，默认会跑 `./test` 目录下的所有文件
+
+```bash
+$ roadhog test
 ```
 
 ## 特性
@@ -86,9 +92,9 @@ CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，
 
 关于配置的一些基本概念：
 
-- 配置存于 `.roadhogrc` 文件中
-- 格式为 `JSON`，允许注释
-- 布尔类型的配置项默认值均为 `false`
+* 配置存于 `.roadhogrc` 文件中
+* 格式为 `JSON`，允许注释
+* 布尔类型的配置项默认值均为 `false`
 
 默认配置：
 
@@ -198,13 +204,33 @@ $ npm i babel-runtime --save
 
 这样，开发环境下的 extraBabelPlugins 是 `["transform-runtime", "dva-hmr"]`，而生产环境下是 `["transform-runtime"]`。
 
+### theme
+
+配置主题，实际上是配 less 的 `modifyVars`。支持 Object 和文件路径两种方式的配置。
+
+比如：
+
+```
+"theme": {
+  "@primary-color": "#1DA57A"
+}
+```
+
+或者，
+
+```
+"theme": "./node_modules/abc/theme-config.js"
+```
+
+这里有 [如何配置 antd theme 的例子](https://github.com/dvajs/dva-example-user-dashboard/commit/d6da33b3a6e18eb7f003752a4b00b5a660747c31) 。
+
 ## 环境变量
 
 可环境变量临时配置一些参数，包括：
 
-- `PORT`, 端口号，默认 8000
-- `HOST`, 默认 localhost
-- `HTTPS`，是否开启 https，默认关闭
+* `PORT`, 端口号，默认 8000
+* `HOST`, 默认 localhost
+* `HTTPS`，是否开启 https，默认关闭
 
 比如，使用 3000 端口开启服务器可以这样：
 
@@ -218,9 +244,10 @@ $ set PORT=3000&&roadhog server
 
 ## 命令行参数
 
-### server
+### roadhog server
 
 ```bash
+$ roadhog server -h
 Usage: roadhog server [options]
 
 Options:
@@ -228,6 +255,33 @@ Options:
   -h      Show help                                                    [boolean]
 ```
 
+### roadhog build
+
+```bash
+$ roadhog build -h
+Usage: roadhog build [options]
+
+Options:
+  --debug    Build with compress                      [boolean] [default: false]
+  --watch    Watch file changes and rebuild           [boolean] [default: false]
+  --analyze  Visualize and analyze your Webpack bundle.
+                                                      [boolean] [default: false]
+  -h         Show help                                                 [boolean]
+```
+
+### roadhog test
+
+```bash
+$ roadhog test -h
+Usage: roadhog test [options] [mocha-options]
+
+Options:
+  --coverage  Output coverage                         [boolean] [default: false]
+  -h          Show help                                                [boolean]
+```
+
+## 使用 `public` 目录
+我们约定 `public` 目录下的文件会在 server 和 build 时被自动 copy 到输出目录（默认是 `./dist`）下。所以可以在这里存放 favicon, iconfont, html, html 里引用的图片等。
 
 ## FAQ
 

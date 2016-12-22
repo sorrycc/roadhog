@@ -5,9 +5,9 @@
 [![NPM downloads](http://img.shields.io/npm/dm/roadhog.svg?style=flat)](https://npmjs.org/package/roadhog)
 [![Dependencies](https://david-dm.org/sorrycc/roadhog/status.svg)](https://david-dm.org/sorrycc/roadhog)
 
-[“‘÷–Œƒ≤Èø¥](./README.md)
+[‰ª•‰∏≠ÊñáÊü•Áúã](./README.md)
 
-roadhog ia a cli tool with `server` and `build` command. It has the same experience of create-react-app, slightly different configuration, and also **provide [JSON format configuration](https://github.com/sorrycc/roadhog#Configuration)**°£
+roadhog ia a cli tool with `server`, `build` and `test` commands. It has the same experience of create-react-app, slightly different configuration, and also **provide [JSON format configuration](https://github.com/sorrycc/roadhog#Configuration)**„ÄÇ
 
 ---
 
@@ -41,13 +41,19 @@ Build for production.
 $ roadhog build
 ```
 
+Run test. (Execute all files under `./test` by default)
+
+```bash
+$ roadhog test
+```
+
 ## Configuration
 
 Some basic concepts about configuration:
 
-- Configuration is stored in the `.roadhogrc` file
-- `JSON` format, comments allowed
-- Default value of boolean configuration item is always `false`
+* Configuration is stored in the `.roadhogrc` file
+* `JSON` format, comments allowed
+* Default value of boolean configuration item is always `false`
 
 Default configuration:
 
@@ -107,7 +113,7 @@ e.g. If you are making mobile app:
 
 ### proxy
 
-Specify proxy for webpack-dev-server, view [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy) for details°£(Notice: only support JSON pattern configuration, `bypass` is not supported.)
+Specify proxy for webpack-dev-server, view [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy) for details„ÄÇ(Notice: only support JSON pattern configuration, `bypass` is not supported.)
 
 e.g.
 
@@ -138,13 +144,33 @@ e.g.
 }
 ```
 
+### theme
+
+Configure theme. Support Object and String with filepath.
+
+e.g.
+
+```
+"theme": {
+  "@primary-color": "#1DA57A"
+}
+```
+
+or,
+
+```
+"theme": "./node_modules/abc/theme-config.js"
+```
+
+[Example of how to customize antd](https://github.com/dvajs/dva-example-user-dashboard/commit/d6da33b3a6e18eb7f003752a4b00b5a660747c31) „ÄÇ
+
 ## Environment Variables
 
 You can temporarily configure some parameters for environment variables, including:
 
-- `PORT`, default 8000
-- `HOST`, default localhost
-- `HTTPS`£¨use https or not£¨default false
+* `PORT`, default 8000
+* `HOST`, default localhost
+* `HTTPS`Ôºåuse https or notÔºådefault false
 
 e.g. start server in 3000 port:
 
@@ -153,10 +179,10 @@ $ PORT=3000 roadhog server
 ```
 
 ## Cli arguments
-
-### server
+### roadhog server
 
 ```bash
+$ roadhog server -h
 Usage: roadhog server [options]
 
 Options:
@@ -164,9 +190,36 @@ Options:
   -h      Show help                                                    [boolean]
 ```
 
-## FAQ
+### roadhog build
 
-### Œ™ ≤√¥Ω– roadhog ?
+```bash
+$ roadhog build -h
+Usage: roadhog build [options]
+
+Options:
+  --debug    Build with compress                      [boolean] [default: false]
+  --watch    Watch file changes and rebuild           [boolean] [default: false]
+  --analyze  Visualize and analyze your Webpack bundle.
+                                                      [boolean] [default: false]
+  -h         Show help                                                 [boolean]
+```
+
+### roadhog test
+
+```bash
+$ roadhog test -h
+Usage: roadhog test [options] [mocha-options]
+
+Options:
+  --coverage  Output coverage                         [boolean] [default: false]
+  -h          Show help                                                [boolean]
+```
+
+## Use `public` directory
+`public` directory will to copied to output directory (`./dist` by default) when run `server` or `build` command. So we can store favicon, iconfont, html or images used in html here.
+
+## FAQ
+### ‰∏∫‰ªÄ‰πàÂè´ roadhog ?
 
 roadhog is a hero from overwatch.
 
@@ -175,4 +228,3 @@ roadhog is a hero from overwatch.
 ## LICENSE
 
 MIT
-
