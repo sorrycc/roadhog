@@ -1,7 +1,9 @@
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
+const fs = require('fs');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
 const getConfig = require('../utils/getConfig');
@@ -148,6 +150,14 @@ module.exports = function(args) {
       })
     ).concat(
       analyze ? new Visualizer() : []
+    ).concat(
+      !fs.existsSync(paths.appPublic) ? [] :
+        new CopyWebpackPlugin([
+          {
+            from: paths.appPublic,
+            to: paths.appBuild,
+          },
+        ])
     ),
     node: {
       fs: 'empty',

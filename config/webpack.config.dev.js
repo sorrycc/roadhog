@@ -1,6 +1,8 @@
 const autoprefixer = require('autoprefixer');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const fs = require('fs');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
@@ -120,7 +122,15 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin(),
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
-  ],
+  ].concat(
+    !fs.existsSync(paths.appPublic) ? [] :
+      new CopyWebpackPlugin([
+        {
+          from: paths.appPublic,
+          to: paths.appBuild,
+        },
+      ])
+  ),
   node: {
     fs: 'empty',
     net: 'empty',
