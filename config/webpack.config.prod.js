@@ -6,12 +6,14 @@ const Visualizer = require('webpack-visualizer-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
+const getTheme = require('../utils/getTheme');
 const getConfig = require('../utils/getConfig');
 const getCSSLoaders = require('../utils/getCSSLoaders');
 
 const config = getConfig();
 const publicPath = config.publicPath || '/';
 const cssLoaders = getCSSLoaders();
+const theme = JSON.stringify(getTheme());
 
 module.exports = function(args) {
   const { debug, analyze } = args;
@@ -66,7 +68,7 @@ module.exports = function(args) {
           include: paths.appSrc,
           loader: ExtractTextPlugin.extract(
             'style',
-            `${cssLoaders.own}!less`
+            `${cssLoaders.own}!less?{"modifyVars":${theme}}`
           ),
         },
         {
@@ -82,7 +84,7 @@ module.exports = function(args) {
           include: paths.appNodeModules,
           loader: ExtractTextPlugin.extract(
             'style',
-            `${cssLoaders.nodeModules}!less`
+            `${cssLoaders.nodeModules}!less?{"modifyVars":${theme}}`
           ),
         },
         {
