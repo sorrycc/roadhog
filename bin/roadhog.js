@@ -13,6 +13,7 @@ case '--version':
   break;
 case 'build':
 case 'server':
+case 'test':
   result = spawn.sync(
     'node',
     [require.resolve(`../scripts/${script}`)].concat(args),
