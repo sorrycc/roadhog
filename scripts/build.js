@@ -163,4 +163,3 @@ function build(previousSizeMap) {
     compiler.run(done);
   }
 }
-
