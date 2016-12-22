@@ -21,7 +21,17 @@ try {
   process.exit(1);
 }
 
-const config = require('../config/webpack.config.prod');
+const argv = require('yargs')
+  .usage('Usage: roadhog build [options] [mocha-options]')
+  .option('debug', {
+    type: 'boolean',
+    describe: 'Do not compress JS and CSS',
+    default: false,
+  })
+  .help('h')
+  .argv;
+
+const config = require('../config/webpack.config.prod')(argv);
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js
@@ -114,7 +124,12 @@ function printErrors(summary, errors) {
 
 // Create the production build and print the deployment instructions.
 function build(previousSizeMap) {
-  console.log('Creating an optimized production build...');
+  if (argv.debug) {
+    console.log('Creating an development build without compress...');
+  } else {
+    console.log('Creating an optimized production build...');
+  }
+
   webpack(config).run((err, stats) => {
     if (err) {
       printErrors('Failed to compile.', [err]);
