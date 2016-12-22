@@ -25,7 +25,12 @@ const argv = require('yargs')
   .usage('Usage: roadhog build [options] [mocha-options]')
   .option('debug', {
     type: 'boolean',
-    describe: 'Do not compress JS and CSS',
+    describe: 'Build with compress',
+    default: false,
+  })
+  .option('watch', {
+    type: 'boolean',
+    describe: 'Watch file changes and rebuild',
     default: false,
   })
   .help('h')
@@ -122,6 +127,26 @@ function printErrors(summary, errors) {
   });
 }
 
+function doneHandler(previousSizeMap, err, stats) {
+  if (err) {
+    printErrors('Failed to compile.', [err]);
+    process.exit(1);
+  }
+
+  if (stats.compilation.errors.length) {
+    printErrors('Failed to compile.', stats.compilation.errors);
+    process.exit(1);
+  }
+
+  console.log(chalk.green('Compiled successfully.'));
+  console.log();
+
+  console.log('File sizes after gzip:');
+  console.log();
+  printFileSizes(stats, previousSizeMap);
+  console.log();
+}
+
 // Create the production build and print the deployment instructions.
 function build(previousSizeMap) {
   if (argv.debug) {
@@ -130,24 +155,12 @@ function build(previousSizeMap) {
     console.log('Creating an optimized production build...');
   }
 
-  webpack(config).run((err, stats) => {
-    if (err) {
-      printErrors('Failed to compile.', [err]);
-      process.exit(1);
-    }
-
-    if (stats.compilation.errors.length) {
-      printErrors('Failed to compile.', stats.compilation.errors);
-      process.exit(1);
-    }
-
-    console.log(chalk.green('Compiled successfully.'));
-    console.log();
-
-    console.log('File sizes after gzip:');
-    console.log();
-    printFileSizes(stats, previousSizeMap);
-    console.log();
-  });
+  const compiler = webpack(config);
+  const done = doneHandler.bind(null, previousSizeMap);
+  if (argv.watch) {
+    compiler.watch(200, done);
+  } else {
+    compiler.run(done);
+  }
 }
 
