@@ -209,7 +209,11 @@ $ npm i babel-runtime --save
 比如，使用 3000 端口开启服务器可以这样：
 
 ```bash
+// OS X, Linux
 $ PORT=3000 roadhog server
+
+// Windows (cmd.exe)
+$ set PORT=3000&&roadhog server
 ```
 
 ## 命令行参数
