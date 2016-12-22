@@ -4,12 +4,14 @@ const webpack = require('webpack');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
+const getTheme = require('../utils/getTheme');
 const getConfig = require('../utils/getConfig');
 const getCSSLoaders = require('../utils/getCSSLoaders');
 
 const config = getConfig();
 const publicPath = '/';
 const cssLoaders = getCSSLoaders();
+const theme = JSON.stringify(getTheme());
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -56,7 +58,7 @@ module.exports = {
       {
         test: /\.less$/,
         include: paths.appSrc,
-        loader: `style!${cssLoaders.own.join('!')}!less`,
+        loader: `style!${cssLoaders.own.join('!')}!less?{"modifyVars":${theme}}`,
       },
       {
         test: /\.css$/,
@@ -66,7 +68,7 @@ module.exports = {
       {
         test: /\.less$/,
         include: paths.appNodeModules,
-        loader: `style!${cssLoaders.nodeModules}!less`,
+        loader: `style!${cssLoaders.nodeModules}!less?{"modifyVars":${theme}}`,
       },
       {
         test: /\.html$/,
