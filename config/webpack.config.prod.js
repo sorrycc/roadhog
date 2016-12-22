@@ -1,6 +1,7 @@
 const autoprefixer = require('autoprefixer');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Visualizer = require('webpack-visualizer-plugin');
 const paths = require('./paths');
 const getEntry = require('../utils/getEntry');
 const getConfig = require('../utils/getConfig');
@@ -11,7 +12,7 @@ const publicPath = config.publicPath || '/';
 const cssLoaders = getCSSLoaders();
 
 module.exports = function(args) {
-  const { debug } = args;
+  const { debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
   return {
@@ -145,6 +146,8 @@ module.exports = function(args) {
           screw_ie8: true
         },
       })
+    ).concat(
+      analyze ? new Visualizer() : []
     ),
     node: {
       fs: 'empty',

@@ -22,7 +22,7 @@ try {
 }
 
 const argv = require('yargs')
-  .usage('Usage: roadhog build [options] [mocha-options]')
+  .usage('Usage: roadhog build [options]')
   .option('debug', {
     type: 'boolean',
     describe: 'Build with compress',
@@ -31,6 +31,11 @@ const argv = require('yargs')
   .option('watch', {
     type: 'boolean',
     describe: 'Watch file changes and rebuild',
+    default: false,
+  })
+  .option('analyze', {
+    type: 'boolean',
+    describe: 'Visualize and analyze your Webpack bundle.',
     default: false,
   })
   .help('h')
@@ -145,6 +150,11 @@ function doneHandler(previousSizeMap, err, stats) {
   console.log();
   printFileSizes(stats, previousSizeMap);
   console.log();
+
+  if (argv.analyze) {
+    console.log(`Analyze result is generated at ${chalk.cyan('dist/stats.html')}.`);
+    console.log();
+  }
 }
 
 // Create the production build and print the deployment instructions.

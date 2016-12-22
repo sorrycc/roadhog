@@ -71,6 +71,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2",
+    "webpack-visualizer-plugin": "^0.1.6",
     "yargs": "^6.5.0"
   },
   "devDependencies": {
