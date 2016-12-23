@@ -62,6 +62,8 @@ Default configuration:
   "entry": "src/index.js",
   "disableCSSModules": false,
   "publicPath": "/",
+  "outputPath": "./dist",
+  "theme": null,
   "extraBabelPlugins": [],
   "autoprefixer": null,
   "proxy": null,
@@ -92,6 +94,10 @@ CSS Modules is enabled by default.
 ### publicPath
 
 Specify [publicPath](http://webpack.github.io/docs/configuration.html#output-publicpath) for webpack.
+
+### outputPath
+
+Specify [output path](http://webpack.github.io/docs/configuration.html#output-path), default `./dist`。
 
 ### extraBabelPlugins
 
@@ -197,11 +203,12 @@ $ roadhog build -h
 Usage: roadhog build [options]
 
 Options:
-  --debug    Build with compress                      [boolean] [default: false]
-  --watch    Watch file changes and rebuild           [boolean] [default: false]
-  --analyze  Visualize and analyze your Webpack bundle.
+  --debug            Build with compress              [boolean] [default: false]
+  --watch, -w        Watch file changes and rebuild   [boolean] [default: false]
+  --output-path, -o  Specify output path                [string] [default: null]
+  --analyze          Visualize and analyze your Webpack bundle.
                                                       [boolean] [default: false]
-  -h         Show help                                                 [boolean]
+  -h                 Show help                                         [boolean]
 ```
 
 ### roadhog test
