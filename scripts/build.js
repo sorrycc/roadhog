@@ -12,8 +12,9 @@ const stripAnsi = require('strip-ansi');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
 
+let rcConfig;
 try {
-  getConfig(process.env.NODE_ENV);
+  rcConfig = getConfig(process.env.NODE_ENV);
 } catch (e) {
   console.log(chalk.red('Failed to parse .roadhogrc config.'));
   console.log();
@@ -30,8 +31,15 @@ const argv = require('yargs')
   })
   .option('watch', {
     type: 'boolean',
+    alias: 'w',
     describe: 'Watch file changes and rebuild',
     default: false,
+  })
+  .option('output-path', {
+    type: 'string',
+    alias: 'o',
+    describe: 'Specify output path',
+    default: null,
   })
   .option('analyze', {
     type: 'boolean',
@@ -41,13 +49,15 @@ const argv = require('yargs')
   .help('h')
   .argv;
 
-const config = require('../config/webpack.config.prod')(argv);
+const outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
+const appBuild = paths.resolveApp(outputPath);
+const config = require('../config/webpack.config.prod')(argv, appBuild);
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js
 function removeFileNameHash(fileName) {
   return fileName
-    .replace(paths.appBuild, '')
+    .replace(appBuild, '')
     .replace(/\/?(.*)(\.\w+)(\.js|\.css)/, (match, p1, p2, p3) => p1 + p3);
 }
 
@@ -70,7 +80,7 @@ function getDifferenceLabel(currentSize, previousSize) {
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
-recursive(paths.appBuild, (err, fileNames) => {
+recursive(appBuild, (err, fileNames) => {
   const previousSizeMap = (fileNames || [])
     .filter(fileName => /\.(js|css)$/.test(fileName))
     .reduce((memo, fileName) => {
@@ -82,7 +92,7 @@ recursive(paths.appBuild, (err, fileNames) => {
 
   // Remove all content but keep the directory so that
   // if you're in it, you don't end up in Trash
-  fs.emptyDirSync(paths.appBuild);
+  fs.emptyDirSync(appBuild);
 
   // Start the webpack build
   build(previousSizeMap);
@@ -93,12 +103,12 @@ function printFileSizes(stats, previousSizeMap) {
   const assets = stats.toJson().assets
     .filter(asset => /\.(js|css)$/.test(asset.name))
     .map(asset => {
-      const fileContents = fs.readFileSync(paths.appBuild + '/' + asset.name);
+      const fileContents = fs.readFileSync(appBuild + '/' + asset.name);
       const size = gzipSize(fileContents);
       const previousSize = previousSizeMap[removeFileNameHash(asset.name)];
       const difference = getDifferenceLabel(size, previousSize);
       return {
-        folder: path.join('dist', path.dirname(asset.name)),
+        folder: path.join(outputPath, path.dirname(asset.name)),
         name: path.basename(asset.name),
         size: size,
         sizeLabel: filesize(size) + (difference ? ' (' + difference + ')' : '')

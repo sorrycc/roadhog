@@ -15,7 +15,7 @@ const publicPath = config.publicPath || '/';
 const cssLoaders = getCSSLoaders();
 const theme = JSON.stringify(getTheme());
 
-module.exports = function(args) {
+module.exports = function(args, appBuild) {
   const { debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
@@ -23,7 +23,7 @@ module.exports = function(args) {
     bail: true,
     entry: getEntry(),
     output: {
-      path: paths.appBuild,
+      path: appBuild,
       filename: '[name].js',
       publicPath: publicPath,
     },
