@@ -25,7 +25,10 @@ module.exports = {
     publicPath: publicPath,
   },
   resolve: {
-    extensions: ['.js', '.json', '.jsx', '.ts', 'tsx', ''],
+    extensions: [
+      '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
+      '.js', '.json', '.jsx', '.ts', 'tsx', '',
+    ],
   },
   resolveLoader: {
     root: paths.ownNodeModules,
