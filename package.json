@@ -31,6 +31,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "atool-monitor": "^0.3.4",
     "autoprefixer": "^6.5.4",
     "babel-core": "^6.20.0",
     "babel-loader": "^6.2.9",
