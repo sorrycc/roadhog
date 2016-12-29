@@ -133,6 +133,9 @@ module.exports = {
           to: paths.appBuild,
         },
       ])
+  ).concat(
+    !config.multipage ? [] :
+      new webpack.optimize.CommonsChunkPlugin('common', 'common.js')
   ),
   externals: config.externals,
   node: {
