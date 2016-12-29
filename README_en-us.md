@@ -51,9 +51,10 @@ $ roadhog test
 
 Some basic concepts about configuration:
 
-* Configuration is stored in the `.roadhogrc` file
+* Configuration is stored in the `.roadhogrc` file (If you don't like JSON, try to use `.roadhogrc.js`, support ES6)
 * `JSON` format, comments allowed
 * Default value of boolean configuration item is always `false`
+* Support configure with `webpack.config.js` (support ES6), but it's not recommended, since roadhog's major or minor upgrade will cause compatibility problem. View detail on [#36](https://github.com/sorrycc/roadhog/issues/36)
 
 Default configuration:
 
@@ -63,11 +64,14 @@ Default configuration:
   "disableCSSModules": false,
   "publicPath": "/",
   "outputPath": "./dist",
-  "theme": null,
   "extraBabelPlugins": [],
   "autoprefixer": null,
   "proxy": null,
+  "externals": null,
+  "multipage": false,
+  "define": null,
   "env": null,
+  "theme": null,
 }
 ```
 
@@ -134,6 +138,18 @@ e.g.
 ```
 
 Then, when accessing `/api/users`, you will get the content of http://jsonplaceholder.typicode.com/users .
+
+### externals
+
+Specify the [externals](http://webpack.github.io/docs/configuration.html#externals) configuration of webpack.
+
+### multipage
+
+Speficy if has multi pages. If true, roadhog will extract common chunks as `common.js` and `common.css`.
+
+### define
+
+Specify the [DefinePlugin](http://webpack.github.io/docs/list-of-plugins.html#defineplugin) configuration of webpack. The value will be transform by `JSON.stringify` automatically.
 
 ### env
 

@@ -92,9 +92,10 @@ CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，
 
 关于配置的一些基本概念：
 
-* 配置存于 `.roadhogrc` 文件中
+* 配置存于 `.roadhogrc` 文件中（如果你不喜欢 JSON 配置，可以用 `.roadhogrc.js` 以 JS 的方式编写，支持 ES6）
 * 格式为 `JSON`，允许注释
 * 布尔类型的配置项默认值均为 `false`
+* 支持通过 `webpack.config.js` 以编码的方式进行配置，但不推荐，因为 roadhog 本身的 major 或 minor 升级可能会引起兼容问题。使用时会给予警告⚠️⚠️⚠️，详见 [#36](https://github.com/sorrycc/roadhog/issues/36) 。（`webpack.config.js` 本身的编写支持 ES6，会通过 babal-register 做一层转换。）
 
 默认配置：
 
@@ -104,11 +105,14 @@ CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，
   "disableCSSModules": false,
   "publicPath": "/",
   "outputPath": "./dist",
-  "theme": null,
   "extraBabelPlugins": [],
   "autoprefixer": null,
   "proxy": null,
+  "externals": null,
+  "multipage": false,
+  "define": null,
   "env": null,
+  "theme": null,
 }
 ```
 
@@ -192,6 +196,18 @@ $ npm i babel-runtime --save
 然后访问 `/api/users` 就能访问到 http://jsonplaceholder.typicode.com/users 的数据。
 
 如果要做数据 mock，可以考虑和 [json-server](https://github.com/typicode/json-server) 结合使用，把 `/api` 代理到 json-server 启动的端口。
+
+### externals
+
+配置 webpack 的 [externals](http://webpack.github.io/docs/configuration.html#externals) 属性。
+
+### multipage
+
+配置是否多页应用。多页应用会自动提取公共部分为 common.js 和 common.css 。
+
+### define
+
+配置 webpack 的 [DefinePlugin](http://webpack.github.io/docs/list-of-plugins.html#defineplugin) 插件，define 的值会自动做 `JSON.stringify` 处理。
 
 ### env
 
