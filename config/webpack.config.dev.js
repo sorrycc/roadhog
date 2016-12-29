@@ -134,6 +134,7 @@ module.exports = {
         },
       ])
   ),
+  externals: config.externals,
   node: {
     fs: 'empty',
     net: 'empty',

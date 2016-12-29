@@ -164,6 +164,7 @@ module.exports = function(args, appBuild) {
           },
         ])
     ),
+    externals: config.externals,
     node: {
       fs: 'empty',
       net: 'empty',
