@@ -16,18 +16,26 @@ function merge(oldObj, newObj) {
   }
 }
 
-function realGetConfig(fileName, env = 'development') {
-  const configPath = paths.resolveApp(fileName);
-  if (fs.existsSync(configPath)) {
-    const result = parseJSON(stripJsonComments(fs.readFileSync(configPath, 'utf-8')), `./${fileName}`);
-    if (result.env) {
-      if (result.env[env]) merge(result, result.env[env]);
-      delete result.env;
-    }
-    return result;
+function getConfig(configFile) {
+  const rcConfig = paths.resolveApp(configFile);
+  const jsConfig = paths.resolveApp(`${configFile}.js`);
+
+  if (fs.existsSync(rcConfig)) {
+    return parseJSON(stripJsonComments(fs.readFileSync(rcConfig, 'utf-8')), './roadhogrc');
+  } else if (fs.existsSync(jsConfig)) {
+    return require(jsConfig);
   } else {
     return {};
   }
+}
+
+function realGetConfig(configFile, env = 'development') {
+  const config = getConfig(configFile);
+  if (config.env) {
+    if (config.env[env]) merge(config, config.env[env]);
+    delete config.env;
+  }
+  return config;
 }
 
 module.exports = function() {
