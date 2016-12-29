@@ -3,6 +3,7 @@ const stripJsonComments = require('strip-json-comments');
 const isPlainObject = require('is-plain-object');
 const parseJSON = require('parse-json-pretty');
 const paths = require('../config/paths');
+require('./registerBabel');
 
 function merge(oldObj, newObj) {
   for (const key in newObj) {

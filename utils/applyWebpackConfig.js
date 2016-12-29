@@ -1,19 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-
-require('babel-register')({
-  only: /webpack.config.js/,
-  presets: [
-    require.resolve('babel-preset-es2015'),
-    require.resolve('babel-preset-react'),
-    require.resolve('babel-preset-stage-0'),
-  ],
-  plugins: [
-    require.resolve('babel-plugin-add-module-exports'),
-  ],
-  babelrc: false,
-});
+require('./registerBabel');
 
 function warnIfExists() {
   const filePath = path.resolve('webpack.config.js');
