@@ -179,7 +179,7 @@ $ npm i babel-runtime --save
 
 ### proxy
 
-配置代理，详见 [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy)。(注意：仅支持 JSON 格式的配置，不支持 `bypass`。)
+配置代理，详见 [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy)。
 
 如果要代理请求到其他服务器，可以这样配：
 

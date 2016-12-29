@@ -123,7 +123,7 @@ e.g. If you are making mobile app:
 
 ### proxy
 
-Specify proxy for webpack-dev-server, view [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy) for details。(Notice: only support JSON pattern configuration, `bypass` is not supported.)
+Specify proxy for webpack-dev-server, view [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy) for details。
 
 e.g.
 
