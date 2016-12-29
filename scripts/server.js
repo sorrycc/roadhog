@@ -65,6 +65,8 @@ function setupCompiler(host, port, protocol) {
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
     const showInstructions = isSuccessful && (isInteractive || isFirstCompile);
 
+    applyWebpackConfig.warnIfExists();
+
     if (isSuccessful) {
       console.log(chalk.green('Compiled successfully!'));
     }

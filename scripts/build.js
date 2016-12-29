@@ -157,6 +157,8 @@ function doneHandler(previousSizeMap, err, stats) {
     process.exit(1);
   }
 
+  applyWebpackConfig.warnIfExists();
+
   console.log(chalk.green('Compiled successfully.'));
   console.log();
 
