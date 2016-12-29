@@ -11,6 +11,7 @@ const recursive = require('recursive-readdir');
 const stripAnsi = require('strip-ansi');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
+const applyWebpackConfig = require('../utils/applyWebpackConfig');
 
 let rcConfig;
 try {
@@ -51,7 +52,10 @@ const argv = require('yargs')
 
 const outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
 const appBuild = paths.resolveApp(outputPath);
-const config = require('../config/webpack.config.prod')(argv, appBuild);
+const config = applyWebpackConfig(
+  require('../config/webpack.config.prod')(argv, appBuild),
+  process.env.NODE_ENV
+);
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js

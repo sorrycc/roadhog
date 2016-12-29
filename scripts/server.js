@@ -14,6 +14,7 @@ const WebpackDevServer = require('webpack-dev-server');
 const chalk = require('chalk');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
+const applyWebpackConfig = require('../utils/applyWebpackConfig');
 
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
@@ -39,7 +40,10 @@ try {
   process.exit(1);
 }
 
-const config = require('../config/webpack.config.dev');
+const config = applyWebpackConfig(
+  require('../config/webpack.config.dev'),
+  process.env.NODE_ENV
+);
 
 function setupCompiler(host, port, protocol) {
   compiler = webpack(config);
