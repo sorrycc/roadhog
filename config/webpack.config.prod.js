@@ -9,6 +9,7 @@ const getEntry = require('../utils/getEntry');
 const getTheme = require('../utils/getTheme');
 const getConfig = require('../utils/getConfig');
 const getCSSLoaders = require('../utils/getCSSLoaders');
+const normalizeDefine = require('../utils/normalizeDefine');
 
 const config = getConfig();
 const publicPath = config.publicPath || '/';
@@ -166,6 +167,9 @@ module.exports = function(args, appBuild) {
     ).concat(
       !config.multipage ? [] :
         new webpack.optimize.CommonsChunkPlugin('common', 'common.js')
+    ).concat(
+      !config.define ? [] :
+        new webpack.DefinePlugin(normalizeDefine(config.define))
     ),
     externals: config.externals,
     node: {
