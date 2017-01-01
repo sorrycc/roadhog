@@ -16,7 +16,7 @@ if ((major * 10 + minor * 1) < 65) {
 
 require('atool-monitor').emit();
 
-let result;
+var result; // eslint-disable-line
 
 switch (script) {
 case '-v':
