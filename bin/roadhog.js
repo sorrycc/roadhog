@@ -6,7 +6,9 @@ const args = process.argv.slice(3);
 const chalk = require('chalk');
 
 const nodeVersion = process.versions.node;
-const [major, minor] = nodeVersion.split('.');
+const versions = nodeVersion.split('.');
+const major = versions[0];
+const minor = versions[1];
 if ((major * 10 + minor * 1) < 65) {
   console.log(`Node version not compatibile, ${chalk.cyan('must >= 6.5')}.`);
   process.exit(1);
