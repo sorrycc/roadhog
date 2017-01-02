@@ -1,1 +1,1 @@
-// jsdom ?
+require('babel-polyfill');
