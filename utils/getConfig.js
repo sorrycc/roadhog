@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const stripJsonComments = require('strip-json-comments');
 const isPlainObject = require('is-plain-object');

@@ -1,11 +1,11 @@
-const { join } = require('path');
+const join = require('path').join;
 const expect = require('expect');
 const getConfig  = require('../../utils/getConfig').realGetConfig;
 
 const fixtures = join(__dirname, '..', 'fixtures');
 const getConfigFixture = join(fixtures, 'getConfig');
 
-describe.only('getConfig', () => {
+describe('getConfig', () => {
 
   it('error', () => {
     expect(() => {
