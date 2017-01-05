@@ -1,3 +1,5 @@
+'use strict';
+
 // 必须放在 webpack.config.env require 之前
 process.env.NODE_ENV = 'development';
 

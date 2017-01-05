@@ -9,8 +9,8 @@ const nodeVersion = process.versions.node;
 const versions = nodeVersion.split('.');
 const major = versions[0];
 const minor = versions[1];
-if ((major * 10 + minor * 1) < 65) {
-  console.log(`Node version not compatibile, ${chalk.cyan('must >= 6.5')}.`);
+if ((major * 10 + minor * 1) < 40) {
+  console.log(`Node version not compatibile, ${chalk.cyan('must >= 4.x')}.`);
   process.exit(1);
 }
 

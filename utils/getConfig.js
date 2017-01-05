@@ -1,3 +1,5 @@
+'use strict';
+
 const fs = require('fs');
 const stripJsonComments = require('strip-json-comments');
 const isPlainObject = require('is-plain-object');
@@ -30,7 +32,8 @@ function getConfig(configFile) {
   }
 }
 
-function realGetConfig(configFile, env = 'development') {
+function realGetConfig(configFile, env) {
+  env = env || 'development';
   const config = getConfig(configFile);
   if (config.env) {
     if (config.env[env]) merge(config, config.env[env]);
