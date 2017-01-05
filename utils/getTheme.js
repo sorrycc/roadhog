@@ -1,7 +1,8 @@
 const path = require('path');
 const getConfig = require('./getConfig');
 
-module.exports = function(cwd = process.cwd()) {
+module.exports = function(cwd) {
+  cwd = cwd || process.cwd();
   const theme = getConfig().theme;
 
   if (theme) {

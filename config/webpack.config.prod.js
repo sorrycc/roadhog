@@ -17,7 +17,7 @@ const cssLoaders = getCSSLoaders();
 const theme = JSON.stringify(getTheme());
 
 module.exports = function(args, appBuild) {
-  const { debug, analyze } = args;
+  const debug = args.debug, analyze = args.analyze;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
   return {

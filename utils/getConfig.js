@@ -30,7 +30,8 @@ function getConfig(configFile) {
   }
 }
 
-function realGetConfig(configFile, env = 'development') {
+function realGetConfig(configFile, env) {
+  env = env || 'development';
   const config = getConfig(configFile);
   if (config.env) {
     if (config.env[env]) merge(config, config.env[env]);
