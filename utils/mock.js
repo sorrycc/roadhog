@@ -1,6 +1,9 @@
+'use strict';
+
 const fs = require('fs');
 const assert = require('assert');
 const chokidar = require('chokidar');
+const chalk = require('chalk');
 const paths = require('../config/paths');
 
 function getConfig(filePath) {
@@ -73,7 +76,7 @@ function applyMock(devServer) {
     persistent: true,
   });
   watcher.on('change', function(path) {
-    console.log('changed', path);
+    console.log(chalk.green('CHANGED'), path.replace(paths.appDirectory, '.'));
     watcher.close();
 
     // 删除旧的 mock api
