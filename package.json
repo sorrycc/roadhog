@@ -58,11 +58,9 @@
     "gzip-size": "^3.0.0",
     "http-proxy-middleware": "^0.17.3",
     "is-plain-object": "^2.0.1",
-    "istanbul": "^0.4.5",
     "json-loader": "^0.5.4",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
-    "mocha": "^3.2.0",
     "parse-json-pretty": "^0.1.0",
     "postcss": "^5.2.6",
     "postcss-loader": "^1.2.0",
@@ -80,6 +78,7 @@
   "devDependencies": {
     "eslint": "^3.12.1",
     "expect": "^1.20.2",
+    "istanbul": "^0.4.5",
     "husky": "^0.11.9",
     "mocha": "^3.2.0"
   }
