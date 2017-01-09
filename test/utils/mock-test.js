@@ -2,7 +2,7 @@ const path = require('path');
 const expect = require('expect');
 const mock = require('../../utils/mock');
 
-const rcPath = path.join(__dirname, '../fixtures/mock/.roadhogrc.server.js');
+const rcPath = path.join(__dirname, '../fixtures/mock/.roadhogrc.mock.js');
 
 describe('mock', function() {
 

@@ -7,14 +7,17 @@ const chalk = require('chalk');
 const paths = require('../config/paths');
 
 let error = null;
+const CONFIG_FILE = '.roadhogrc.mock.js';
 
 function getConfig(filePath) {
-  const resolvedFilePath = paths.resolveApp(filePath || '.roadhogrc.server.js');
+  const resolvedFilePath = paths.resolveApp(filePath);
   if (fs.existsSync(resolvedFilePath)) {
     const files = [];
     const realRequire = require.extensions['.js'];
     require.extensions['.js'] = function(m, filename) {
-      files.push(filename);
+      if (filename.indexOf(paths.appNodeModules) === -1) {
+        files.push(filename);
+      }
       delete require.cache[filename];
       return realRequire(m, filename);
     };
@@ -49,7 +52,7 @@ function applyMock(devServer) {
     console.log(chalk.red(e.message));
     console.log(e.stack);
 
-    const watcher = chokidar.watch(paths.resolveApp('.roadhogrc.server.js'), {
+    const watcher = chokidar.watch(paths.resolveApp(CONFIG_FILE), {
       ignored: /node_modules/,
       persistent: true,
     });
@@ -62,7 +65,7 @@ function applyMock(devServer) {
 }
 
 function realApplyMock(devServer) {
-  const ret = getConfig();
+  const ret = getConfig(CONFIG_FILE);
   const config = ret.config;
   const files = ret.files;
   const app = devServer.app;
