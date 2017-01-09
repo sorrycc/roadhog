@@ -17,6 +17,7 @@ const chalk = require('chalk');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
 const applyWebpackConfig = require('../utils/applyWebpackConfig');
+const mock = require('../utils/mock');
 
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
@@ -82,6 +83,12 @@ function setupCompiler(host, port, protocol) {
       console.log('Note that the development build is not optimized.');
       console.log(`To create a production build, use ${chalk.cyan('npm run build')}.`);
       console.log();
+      const mockError = mock.getError();
+      if (mockError) {
+        console.log(chalk.red(mockError.message));
+        console.log(mockError.stack);
+        console.log();
+      }
       isFirstCompile = false;
     }
 
@@ -141,6 +148,7 @@ function runDevServer(host, port, protocol) {
   });
 
   addMiddleware(devServer);
+  mock.applyMock(devServer);
 
   devServer.listen(port, (err) => {
     if (err) {
