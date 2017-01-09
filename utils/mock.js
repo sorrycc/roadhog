@@ -6,6 +6,8 @@ const chokidar = require('chokidar');
 const chalk = require('chalk');
 const paths = require('../config/paths');
 
+let error = null;
+
 function getConfig(filePath) {
   const resolvedFilePath = paths.resolveApp(filePath || '.roadhogrc.server.js');
   if (fs.existsSync(resolvedFilePath)) {
@@ -34,6 +36,32 @@ function createMockHandler(method, path, value) {
 }
 
 function applyMock(devServer) {
+  const realRequire = require.extensions['.js'];
+  try {
+    realApplyMock(devServer);
+    error = null;
+  } catch(e) {
+    // 避免 require mock 文件出错时 100% cpu
+    require.extensions['.js'] = realRequire;
+
+    error = e;
+
+    console.log(chalk.red(e.message));
+    console.log(e.stack);
+
+    const watcher = chokidar.watch(paths.resolveApp('.roadhogrc.server.js'), {
+      ignored: /node_modules/,
+      persistent: true,
+    });
+    watcher.on('change', function(path) {
+      console.log(chalk.green('CHANGED'), path.replace(paths.appDirectory, '.'));
+      watcher.close();
+      applyMock(devServer);
+    });
+  }
+}
+
+function realApplyMock(devServer) {
   const ret = getConfig();
   const config = ret.config;
   const files = ret.files;
@@ -102,5 +130,10 @@ function parseKey(key) {
   };
 }
 
+function getError() {
+  return error;
+}
+
 exports.getConfig = getConfig;
 exports.applyMock = applyMock;
+exports.getError = getError;

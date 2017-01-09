@@ -83,6 +83,12 @@ function setupCompiler(host, port, protocol) {
       console.log('Note that the development build is not optimized.');
       console.log(`To create a production build, use ${chalk.cyan('npm run build')}.`);
       console.log();
+      const mockError = mock.getError();
+      if (mockError) {
+        console.log(chalk.red(mockError.message));
+        console.log(mockError.stack);
+        console.log();
+      }
       isFirstCompile = false;
     }
 
