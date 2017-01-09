@@ -17,6 +17,7 @@ const chalk = require('chalk');
 const paths = require('../config/paths');
 const getConfig = require('../utils/getConfig');
 const applyWebpackConfig = require('../utils/applyWebpackConfig');
+const mock = require('../utils/mock');
 
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
@@ -141,6 +142,7 @@ function runDevServer(host, port, protocol) {
   });
 
   addMiddleware(devServer);
+  mock.applyMock(devServer);
 
   devServer.listen(port, (err) => {
     if (err) {
