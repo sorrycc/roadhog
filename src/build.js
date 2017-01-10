@@ -1,19 +1,16 @@
-'use strict';
+import chalk from 'chalk';
+import fs from 'fs-extra';
+import path from 'path';
+import filesize from 'filesize';
+import { sync as gzipSize } from 'gzip-size';
+import webpack from 'webpack';
+import recursive from 'recursive-readdir';
+import stripAnsi from 'strip-ansi';
+import paths from './config/paths';
+import getConfig from './utils/getConfig';
+import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
 
-// 必须放在 webpack.config.env require 之前
 process.env.NODE_ENV = 'production';
-
-const chalk = require('chalk');
-const fs = require('fs-extra');
-const path = require('path');
-const filesize = require('filesize');
-const gzipSize = require('gzip-size').sync;
-const webpack = require('webpack');
-const recursive = require('recursive-readdir');
-const stripAnsi = require('strip-ansi');
-const paths = require('../config/paths');
-const getConfig = require('../utils/getConfig');
-const applyWebpackConfig = require('../utils/applyWebpackConfig');
 
 let rcConfig;
 try {
@@ -55,8 +52,8 @@ const argv = require('yargs')
 const outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
 const appBuild = paths.resolveApp(outputPath);
 const config = applyWebpackConfig(
-  require('../config/webpack.config.prod')(argv, appBuild),
-  process.env.NODE_ENV
+  require('./config/webpack.config.prod')(argv, appBuild),
+  process.env.NODE_ENV,
 );
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
@@ -74,9 +71,9 @@ function getDifferenceLabel(currentSize, previousSize) {
   const difference = currentSize - previousSize;
   const fileSize = !Number.isNaN(difference) ? filesize(difference) : 0;
   if (difference >= FIFTY_KILOBYTES) {
-    return chalk.red('+' + fileSize);
+    return chalk.red(`+${fileSize}`);
   } else if (difference < FIFTY_KILOBYTES && difference > 0) {
-    return chalk.yellow('+' + fileSize);
+    return chalk.yellow(`+${fileSize}`);
   } else if (difference < 0) {
     return chalk.green(fileSize);
   } else {
@@ -108,23 +105,24 @@ recursive(appBuild, (err, fileNames) => {
 function printFileSizes(stats, previousSizeMap) {
   const assets = stats.toJson().assets
     .filter(asset => /\.(js|css)$/.test(asset.name))
-    .map(asset => {
-      const fileContents = fs.readFileSync(appBuild + '/' + asset.name);
+    .map((asset) => {
+      const fileContents = fs.readFileSync(`${appBuild}/${asset.name}`);
       const size = gzipSize(fileContents);
       const previousSize = previousSizeMap[removeFileNameHash(asset.name)];
       const difference = getDifferenceLabel(size, previousSize);
       return {
         folder: path.join(outputPath, path.dirname(asset.name)),
         name: path.basename(asset.name),
-        size: size,
-        sizeLabel: filesize(size) + (difference ? ' (' + difference + ')' : '')
+        size,
+        sizeLabel: filesize(size) + (difference ? ` (${difference})` : ''),
       };
     });
   assets.sort((a, b) => b.size - a.size);
-  const longestSizeLabelLength = Math.max.apply(null,
-    assets.map(a => stripAnsi(a.sizeLabel).length)
+  const longestSizeLabelLength = Math.max.apply(
+    null,
+    assets.map(a => stripAnsi(a.sizeLabel).length),
   );
-  assets.forEach(asset => {
+  assets.forEach((asset) => {
     let sizeLabel = asset.sizeLabel;
     const sizeLength = stripAnsi(sizeLabel).length;
     if (sizeLength < longestSizeLabelLength) {
@@ -132,8 +130,7 @@ function printFileSizes(stats, previousSizeMap) {
       sizeLabel += rightPadding;
     }
     console.log(
-      '  ' + sizeLabel +
-      '  ' + chalk.dim(asset.folder + path.sep) + chalk.cyan(asset.name)
+      `  ${sizeLabel}  ${chalk.dim(asset.folder + path.sep)}${chalk.cyan(asset.name)}`,
     );
   });
 }
@@ -142,7 +139,7 @@ function printFileSizes(stats, previousSizeMap) {
 function printErrors(summary, errors) {
   console.log(chalk.red(summary));
   console.log();
-  errors.forEach(err => {
+  errors.forEach((err) => {
     console.log(err.message || err);
     console.log();
   });
@@ -159,7 +156,7 @@ function doneHandler(previousSizeMap, err, stats) {
     process.exit(1);
   }
 
-  applyWebpackConfig.warnIfExists();
+  warnIfExists();
 
   console.log(chalk.green('Compiled successfully.'));
   console.log();

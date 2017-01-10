@@ -1,12 +1,11 @@
-const join = require('path').join;
-const expect = require('expect');
-const getFiles = require('../../utils/getEntry').getFiles;
+import { join } from 'path';
+import expect from 'expect';
+import { getFiles } from '../../src/utils/getEntry';
 
 const fixtures = join(__dirname, '..', 'fixtures');
 const getEntryFixture = join(fixtures, 'getEntry');
 
 describe('getEntry', () => {
-
   it('array', () => {
     expect(getFiles(['./src/a.js'], getEntryFixture)).toEqual([
       './src/a.js',
@@ -53,5 +52,4 @@ describe('getEntry', () => {
       './src/a.js',
     ]);
   });
-
 });
