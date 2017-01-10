@@ -125,11 +125,9 @@ function parseKey(key) {
   return { method, path };
 }
 
-export function getError() {
-  return error;
-}
-
 export function outputError() {
+  if (!error) return;
+
   const filePath = error.message.split(': ')[0];
   const relativeFilePath = filePath.replace(paths.appDirectory, '.');
   const errors = error.stack.split('\n')

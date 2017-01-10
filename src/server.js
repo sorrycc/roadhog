@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import paths from './config/paths';
 import getConfig from './utils/getConfig';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
-import { applyMock, getError as getMockError, outputError as outputMockError } from './utils/mock';
+import { applyMock, outputError as outputMockError } from './utils/mock';
 
 process.env.NODE_ENV = 'development';
 
@@ -79,11 +79,6 @@ function setupCompiler(host, port, protocol) {
       console.log('Note that the development build is not optimized.');
       console.log(`To create a production build, use ${chalk.cyan('npm run build')}.`);
       console.log();
-      const mockError = getMockError();
-      if (mockError) {
-        outputMockError();
-        console.log();
-      }
       isFirstCompile = false;
     }
 
@@ -95,11 +90,9 @@ function setupCompiler(host, port, protocol) {
         console.log(message);
         console.log();
       });
-      return;
-    }
 
     // Show warnings if no errors were found.
-    if (messages.warnings.length) {
+    } else if (messages.warnings.length) {
       console.log(chalk.yellow('Compiled with warnings.'));
       console.log();
       messages.warnings.forEach((message) => {
@@ -110,6 +103,11 @@ function setupCompiler(host, port, protocol) {
       console.log('You may use special comments to disable some warnings.');
       console.log(`Use ${chalk.yellow('// eslint-disable-next-line')} to ignore the next line.`);
       console.log(`Use ${chalk.yellow('/* eslint-disable */')} to ignore all warnings in a file.`);
+      console.log();
+    }
+
+    if (isInteractive) {
+      outputMockError();
     }
   });
 }
@@ -155,6 +153,9 @@ function runDevServer(host, port, protocol) {
     }
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
+    if (isInteractive) {
+      outputMockError();
+    }
 
     if (argv.open) {
       openBrowser(`${protocol}://${host}:${port}/`);
