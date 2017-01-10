@@ -44,8 +44,8 @@ export function applyMock(devServer) {
 
     error = e;
 
-    console.log(chalk.red(e.message));
-    console.log(e.stack);
+    console.log();
+    outputError();
 
     const watcher = chokidar.watch(paths.resolveApp(CONFIG_FILE), {
       ignored: /node_modules/,
@@ -127,4 +127,19 @@ function parseKey(key) {
 
 export function getError() {
   return error;
+}
+
+export function outputError() {
+  const filePath = error.message.split(': ')[0];
+  const relativeFilePath = filePath.replace(paths.appDirectory, '.');
+  const errors = error.stack.split('\n')
+    .filter(line => line.trim().indexOf('at ') !== 0)
+    .map(line => line.replace(`${filePath}: `, ''));
+  errors.splice(1, 0, ['']);
+
+  console.log(chalk.red('Failed to parse mock config.'));
+  console.log();
+  console.log(`Error in ${relativeFilePath}`);
+  console.log(errors.join('\n'));
+  console.log();
 }

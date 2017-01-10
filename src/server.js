@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import paths from './config/paths';
 import getConfig from './utils/getConfig';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
-import { applyMock, getError as getMockError } from './utils/mock';
+import { applyMock, getError as getMockError, outputError as outputMockError } from './utils/mock';
 
 process.env.NODE_ENV = 'development';
 
@@ -81,8 +81,7 @@ function setupCompiler(host, port, protocol) {
       console.log();
       const mockError = getMockError();
       if (mockError) {
-        console.log(chalk.red(mockError.message));
-        console.log(mockError.stack);
+        outputMockError();
         console.log();
       }
       isFirstCompile = false;
