@@ -4,6 +4,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack from 'webpack';
 import fs from 'fs';
 import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
+import SystemBellWebpackPlugin from 'system-bell-webpack-plugin';
 import paths from './paths';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
@@ -126,6 +127,7 @@ export default {
     new webpack.HotModuleReplacementPlugin(),
     new CaseSensitivePathsPlugin(),
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+    new SystemBellWebpackPlugin(),
   ].concat(
     !fs.existsSync(paths.appPublic) ? [] :
       new CopyWebpackPlugin([
