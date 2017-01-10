@@ -1,23 +1,19 @@
-'use strict';
+import detect from 'detect-port';
+import clearConsole from 'react-dev-utils/clearConsole';
+import getProcessForPort from 'react-dev-utils/getProcessForPort';
+import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
+import openBrowser from 'react-dev-utils/openBrowser';
+import prompt from 'react-dev-utils/prompt';
+import webpack from 'webpack';
+import historyApiFallback from 'connect-history-api-fallback';
+import WebpackDevServer from 'webpack-dev-server';
+import chalk from 'chalk';
+import paths from './config/paths';
+import getConfig from './utils/getConfig';
+import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
+import { applyMock, getError as getMockError } from './utils/mock';
 
-// 必须放在 webpack.config.env require 之前
 process.env.NODE_ENV = 'development';
-
-const detect = require('detect-port');
-const clearConsole = require('react-dev-utils/clearConsole');
-const getProcessForPort = require('react-dev-utils/getProcessForPort');
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const openBrowser = require('react-dev-utils/openBrowser');
-const prompt = require('react-dev-utils/prompt');
-const webpack = require('webpack');
-const historyApiFallback = require('connect-history-api-fallback');
-// const httpProxyMiddleware = require('http-proxy-middleware');
-const WebpackDevServer = require('webpack-dev-server');
-const chalk = require('chalk');
-const paths = require('../config/paths');
-const getConfig = require('../utils/getConfig');
-const applyWebpackConfig = require('../utils/applyWebpackConfig');
-const mock = require('../utils/mock');
 
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
@@ -45,13 +41,13 @@ try {
 
 const config = applyWebpackConfig(
   require('../config/webpack.config.dev'),
-  process.env.NODE_ENV
+  process.env.NODE_ENV,
 );
 
 function setupCompiler(host, port, protocol) {
   compiler = webpack(config);
 
-  compiler.plugin('invalid', function() {
+  compiler.plugin('invalid', () => {
     if (isInteractive) {
       clearConsole();
     }
@@ -59,7 +55,7 @@ function setupCompiler(host, port, protocol) {
   });
 
   let isFirstCompile = true;
-  compiler.plugin('done', function(stats) {
+  compiler.plugin('done', (stats) => {
     if (isInteractive) {
       clearConsole();
     }
@@ -68,7 +64,7 @@ function setupCompiler(host, port, protocol) {
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
     const showInstructions = isSuccessful && (isInteractive || isFirstCompile);
 
-    applyWebpackConfig.warnIfExists();
+    warnIfExists();
 
     if (isSuccessful) {
       console.log(chalk.green('Compiled successfully!'));
@@ -78,12 +74,12 @@ function setupCompiler(host, port, protocol) {
       console.log();
       console.log('The app is running at:');
       console.log();
-      console.log('  ' + chalk.cyan(protocol + '://' + host + ':' + port + '/'));
+      console.log(`  ${chalk.cyan(`${protocol}://${host}:${port}/`)}`);
       console.log();
       console.log('Note that the development build is not optimized.');
       console.log(`To create a production build, use ${chalk.cyan('npm run build')}.`);
       console.log();
-      const mockError = mock.getError();
+      const mockError = getMockError();
       if (mockError) {
         console.log(chalk.red(mockError.message));
         console.log(mockError.stack);
@@ -96,7 +92,7 @@ function setupCompiler(host, port, protocol) {
     if (messages.errors.length) {
       console.log(chalk.red('Failed to compile.'));
       console.log();
-      messages.errors.forEach(message => {
+      messages.errors.forEach((message) => {
         console.log(message);
         console.log();
       });
@@ -107,25 +103,25 @@ function setupCompiler(host, port, protocol) {
     if (messages.warnings.length) {
       console.log(chalk.yellow('Compiled with warnings.'));
       console.log();
-      messages.warnings.forEach(message => {
+      messages.warnings.forEach((message) => {
         console.log(message);
         console.log();
       });
       // Teach some ESLint tricks.
       console.log('You may use special comments to disable some warnings.');
-      console.log('Use ' + chalk.yellow('// eslint-disable-next-line') + ' to ignore the next line.');
-      console.log('Use ' + chalk.yellow('/* eslint-disable */') + ' to ignore all warnings in a file.');
+      console.log(`Use ${chalk.yellow('// eslint-disable-next-line')} to ignore the next line.`);
+      console.log(`Use ${chalk.yellow('/* eslint-disable */')} to ignore all warnings in a file.`);
     }
   });
 }
 
 function addMiddleware(devServer) {
-  const proxy = require(paths.appPackageJson).proxy;
+  const proxy = require(paths.appPackageJson).proxy;  // eslint-disable-line
   devServer.use(historyApiFallback({
     disableDotRule: true,
     htmlAcceptHeaders: proxy ?
       ['text/html'] :
-      ['text/html', '*/*']
+      ['text/html', '*/*'],
   }));
   // TODO: proxy index.html, ...
   devServer.use(devServer.middleware);
@@ -148,7 +144,7 @@ function runDevServer(host, port, protocol) {
   });
 
   addMiddleware(devServer);
-  mock.applyMock(devServer);
+  applyMock(devServer);
 
   devServer.listen(port, (err) => {
     if (err) {
@@ -162,7 +158,7 @@ function runDevServer(host, port, protocol) {
     console.log();
 
     if (argv.open) {
-      openBrowser(protocol + '://' + host + ':' + port + '/');
+      openBrowser(`${protocol}://${host}:${port}/`);
     }
   });
 }
@@ -184,11 +180,9 @@ detect(DEFAULT_PORT).then((port) => {
     clearConsole();
     const existingProcess = getProcessForPort(DEFAULT_PORT);
     const question =
-      chalk.yellow('Something is already running on port ' + DEFAULT_PORT + '.' +
-        ((existingProcess) ? ' Probably:\n  ' + existingProcess : '')) +
-      '\n\nWould you like to run the app on another port instead?';
+      chalk.yellow(`Something is already running on port ${DEFAULT_PORT}.${((existingProcess) ? ` Probably:\n  ${existingProcess}` : '')}\n\nWould you like to run the app on another port instead?`);
 
-    prompt(question, true).then(shouldChangePort => {
+    prompt(question, true).then((shouldChangePort) => {
       if (shouldChangePort) {
         run(port);
       }

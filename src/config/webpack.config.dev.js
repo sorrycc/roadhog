@@ -16,14 +16,14 @@ const publicPath = '/';
 const cssLoaders = getCSSLoaders();
 const theme = JSON.stringify(getTheme());
 
-module.exports = {
+export default {
   devtool: 'cheap-module-source-map',
   entry: getEntry(),
   output: {
     path: paths.appBuild,
     filename: '[name].js',
     pathinfo: true,
-    publicPath: publicPath,
+    publicPath,
   },
   resolve: {
     extensions: [
@@ -43,7 +43,7 @@ module.exports = {
           /\.(js|jsx)$/,
           /\.(css|less)$/,
           /\.json$/,
-          /\.svg$/
+          /\.svg$/,
         ],
         loader: 'url',
         query: {
@@ -105,7 +105,7 @@ module.exports = {
     ].concat(config.extraBabelPlugins || []),
     cacheDirectory: true,
   },
-  postcss: function() {
+  postcss() {
     return [
       autoprefixer(config.autoprefixer || {
         browsers: [
@@ -120,7 +120,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       },
     }),
     new webpack.HotModuleReplacementPlugin(),
@@ -133,13 +133,13 @@ module.exports = {
           from: paths.appPublic,
           to: paths.appBuild,
         },
-      ])
+      ]),
   ).concat(
     !config.multipage ? [] :
-      new webpack.optimize.CommonsChunkPlugin('common', 'common.js')
+      new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
   ).concat(
     !config.define ? [] :
-      new webpack.DefinePlugin(normalizeDefine(config.define))
+      new webpack.DefinePlugin(normalizeDefine(config.define)),
   ),
   externals: config.externals,
   node: {

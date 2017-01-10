@@ -16,8 +16,8 @@ const publicPath = config.publicPath || '/';
 const cssLoaders = getCSSLoaders();
 const theme = JSON.stringify(getTheme());
 
-module.exports = function(args, appBuild) {
-  const debug = args.debug, analyze = args.analyze;
+export default function (args, appBuild) {
+  const { debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
   return {
@@ -26,7 +26,7 @@ module.exports = function(args, appBuild) {
     output: {
       path: appBuild,
       filename: '[name].js',
-      publicPath: publicPath,
+      publicPath,
     },
     resolve: {
       extensions: [
@@ -46,7 +46,7 @@ module.exports = function(args, appBuild) {
             /\.(js|jsx)$/,
             /\.(css|less)$/,
             /\.json$/,
-            /\.svg$/
+            /\.svg$/,
           ],
           loader: 'url',
           query: {
@@ -64,7 +64,7 @@ module.exports = function(args, appBuild) {
           include: paths.appSrc,
           loader: ExtractTextPlugin.extract(
             'style',
-            cssLoaders.own
+            cssLoaders.own,
           ),
         },
         {
@@ -72,7 +72,7 @@ module.exports = function(args, appBuild) {
           include: paths.appSrc,
           loader: ExtractTextPlugin.extract(
             'style',
-            `${cssLoaders.own}!less?{"modifyVars":${theme}}`
+            `${cssLoaders.own}!less?{"modifyVars":${theme}}`,
           ),
         },
         {
@@ -80,7 +80,7 @@ module.exports = function(args, appBuild) {
           include: paths.appNodeModules,
           loader: ExtractTextPlugin.extract(
             'style',
-            cssLoaders.nodeModules
+            cssLoaders.nodeModules,
           ),
         },
         {
@@ -88,7 +88,7 @@ module.exports = function(args, appBuild) {
           include: paths.appNodeModules,
           loader: ExtractTextPlugin.extract(
             'style',
-            `${cssLoaders.nodeModules}!less?{"modifyVars":${theme}}`
+            `${cssLoaders.nodeModules}!less?{"modifyVars":${theme}}`,
           ),
         },
         {
@@ -119,7 +119,7 @@ module.exports = function(args, appBuild) {
       ].concat(config.extraBabelPlugins || []),
       cacheDirectory: true,
     },
-    postcss: function() {
+    postcss() {
       return [
         autoprefixer(config.autoprefixer || {
           browsers: [
@@ -127,50 +127,55 @@ module.exports = function(args, appBuild) {
             'last 4 versions',
             'Firefox ESR',
             'not ie < 9', // React doesn't support IE8 anyway
-          ]
+          ],
         }),
       ];
     },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          'NODE_ENV': JSON.stringify(NODE_ENV),
+          NODE_ENV: JSON.stringify(NODE_ENV),
         },
       }),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.optimize.DedupePlugin(),
       new ExtractTextPlugin('[name].css'),
-    ].concat(
-      debug ? [] : new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          screw_ie8: true, // React doesn't support IE8
-          warnings: false
-        },
-        mangle: {
-          screw_ie8: true
-        },
-        output: {
-          comments: false,
-          screw_ie8: true
-        },
-      })
-    ).concat(
-      analyze ? new Visualizer() : []
-    ).concat(
-      !fs.existsSync(paths.appPublic) ? [] :
-        new CopyWebpackPlugin([
-          {
-            from: paths.appPublic,
-            to: paths.appBuild,
+    ]
+      .concat(
+        debug ? [] : new webpack.optimize.UglifyJsPlugin({
+          compress: {
+            screw_ie8: true, // React doesn't support IE8
+            warnings: false,
           },
-        ])
-    ).concat(
-      !config.multipage ? [] :
-        new webpack.optimize.CommonsChunkPlugin('common', 'common.js')
-    ).concat(
-      !config.define ? [] :
-        new webpack.DefinePlugin(normalizeDefine(config.define))
-    ),
+          mangle: {
+            screw_ie8: true,
+          },
+          output: {
+            comments: false,
+            screw_ie8: true,
+          },
+        }),
+      )
+      .concat(
+        analyze ? new Visualizer() : [],
+      )
+      .concat(
+        !fs.existsSync(paths.appPublic) ? [] :
+          new CopyWebpackPlugin([
+            {
+              from: paths.appPublic,
+              to: paths.appBuild,
+            },
+          ]),
+      )
+      .concat(
+        !config.multipage ? [] :
+          new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
+      )
+      .concat(
+        !config.define ? [] :
+          new webpack.DefinePlugin(normalizeDefine(config.define)),
+      ),
     externals: config.externals,
     node: {
       fs: 'empty',
@@ -178,4 +183,4 @@ module.exports = function(args, appBuild) {
       tls: 'empty',
     },
   };
-};
+}

@@ -1,10 +1,9 @@
-'use strict';
+import { existsSync, readFileSync } from 'fs';
+import stripJsonComments from 'strip-json-comments';
+import isPlainObject from 'is-plain-object';
+import parseJSON from 'parse-json-pretty';
+import paths from '../config/paths';
 
-const fs = require('fs');
-const stripJsonComments = require('strip-json-comments');
-const isPlainObject = require('is-plain-object');
-const parseJSON = require('parse-json-pretty');
-const paths = require('../config/paths');
 require('./registerBabel');
 
 function merge(oldObj, newObj) {
@@ -23,16 +22,16 @@ function getConfig(configFile) {
   const rcConfig = paths.resolveApp(configFile);
   const jsConfig = paths.resolveApp(`${configFile}.js`);
 
-  if (fs.existsSync(rcConfig)) {
-    return parseJSON(stripJsonComments(fs.readFileSync(rcConfig, 'utf-8')), './roadhogrc');
-  } else if (fs.existsSync(jsConfig)) {
-    return require(jsConfig);
+  if (existsSync(rcConfig)) {
+    return parseJSON(stripJsonComments(readFileSync(rcConfig, 'utf-8')), './roadhogrc');
+  } else if (existsSync(jsConfig)) {
+    return require(jsConfig);  // eslint-disable-line
   } else {
     return {};
   }
 }
 
-function realGetConfig(configFile, env) {
+export function realGetConfig(configFile, env) {
   env = env || 'development';
   const config = getConfig(configFile);
   if (config.env) {
@@ -42,8 +41,6 @@ function realGetConfig(configFile, env) {
   return config;
 }
 
-module.exports = function() {
+export default function () {
   return realGetConfig('.roadhogrc', process.env.NODE_ENV);
-};
-
-module.exports.realGetConfig = realGetConfig;
+}

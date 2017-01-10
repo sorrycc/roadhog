@@ -1,13 +1,12 @@
-const path = require('path');
-const expect = require('expect');
-const mock = require('../../utils/mock');
+import { join } from 'path';
+import expect from 'expect';
+import { getConfig } from '../../src/utils/mock';
 
-const rcPath = path.join(__dirname, '../fixtures/mock/.roadhogrc.mock.js');
+const rcPath = join(__dirname, '../fixtures/mock/.roadhogrc.mock.js');
 
-describe('mock', function() {
-
-  it('getConfig', function() {
-    const ret = mock.getConfig(rcPath);
+describe('mock', () => {
+  it('getConfig', () => {
+    const ret = getConfig(rcPath);
     expect(ret.config).toEqual('1');
     expect(ret.files.length).toEqual(3);
   });

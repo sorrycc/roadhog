@@ -1,4 +1,5 @@
 .DS_Store
 npm-debug.log*
-node_modules
-lib
+node_modules/
+lib/
+.nyc_output/

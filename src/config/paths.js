@@ -1,17 +1,17 @@
-const path = require('path');
-const fs = require('fs');
+const { resolve } = require('path');
+const { realpathSync } = require('fs');
 
-const appDirectory = fs.realpathSync(process.cwd());
+const appDirectory = realpathSync(process.cwd());
 
 function resolveApp(relativePath) {
-  return path.resolve(appDirectory, relativePath);
+  return resolve(appDirectory, relativePath);
 }
 
 function resolveOwn(relativePath) {
-  return path.resolve(__dirname, relativePath);
+  return resolve(__dirname, relativePath);
 }
 
-module.exports = {
+export default {
   appBuild: resolveApp('dist'),
   appPublic: resolveApp('public'),
   appPackageJson: resolveApp('package.json'),

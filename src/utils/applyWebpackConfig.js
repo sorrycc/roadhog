@@ -1,23 +1,22 @@
-const fs = require('fs');
-const path = require('path');
-const chalk = require('chalk');
+import { existsSync } from 'fs';
+import { resolve } from 'path';
+import chalk from 'chalk';
+
 require('./registerBabel');
 
-function warnIfExists() {
-  const filePath = path.resolve('webpack.config.js');
-  if (fs.existsSync(filePath)) {
-    console.log(chalk.yellow(`⚠️ ⚠️ ⚠️  It\'s not recommended to use ${chalk.bold('webpack.config.js')}, since roadhog\'s major or minor version upgrades may result in incompatibility. If you insist on doing so, please be careful of the compatibility after upgrading roadhog.`));
+export function warnIfExists() {
+  const filePath = resolve('webpack.config.js');
+  if (existsSync(filePath)) {
+    console.log(chalk.yellow(`⚠️ ⚠️ ⚠️  It\\'s not recommended to use ${chalk.bold('webpack.config.js')}, since roadhog\\'s major or minor version upgrades may result in incompatibility. If you insist on doing so, please be careful of the compatibility after upgrading roadhog.`));
     console.log();
   }
 }
 
-module.exports = function(config, env) {
-  const filePath = path.resolve('webpack.config.js');
-  if (fs.existsSync(filePath)) {
-    return require(filePath)(config, env);
+export default function applyWebpackConfig(config, env) {
+  const filePath = resolve('webpack.config.js');
+  if (existsSync(filePath)) {
+    return require(filePath)(config, env);  // eslint-disable-line
   } else {
     return config;
   }
-};
-
-module.exports.warnIfExists = warnIfExists;
+}
