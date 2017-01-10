@@ -40,7 +40,7 @@ try {
 }
 
 const config = applyWebpackConfig(
-  require('../config/webpack.config.dev'),
+  require('./config/webpack.config.dev'),
   process.env.NODE_ENV,
 );
 
