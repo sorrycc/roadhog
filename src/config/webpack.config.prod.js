@@ -116,6 +116,7 @@ export default function (args, appBuild) {
       ],
       plugins: [
         require.resolve('babel-plugin-add-module-exports'),
+        require.resolve('babel-plugin-react-require'),
       ].concat(config.extraBabelPlugins || []),
       cacheDirectory: true,
     },
