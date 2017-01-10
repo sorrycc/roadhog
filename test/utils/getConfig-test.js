@@ -6,7 +6,6 @@ const fixtures = join(__dirname, '..', 'fixtures');
 const getConfigFixture = join(fixtures, 'getConfig');
 
 describe('getConfig', () => {
-
   it('error', () => {
     expect(() => {
       getConfig(join(getConfigFixture, 'error.json'));
@@ -57,4 +56,14 @@ describe('getConfig', () => {
     });
   });
 
+  it('npm package variables', () => {
+    expect(getConfig(join(getConfigFixture, 'npm_variables.json'), null, {
+      name: 'a',
+      version: '0.1.0',
+    })).toEqual({
+      outputPath: './dist/a/0.1.0',
+      publicPath: '/a/0.1.0/',
+      c: 'foo',
+    });
+  });
 });

@@ -31,16 +31,31 @@ function getConfig(configFile) {
   }
 }
 
-export function realGetConfig(configFile, env) {
+function replaceNpmVariables(value, pkg) {
+  if (typeof value === 'string') {
+    return value
+      .replace('$npm_package_name', pkg.name)
+      .replace('$npm_package_version', pkg.version);
+  } else {
+    return value;
+  }
+}
+
+export function realGetConfig(configFile, env, pkg = {}) {
   env = env || 'development';
   const config = getConfig(configFile);
   if (config.env) {
     if (config.env[env]) merge(config, config.env[env]);
     delete config.env;
   }
-  return config;
+
+  return Object.keys(config).reduce((memo, key) => {
+    memo[key] = replaceNpmVariables(config[key], pkg);
+    return memo;
+  }, {});
 }
 
 export default function () {
-  return realGetConfig('.roadhogrc', process.env.NODE_ENV);
+  const pkg = JSON.parse(readFileSync(paths.appPackageJson, 'utf-8'));
+  return realGetConfig('.roadhogrc', process.env.NODE_ENV, pkg);
 }
