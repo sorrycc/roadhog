@@ -9,7 +9,7 @@ import historyApiFallback from 'connect-history-api-fallback';
 import WebpackDevServer from 'webpack-dev-server';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
-import paths from './config/paths';
+import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
 import { applyMock, outputError as outputMockError } from './utils/mock';
@@ -19,6 +19,7 @@ process.env.NODE_ENV = 'development';
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
 const cwd = process.cwd();
+const paths = getPaths(cwd);
 let compiler;
 
 const argv = require('yargs')
@@ -227,4 +228,3 @@ function init() {
 }
 
 init();
-
