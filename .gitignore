@@ -1,5 +1,9 @@
 .DS_Store
 npm-debug.log*
-node_modules/
-lib/
-.nyc_output/
+/node_modules
+/lib
+/.nyc_output
+/test/**/dist
+
+# tnpm cache directory
+/test/**/.cache

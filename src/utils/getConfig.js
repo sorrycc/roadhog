@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'fs';
 import stripJsonComments from 'strip-json-comments';
 import isPlainObject from 'is-plain-object';
 import parseJSON from 'parse-json-pretty';
-import paths from '../config/paths';
+import getPaths from '../config/paths';
 
 require('./registerBabel');
 
@@ -18,7 +18,7 @@ function merge(oldObj, newObj) {
   }
 }
 
-function getConfig(configFile) {
+function getConfig(configFile, paths) {
   const rcConfig = paths.resolveApp(configFile);
   const jsConfig = paths.resolveApp(`${configFile}.js`);
 
@@ -41,9 +41,9 @@ function replaceNpmVariables(value, pkg) {
   }
 }
 
-export function realGetConfig(configFile, env, pkg = {}) {
+export function realGetConfig(configFile, env, pkg = {}, paths) {
   env = env || 'development';
-  const config = getConfig(configFile);
+  const config = getConfig(configFile, paths);
   if (config.env) {
     if (config.env[env]) merge(config, config.env[env]);
     delete config.env;
@@ -55,7 +55,8 @@ export function realGetConfig(configFile, env, pkg = {}) {
   }, {});
 }
 
-export default function () {
+export default function (env, cwd) {
+  const paths = getPaths(cwd);
   const pkg = JSON.parse(readFileSync(paths.appPackageJson, 'utf-8'));
-  return realGetConfig('.roadhogrc', process.env.NODE_ENV, pkg);
+  return realGetConfig('.roadhogrc', env, pkg, paths);
 }

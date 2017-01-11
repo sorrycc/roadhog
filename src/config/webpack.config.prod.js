@@ -4,23 +4,22 @@ import fs from 'fs';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import paths from './paths';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
 import normalizeDefine from '../utils/normalizeDefine';
 
-export default function (args, appBuild, config) {
+export default function (args, appBuild, config, paths) {
   const { debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
   const publicPath = config.publicPath || '/';
-  const cssLoaders = getCSSLoaders();
+  const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
 
   return {
     bail: true,
-    entry: getEntry(config),
+    entry: getEntry(config, paths.appDirectory),
     output: {
       path: appBuild,
       filename: '[name].js',
@@ -128,7 +127,8 @@ export default function (args, appBuild, config) {
             'not ie < 9', // React doesn't support IE8 anyway
           ],
         }),
-      ];
+      ]
+        .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
       new webpack.DefinePlugin({

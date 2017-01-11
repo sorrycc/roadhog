@@ -18,6 +18,7 @@ process.env.NODE_ENV = 'development';
 
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
+const cwd = process.cwd();
 let compiler;
 
 const argv = require('yargs')
@@ -35,7 +36,7 @@ let config;
 
 function readRcConfig() {
   try {
-    rcConfig = getConfig(process.env.NODE_ENV);
+    rcConfig = getConfig(process.env.NODE_ENV, cwd);
   } catch (e) {
     console.log(chalk.red('Failed to parse .roadhogrc config.'));
     console.log();
@@ -46,7 +47,7 @@ function readRcConfig() {
 
 function readWebpackConfig() {
   config = applyWebpackConfig(
-    require('./config/webpack.config.dev')(rcConfig),
+    require('./config/webpack.config.dev')(rcConfig, cwd),
     process.env.NODE_ENV,
   );
 }

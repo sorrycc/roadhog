@@ -2,10 +2,11 @@ import fs from 'fs';
 import assert from 'assert';
 import chokidar from 'chokidar';
 import chalk from 'chalk';
-import paths from '../config/paths';
+import getPaths from '../config/paths';
 
 let error = null;
 const CONFIG_FILE = '.roadhogrc.mock.js';
+const paths = getPaths(process.cwd());
 
 export function getConfig(filePath) {
   const resolvedFilePath = paths.resolveApp(filePath);

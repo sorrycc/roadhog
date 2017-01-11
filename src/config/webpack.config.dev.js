@@ -5,20 +5,21 @@ import webpack from 'webpack';
 import fs from 'fs';
 import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
 import SystemBellWebpackPlugin from 'system-bell-webpack-plugin';
-import paths from './paths';
+import getPaths from './paths';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
 import normalizeDefine from '../utils/normalizeDefine';
 
-export default function (config) {
+export default function (config, cwd) {
   const publicPath = '/';
   const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
+  const paths = getPaths(cwd);
 
   return {
     devtool: 'cheap-module-source-map',
-    entry: getEntry(config),
+    entry: getEntry(config, paths.appDirectory),
     output: {
       path: paths.appBuild,
       filename: '[name].js',
@@ -116,7 +117,8 @@ export default function (config) {
             'not ie < 9', // React doesn't support IE8 anyway
           ],
         }),
-      ];
+      ]
+        .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
       new webpack.DefinePlugin({

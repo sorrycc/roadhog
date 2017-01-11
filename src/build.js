@@ -6,21 +6,11 @@ import { sync as gzipSize } from 'gzip-size';
 import webpack from 'webpack';
 import recursive from 'recursive-readdir';
 import stripAnsi from 'strip-ansi';
-import paths from './config/paths';
+import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
 
 process.env.NODE_ENV = 'production';
-
-let rcConfig;
-try {
-  rcConfig = getConfig(process.env.NODE_ENV);
-} catch (e) {
-  console.log(chalk.red('Failed to parse .roadhogrc config.'));
-  console.log();
-  console.log(e.message);
-  process.exit(1);
-}
 
 const argv = require('yargs')
   .usage('Usage: roadhog build [options]')
@@ -49,12 +39,52 @@ const argv = require('yargs')
   .help('h')
   .argv;
 
-const outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
-const appBuild = paths.resolveApp(outputPath);
-const config = applyWebpackConfig(
-  require('./config/webpack.config.prod')(argv, appBuild, rcConfig),
-  process.env.NODE_ENV,
-);
+let rcConfig;
+let outputPath;
+let appBuild;
+let config;
+
+export function build(argv) {
+  const paths = getPaths(argv.cwd);
+
+  try {
+    rcConfig = getConfig(process.env.NODE_ENV, argv.cwd);
+  } catch (e) {
+    console.log(chalk.red('Failed to parse .roadhogrc config.'));
+    console.log();
+    console.log(e.message);
+    process.exit(1);
+  }
+
+  outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
+  appBuild = paths.resolveApp(outputPath);
+  config = applyWebpackConfig(
+    require('./config/webpack.config.prod')(argv, appBuild, rcConfig, paths),
+    process.env.NODE_ENV,
+  );
+
+  return new Promise((resolve) => {
+    // First, read the current file sizes in build directory.
+    // This lets us display how much they changed later.
+    recursive(appBuild, (err, fileNames) => {
+      const previousSizeMap = (fileNames || [])
+        .filter(fileName => /\.(js|css)$/.test(fileName))
+        .reduce((memo, fileName) => {
+          const contents = fs.readFileSync(fileName);
+          const key = removeFileNameHash(fileName);
+          memo[key] = gzipSize(contents);
+          return memo;
+        }, {});
+
+      // Remove all content but keep the directory so that
+      // if you're in it, you don't end up in Trash
+      fs.emptyDirSync(appBuild);
+
+      // Start the webpack build
+      realBuild(previousSizeMap, resolve, argv);
+    });
+  });
+}
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js
@@ -80,26 +110,6 @@ function getDifferenceLabel(currentSize, previousSize) {
     return '';
   }
 }
-
-// First, read the current file sizes in build directory.
-// This lets us display how much they changed later.
-recursive(appBuild, (err, fileNames) => {
-  const previousSizeMap = (fileNames || [])
-    .filter(fileName => /\.(js|css)$/.test(fileName))
-    .reduce((memo, fileName) => {
-      const contents = fs.readFileSync(fileName);
-      const key = removeFileNameHash(fileName);
-      memo[key] = gzipSize(contents);
-      return memo;
-    }, {});
-
-  // Remove all content but keep the directory so that
-  // if you're in it, you don't end up in Trash
-  fs.emptyDirSync(appBuild);
-
-  // Start the webpack build
-  build(previousSizeMap);
-});
 
 // Print a detailed summary of build files.
 function printFileSizes(stats, previousSizeMap) {
@@ -145,7 +155,7 @@ function printErrors(summary, errors) {
   });
 }
 
-function doneHandler(previousSizeMap, err, stats) {
+function doneHandler(previousSizeMap, argv, resolve, err, stats) {
   if (err) {
     printErrors('Failed to compile.', [err]);
     process.exit(1);
@@ -170,10 +180,12 @@ function doneHandler(previousSizeMap, err, stats) {
     console.log(`Analyze result is generated at ${chalk.cyan('dist/stats.html')}.`);
     console.log();
   }
+
+  resolve();
 }
 
 // Create the production build and print the deployment instructions.
-function build(previousSizeMap) {
+function realBuild(previousSizeMap, resolve, argv) {
   if (argv.debug) {
     console.log('Creating an development build without compress...');
   } else {
@@ -181,10 +193,15 @@ function build(previousSizeMap) {
   }
 
   const compiler = webpack(config);
-  const done = doneHandler.bind(null, previousSizeMap);
+  const done = doneHandler.bind(null, previousSizeMap, argv, resolve);
   if (argv.watch) {
     compiler.watch(200, done);
   } else {
     compiler.run(done);
   }
+}
+
+// Run.
+if (require.main === module) {
+  build({ ...argv, cwd: process.cwd() });
 }
