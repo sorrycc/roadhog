@@ -58,17 +58,17 @@ $ roadhog test
 
 #### .roadhogrc 解析错误
 
-![](https://zos.alipayobjects.com/rmsportal/wPGMQwhZmFhGddMZKFci.png)
+<img src="https://zos.alipayobjects.com/rmsportal/wPGMQwhZmFhGddMZKFci.png" width="809" height="585" />
 
 #### 语法错误
 
 控制台
 
-![](https://zos.alipayobjects.com/rmsportal/BWnfDJQqlnGvHSZxOVuY.png)
+<img src="https://zos.alipayobjects.com/rmsportal/BWnfDJQqlnGvHSZxOVuY.png" width="809" height="585" />
 
 浏览器
 
-![](https://zos.alipayobjects.com/rmsportal/onzXGetQRKGmWQXmICDC.png)
+<img src="https://zos.alipayobjects.com/rmsportal/onzXGetQRKGmWQXmICDC.png" width="893" height="751" />
 
 #### 运行时错误
 
