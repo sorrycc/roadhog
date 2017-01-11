@@ -40,7 +40,7 @@ switch (script) {
     result = spawn.sync(
       'node',
       [require.resolve(`../lib/${script}`)].concat(args),
-      { stdio: 'inherit' }
+      { stdio: 'inherit' }  // eslint-disable-line
     );
     process.exit(result.status);
     break;
