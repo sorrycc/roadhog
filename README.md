@@ -7,7 +7,7 @@
 
 [View README in English](./README_en-us.md)
 
-roadhog 是一个 cli 工具，提供 `server`、 `build` 和 `test` 三个命令，分别用于本地调试和构建。命令行体验和 create-react-app 一致，配置略有不同，比如默认开启 [css modules](https://github.com/css-modules/css-modules)，**然后还提供了 [JSON 格式的配置方式](https://github.com/sorrycc/roadhog#配置)**。
+roadhog 是一个 cli 工具，提供 `server`、 `build` 和 `test` 三个命令，分别用于本地调试和构建，并且提供了特别易用的 [mock 功能](#mock)。命令行体验和 create-react-app 一致，配置略有不同，比如默认开启 [css modules](https://github.com/css-modules/css-modules)，**然后还提供了 [JSON 格式的配置方式](https://github.com/sorrycc/roadhog#配置)**。
 
 * [介绍 roadhog —— 让 create-react-app 可配的命令行工具](https://github.com/sorrycc/blog/issues/15)
 * [从 atool-build + dora 到 roadhog](https://github.com/sorrycc/blog/issues/17)
