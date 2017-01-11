@@ -61,7 +61,7 @@ export default function (args, appBuild, config, paths) {
           include: paths.appSrc,
           loader: ExtractTextPlugin.extract(
             'style',
-            cssLoaders.own,
+            cssLoaders.own.join('!'),
           ),
         },
         {
@@ -69,7 +69,7 @@ export default function (args, appBuild, config, paths) {
           include: paths.appSrc,
           loader: ExtractTextPlugin.extract(
             'style',
-            `${cssLoaders.own}!less?{"modifyVars":${theme}}`,
+            `${cssLoaders.own.join('!')}!less?{"modifyVars":${theme}}`,
           ),
         },
         {
@@ -77,7 +77,7 @@ export default function (args, appBuild, config, paths) {
           include: paths.appNodeModules,
           loader: ExtractTextPlugin.extract(
             'style',
-            cssLoaders.nodeModules,
+            cssLoaders.nodeModules.join('!'),
           ),
         },
         {
@@ -85,7 +85,7 @@ export default function (args, appBuild, config, paths) {
           include: paths.appNodeModules,
           loader: ExtractTextPlugin.extract(
             'style',
-            `${cssLoaders.nodeModules}!less?{"modifyVars":${theme}}`,
+            `${cssLoaders.nodeModules.join('!')}!less?{"modifyVars":${theme}}`,
           ),
         },
         {

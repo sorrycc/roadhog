@@ -70,12 +70,12 @@ export default function (config, cwd) {
         {
           test: /\.css$/,
           include: paths.appNodeModules,
-          loader: `style!${cssLoaders.nodeModules}`,
+          loader: `style!${cssLoaders.nodeModules.join('!')}`,
         },
         {
           test: /\.less$/,
           include: paths.appNodeModules,
-          loader: `style!${cssLoaders.nodeModules}!less?{"modifyVars":${theme}}`,
+          loader: `style!${cssLoaders.nodeModules.join('!')}!less?{"modifyVars":${theme}}`,
         },
         {
           test: /\.html$/,
