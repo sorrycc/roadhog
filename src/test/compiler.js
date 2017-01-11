@@ -10,6 +10,6 @@ require('babel-register')({
 });
 
 const noop = () => null;
-['.css', '.less', '.html', '.htm'].forEach(ext => {
+['.css', '.less', '.html', '.htm'].forEach((ext) => {
   require.extensions[ext] = noop;
 });

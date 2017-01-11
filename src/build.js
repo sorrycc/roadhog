@@ -1,27 +1,16 @@
-// 必须放在 webpack.config.env require 之前
+import chalk from 'chalk';
+import fs from 'fs-extra';
+import path from 'path';
+import filesize from 'filesize';
+import { sync as gzipSize } from 'gzip-size';
+import webpack from 'webpack';
+import recursive from 'recursive-readdir';
+import stripAnsi from 'strip-ansi';
+import getPaths from './config/paths';
+import getConfig from './utils/getConfig';
+import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
+
 process.env.NODE_ENV = 'production';
-
-const chalk = require('chalk');
-const fs = require('fs-extra');
-const path = require('path');
-const filesize = require('filesize');
-const gzipSize = require('gzip-size').sync;
-const webpack = require('webpack');
-const recursive = require('recursive-readdir');
-const stripAnsi = require('strip-ansi');
-const paths = require('../config/paths');
-const getConfig = require('../utils/getConfig');
-const applyWebpackConfig = require('../utils/applyWebpackConfig');
-
-let rcConfig;
-try {
-  rcConfig = getConfig(process.env.NODE_ENV);
-} catch (e) {
-  console.log(chalk.red('Failed to parse .roadhogrc config.'));
-  console.log();
-  console.log(e.message);
-  process.exit(1);
-}
 
 const argv = require('yargs')
   .usage('Usage: roadhog build [options]')
@@ -50,12 +39,52 @@ const argv = require('yargs')
   .help('h')
   .argv;
 
-const outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
-const appBuild = paths.resolveApp(outputPath);
-const config = applyWebpackConfig(
-  require('../config/webpack.config.prod')(argv, appBuild),
-  process.env.NODE_ENV
-);
+let rcConfig;
+let outputPath;
+let appBuild;
+let config;
+
+export function build(argv) {
+  const paths = getPaths(argv.cwd);
+
+  try {
+    rcConfig = getConfig(process.env.NODE_ENV, argv.cwd);
+  } catch (e) {
+    console.log(chalk.red('Failed to parse .roadhogrc config.'));
+    console.log();
+    console.log(e.message);
+    process.exit(1);
+  }
+
+  outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
+  appBuild = paths.resolveApp(outputPath);
+  config = applyWebpackConfig(
+    require('./config/webpack.config.prod')(argv, appBuild, rcConfig, paths),
+    process.env.NODE_ENV,
+  );
+
+  return new Promise((resolve) => {
+    // First, read the current file sizes in build directory.
+    // This lets us display how much they changed later.
+    recursive(appBuild, (err, fileNames) => {
+      const previousSizeMap = (fileNames || [])
+        .filter(fileName => /\.(js|css)$/.test(fileName))
+        .reduce((memo, fileName) => {
+          const contents = fs.readFileSync(fileName);
+          const key = removeFileNameHash(fileName);
+          memo[key] = gzipSize(contents);
+          return memo;
+        }, {});
+
+      // Remove all content but keep the directory so that
+      // if you're in it, you don't end up in Trash
+      fs.emptyDirSync(appBuild);
+
+      // Start the webpack build
+      realBuild(previousSizeMap, resolve, argv);
+    });
+  });
+}
 
 // Input: /User/dan/app/build/static/js/main.82be8.js
 // Output: /static/js/main.js
@@ -72,9 +101,9 @@ function getDifferenceLabel(currentSize, previousSize) {
   const difference = currentSize - previousSize;
   const fileSize = !Number.isNaN(difference) ? filesize(difference) : 0;
   if (difference >= FIFTY_KILOBYTES) {
-    return chalk.red('+' + fileSize);
+    return chalk.red(`+${fileSize}`);
   } else if (difference < FIFTY_KILOBYTES && difference > 0) {
-    return chalk.yellow('+' + fileSize);
+    return chalk.yellow(`+${fileSize}`);
   } else if (difference < 0) {
     return chalk.green(fileSize);
   } else {
@@ -82,47 +111,28 @@ function getDifferenceLabel(currentSize, previousSize) {
   }
 }
 
-// First, read the current file sizes in build directory.
-// This lets us display how much they changed later.
-recursive(appBuild, (err, fileNames) => {
-  const previousSizeMap = (fileNames || [])
-    .filter(fileName => /\.(js|css)$/.test(fileName))
-    .reduce((memo, fileName) => {
-      const contents = fs.readFileSync(fileName);
-      const key = removeFileNameHash(fileName);
-      memo[key] = gzipSize(contents);
-      return memo;
-    }, {});
-
-  // Remove all content but keep the directory so that
-  // if you're in it, you don't end up in Trash
-  fs.emptyDirSync(appBuild);
-
-  // Start the webpack build
-  build(previousSizeMap);
-});
-
 // Print a detailed summary of build files.
 function printFileSizes(stats, previousSizeMap) {
   const assets = stats.toJson().assets
     .filter(asset => /\.(js|css)$/.test(asset.name))
-    .map(asset => {
-      const fileContents = fs.readFileSync(appBuild + '/' + asset.name);
+    .map((asset) => {
+      const fileContents = fs.readFileSync(`${appBuild}/${asset.name}`);
       const size = gzipSize(fileContents);
       const previousSize = previousSizeMap[removeFileNameHash(asset.name)];
       const difference = getDifferenceLabel(size, previousSize);
       return {
         folder: path.join(outputPath, path.dirname(asset.name)),
         name: path.basename(asset.name),
-        size: size,
-        sizeLabel: filesize(size) + (difference ? ' (' + difference + ')' : '')
+        size,
+        sizeLabel: filesize(size) + (difference ? ` (${difference})` : ''),
       };
     });
   assets.sort((a, b) => b.size - a.size);
-  const longestSizeLabelLength = Math.max.apply(null,
-    assets.map(a => stripAnsi(a.sizeLabel).length)
+  const longestSizeLabelLength = Math.max.apply(
+    null,
+    assets.map(a => stripAnsi(a.sizeLabel).length),
   );
-  assets.forEach(asset => {
+  assets.forEach((asset) => {
     let sizeLabel = asset.sizeLabel;
     const sizeLength = stripAnsi(sizeLabel).length;
     if (sizeLength < longestSizeLabelLength) {
@@ -130,8 +140,7 @@ function printFileSizes(stats, previousSizeMap) {
       sizeLabel += rightPadding;
     }
     console.log(
-      '  ' + sizeLabel +
-      '  ' + chalk.dim(asset.folder + path.sep) + chalk.cyan(asset.name)
+      `  ${sizeLabel}  ${chalk.dim(asset.folder + path.sep)}${chalk.cyan(asset.name)}`,
     );
   });
 }
@@ -140,13 +149,13 @@ function printFileSizes(stats, previousSizeMap) {
 function printErrors(summary, errors) {
   console.log(chalk.red(summary));
   console.log();
-  errors.forEach(err => {
+  errors.forEach((err) => {
     console.log(err.message || err);
     console.log();
   });
 }
 
-function doneHandler(previousSizeMap, err, stats) {
+function doneHandler(previousSizeMap, argv, resolve, err, stats) {
   if (err) {
     printErrors('Failed to compile.', [err]);
     process.exit(1);
@@ -157,7 +166,7 @@ function doneHandler(previousSizeMap, err, stats) {
     process.exit(1);
   }
 
-  applyWebpackConfig.warnIfExists();
+  warnIfExists();
 
   console.log(chalk.green('Compiled successfully.'));
   console.log();
@@ -171,10 +180,12 @@ function doneHandler(previousSizeMap, err, stats) {
     console.log(`Analyze result is generated at ${chalk.cyan('dist/stats.html')}.`);
     console.log();
   }
+
+  resolve();
 }
 
 // Create the production build and print the deployment instructions.
-function build(previousSizeMap) {
+function realBuild(previousSizeMap, resolve, argv) {
   if (argv.debug) {
     console.log('Creating an development build without compress...');
   } else {
@@ -182,10 +193,15 @@ function build(previousSizeMap) {
   }
 
   const compiler = webpack(config);
-  const done = doneHandler.bind(null, previousSizeMap);
+  const done = doneHandler.bind(null, previousSizeMap, argv, resolve);
   if (argv.watch) {
     compiler.watch(200, done);
   } else {
     compiler.run(done);
   }
+}
+
+// Run.
+if (require.main === module) {
+  build({ ...argv, cwd: process.cwd() });
 }

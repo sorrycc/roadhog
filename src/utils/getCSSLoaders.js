@@ -1,8 +1,5 @@
-const getConfig = require('./getConfig');
 
-module.exports = function() {
-  const config = getConfig();
-
+export default function getCSSLoaders(config) {
   const own = [];
   const nodeModules = [];
 
@@ -17,7 +14,7 @@ module.exports = function() {
   nodeModules.push('postcss');
 
   return {
-    own: own,
-    nodeModules: nodeModules,
+    own,
+    nodeModules,
   };
-};
+}
