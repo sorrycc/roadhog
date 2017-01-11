@@ -74,6 +74,10 @@ $ roadhog test
 
 没有捕获，在浏览器的控制台查看。
 
+#### .roadhogrc.mock.js 解析错误
+
+<img src="https://zos.alipayobjects.com/rmsportal/awkFmHoxLWdRgbTlCzDF.png" width="745" height="551" />
+
 ### HMR (热替换)
 
 CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，所以只要保证 JavaScript 的热更新，即可实现 CSS 的热更新。
@@ -106,8 +110,6 @@ export default {
   'POST /api/users/create': (req, res) => { res.end('OK'); },
 };
 ```
-
-<img src="https://zos.alipayobjects.com/rmsportal/awkFmHoxLWdRgbTlCzDF.png" width="745" height="551" />
 
 ### 智能重启
 
