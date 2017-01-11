@@ -65,6 +65,7 @@ Default configuration:
   "publicPath": "/",
   "outputPath": "./dist",
   "extraBabelPlugins": [],
+  "extraPostCSSPlugins": [],
   "autoprefixer": null,
   "proxy": null,
   "externals": null,
@@ -106,6 +107,23 @@ Specify [output path](http://webpack.github.io/docs/configuration.html#output-pa
 ### extraBabelPlugins
 
 Specify extra babel plugins. Babel plugins can only be added, not allowed to overwrite and delete.
+
+### extraPostCSSPlugins
+
+Speficy extra postcss plugins.
+
+Notice: Since postcss's plugin is configured as function, this config should only be used in `.roadhogrc.js`.
+
+e.g.
+
+```
+extraPostCSSPlugins: [
+  pxtorem({
+    rootValue: 100,
+    propWhiteList: [],
+  }),
+],
+```
 
 ### autoprefixer
 

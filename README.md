@@ -76,7 +76,7 @@ $ roadhog test
 
 ### HMR (热替换)
 
-CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，所以只要保证 JavaScript 的热更新，就可实现 CSS 的热更新。
+CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，所以只要保证 JavaScript 的热更新，即可实现 CSS 的热更新。
 
 如果大家使用 [dva](https://github.com/dvajs/dva) ，配上 [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr) 即可实现 routes 和 components 以及相关 CSS 修改的热更新，其他修改会自动刷新页面。
 
@@ -87,6 +87,36 @@ CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，
   }
 }
 ```
+
+### Mock
+
+roadhog server 支持 mock 功能，类似 [dora-plugin-proxy](https://github.com/dora-js/dora-plugin-proxy)，在 `.roadhogrc.mock.js` 中进行配置，支持基于 require 动态分析的实时刷新，支持 ES6 语法，以及友好的出错提示。
+
+比如：
+
+```js
+export default {
+  // 支持值为 Object 和 Array
+  'GET /api/users': { users: [1,2] },
+
+  // GET POST 可省略
+  '/api/users/1': { id: 1 },
+
+  // 支持自定义函数，API 参考 express@4
+  'POST /api/users/create': (req, res) => { res.end('OK'); },
+};
+```
+
+<img src="https://zos.alipayobjects.com/rmsportal/awkFmHoxLWdRgbTlCzDF.png" width="745" height="551" />
+
+### 智能重启
+
+配置文件修改的修改会触发 roadhog server 的自动重启，会触发重启的文件有：
+
+* `.roadhogrc`
+* `.roadhogrc.js`
+* `.roadhogrc.mock.js`
+* theme 配置指定的文件
 
 ## 配置
 
@@ -106,6 +136,7 @@ CSS 在开发模式下会走 style-loader (被内嵌在 JavaScript 文件中)，
   "publicPath": "/",
   "outputPath": "./dist",
   "extraBabelPlugins": [],
+  "extraPostCSSPlugins": [],
   "autoprefixer": null,
   "proxy": null,
   "externals": null,
@@ -162,6 +193,23 @@ $ npm i babel-runtime --save
 ```
 
 注意：这么配还有个问题，`dva-hmr` 是开发环境的插件，如果 build 时也用上就会打出冗余代码。解决方案详见 [#env](#env)。
+
+### extraPostCSSPlugins
+
+配置额外的 postcss 插件。
+
+注意：由于 postcss 的插件是以函数的方式进行配置的，所以这个配置只能在 `.roadhogrc.js` 里使用。
+
+比如：
+
+```
+extraPostCSSPlugins: [
+  pxtorem({
+    rootValue: 100,
+    propWhiteList: [],
+  }),
+],
+```
 
 ### autoprefixer
 
