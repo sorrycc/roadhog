@@ -24,7 +24,7 @@ function testBuild(cwd, done) {
   });
 }
 
-describe.only('build', () => {
+describe('build', () => {
   const buildPath = join(__dirname, '../fixtures/build');
   const dirs = readdirSync(buildPath);
 
