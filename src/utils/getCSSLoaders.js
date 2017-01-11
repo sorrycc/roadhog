@@ -1,8 +1,5 @@
-import getConfig from './getConfig';
 
-export default function getCSSLoaders() {
-  const config = getConfig();
-
+export default function getCSSLoaders(config) {
   const own = [];
   const nodeModules = [];
 

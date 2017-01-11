@@ -7,22 +7,20 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import paths from './paths';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
-import getConfig from '../utils/getConfig';
 import getCSSLoaders from '../utils/getCSSLoaders';
 import normalizeDefine from '../utils/normalizeDefine';
 
-const config = getConfig();
-const publicPath = config.publicPath || '/';
-const cssLoaders = getCSSLoaders();
-const theme = JSON.stringify(getTheme());
-
-export default function (args, appBuild) {
+export default function (args, appBuild, config) {
   const { debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
+  const publicPath = config.publicPath || '/';
+  const cssLoaders = getCSSLoaders();
+  const theme = JSON.stringify(getTheme(process.cwd(), config));
+
   return {
     bail: true,
-    entry: getEntry(),
+    entry: getEntry(config),
     output: {
       path: appBuild,
       filename: '[name].js',

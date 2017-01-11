@@ -52,7 +52,7 @@ const argv = require('yargs')
 const outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
 const appBuild = paths.resolveApp(outputPath);
 const config = applyWebpackConfig(
-  require('./config/webpack.config.prod')(argv, appBuild),
+  require('./config/webpack.config.prod')(argv, appBuild, rcConfig),
   process.env.NODE_ENV,
 );
 

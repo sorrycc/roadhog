@@ -1,13 +1,10 @@
 import { resolve } from 'path';
-import getConfig from './getConfig';
 
-export default function getTheme(cwd) {
-  cwd = cwd || process.cwd();
-  const theme = getConfig().theme;
-
+export default function getTheme(cwd = process.cwd(), { theme }) {
   if (theme) {
     if (typeof theme === 'string') {
-      const themeConfig = require(resolve(cwd, theme));  // eslint-disable-line
+      const themeFile = resolve(cwd, theme);
+      const themeConfig = require(themeFile);  // eslint-disable-line
       return typeof themeConfig === 'function' ? themeConfig() : themeConfig;
     } else {
       return theme;

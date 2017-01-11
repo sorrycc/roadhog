@@ -2,7 +2,6 @@ import { basename, sep } from 'path';
 import assert from 'assert';
 import glob from 'glob';
 import paths from '../config/paths';
-import getConfig from './getConfig';
 
 const DEFAULT_ENTRY = './src/index.js';
 
@@ -44,8 +43,8 @@ export function getEntries(files, isProduction) {
   }, {});
 }
 
-export default function () {
-  const entry = getConfig().entry;
+export default function (config) {
+  const entry = config.entry;
   const isProduction = process.env.NODE_ENV === 'production';
   const files = entry ? getFiles(entry, paths.appDirectory) : [DEFAULT_ENTRY];
   return getEntries(files, isProduction);
