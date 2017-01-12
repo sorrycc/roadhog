@@ -5,7 +5,7 @@ import { fork } from 'child_process';
 function start() {
   const p = fork(`${__dirname}/server`, process.argv.slice(2));
   p.on('message', (data) => {
-    if (data === 'restart') {
+    if (data === 'RESTART') {
       p.kill('SIGINT');
       start();
     }

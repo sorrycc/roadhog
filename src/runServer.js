@@ -35,6 +35,12 @@ const argv = require('yargs')
 let rcConfig;
 let config;
 
+function clearConsoleWrapped() {
+  if (process.env.CLEAR_CONSOLE !== 'NONE') {
+    clearConsole();
+  }
+}
+
 function readRcConfig() {
   try {
     rcConfig = getConfig(process.env.NODE_ENV, cwd);
@@ -59,7 +65,7 @@ function setupCompiler(host, port, protocol) {
 
   compiler.plugin('invalid', () => {
     if (isInteractive) {
-      clearConsole();
+      clearConsoleWrapped();
     }
     console.log('Compiling...');
   });
@@ -67,7 +73,7 @@ function setupCompiler(host, port, protocol) {
   let isFirstCompile = true;
   compiler.plugin('done', (stats) => {
     if (isInteractive) {
-      clearConsole();
+      clearConsoleWrapped();
     }
 
     const messages = formatWebpackMessages(stats.toJson({}, true));
@@ -158,8 +164,10 @@ function runDevServer(host, port, protocol) {
       return console.log(err);
     }
 
+    process.send('READY');
+
     if (isInteractive) {
-      clearConsole();
+      clearConsoleWrapped();
     }
     console.log(chalk.cyan('Starting the development server...'));
     console.log();
@@ -190,7 +198,7 @@ function setupWatch(devServer) {
     console.log(chalk.green(`File ${path.replace(paths.appDirectory, '.')} changed, try to restart server`));
     watcher.close();
     devServer.close();
-    process.send('restart');
+    process.send('RESTART');
   });
 }
 
@@ -211,7 +219,7 @@ function init() {
     }
 
     if (isInteractive) {
-      clearConsole();
+      clearConsoleWrapped();
       const existingProcess = getProcessForPort(DEFAULT_PORT);
       const question =
         chalk.yellow(`Something is already running on port ${DEFAULT_PORT}.${((existingProcess) ? ` Probably:\n  ${existingProcess}` : '')}\n\nWould you like to run the app on another port instead?`);
