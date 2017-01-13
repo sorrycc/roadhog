@@ -25,6 +25,11 @@ export function getConfig(filePath) {
     require.extensions['.js'] = realRequire;
 
     return { config, files };
+  } else {
+    return {
+      config: {},
+      files: [resolvedFilePath],
+    };
   }
 }
 
