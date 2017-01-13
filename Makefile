@@ -1,6 +1,6 @@
 
 build:
-  npm run build
+	npm run build
 
 publish: build
 	npm publish
