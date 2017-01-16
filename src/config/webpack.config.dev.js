@@ -26,15 +26,8 @@ export default function (config, cwd) {
       pathinfo: true,
       publicPath,
     },
-    resolve: {
-      extensions: [
-        '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
-        '.js', '.json', '.jsx', '.ts', 'tsx', '',
-      ],
-    },
     resolveLoader: {
-      root: paths.ownNodeModules,
-      moduleTemplates: ['*-loader'],
+      moduleExtensions: ['-loader'],
     },
     module: {
       loaders: [
@@ -82,10 +75,6 @@ export default function (config, cwd) {
           loader: 'file?name=[name].[ext]',
         },
         {
-          test: /\.json$/,
-          loader: 'json',
-        },
-        {
           test: /\.svg$/,
           loader: 'file',
           query: {
@@ -94,36 +83,40 @@ export default function (config, cwd) {
         },
       ],
     },
-    babel: {
-      babelrc: false,
-      presets: [
-        require.resolve('babel-preset-es2015'),
-        require.resolve('babel-preset-react'),
-        require.resolve('babel-preset-stage-0'),
-      ],
-      plugins: [
-        require.resolve('babel-plugin-add-module-exports'),
-        require.resolve('babel-plugin-react-require'),
-      ].concat(config.extraBabelPlugins || []),
-      cacheDirectory: true,
-    },
-    postcss() {
-      return [
-        autoprefixer(config.autoprefixer || {
-          browsers: [
-            '>1%',
-            'last 4 versions',
-            'Firefox ESR',
-            'not ie < 9', // React doesn't support IE8 anyway
-          ],
-        }),
-      ]
-        .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
-    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        },
+      }),
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          babel: {
+            babelrc: false,
+            presets: [
+              [require.resolve('babel-preset-es2015'), { modules: false }],
+              require.resolve('babel-preset-react'),
+              require.resolve('babel-preset-stage-0'),
+            ],
+            plugins: [
+              require.resolve('babel-plugin-add-module-exports'),
+              require.resolve('babel-plugin-react-require'),
+            ].concat(config.extraBabelPlugins || []),
+            cacheDirectory: true,
+          },
+          postcss() {
+            return [
+              autoprefixer(config.autoprefixer || {
+                browsers: [
+                  '>1%',
+                  'last 4 versions',
+                  'Firefox ESR',
+                  'not ie < 9', // React doesn't support IE8 anyway
+                ],
+              }),
+            ]
+              .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
+          },
         },
       }),
       new webpack.HotModuleReplacementPlugin(),

@@ -25,15 +25,8 @@ export default function (args, appBuild, config, paths) {
       filename: '[name].js',
       publicPath,
     },
-    resolve: {
-      extensions: [
-        '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
-        '.js', '.json', '.jsx', '.ts', 'tsx', '',
-      ],
-    },
     resolveLoader: {
-      root: paths.ownNodeModules,
-      moduleTemplates: ['*-loader'],
+      moduleExtensions: ['-loader'],
     },
     module: {
       loaders: [
@@ -59,42 +52,38 @@ export default function (args, appBuild, config, paths) {
         {
           test: /\.css$/,
           include: paths.appSrc,
-          loader: ExtractTextPlugin.extract(
-            'style',
-            cssLoaders.own.join('!'),
-          ),
+          loader: ExtractTextPlugin.extract({
+            fallbackLoader: 'style',
+            loader: cssLoaders.own.join('!'),
+          }),
         },
         {
           test: /\.less$/,
           include: paths.appSrc,
-          loader: ExtractTextPlugin.extract(
-            'style',
-            `${cssLoaders.own.join('!')}!less?{"modifyVars":${theme}}`,
-          ),
+          loader: ExtractTextPlugin.extract({
+            fallbackLoader: 'style',
+            loader: `${cssLoaders.own.join('!')}!less?{"modifyVars":${theme}}`,
+          }),
         },
         {
           test: /\.css$/,
           include: paths.appNodeModules,
-          loader: ExtractTextPlugin.extract(
-            'style',
-            cssLoaders.nodeModules.join('!'),
-          ),
+          loader: ExtractTextPlugin.extract({
+            fallbackLoader: 'style',
+            loader: cssLoaders.nodeModules.join('!'),
+          }),
         },
         {
           test: /\.less$/,
           include: paths.appNodeModules,
-          loader: ExtractTextPlugin.extract(
-            'style',
-            `${cssLoaders.nodeModules.join('!')}!less?{"modifyVars":${theme}}`,
-          ),
+          loader: ExtractTextPlugin.extract({
+            fallbackLoader: 'style',
+            loader: `${cssLoaders.nodeModules.join('!')}!less?{"modifyVars":${theme}}`,
+          }),
         },
         {
           test: /\.html$/,
           loader: 'file?name=[name].[ext]',
-        },
-        {
-          test: /\.json$/,
-          loader: 'json',
         },
         {
           test: /\.svg$/,
@@ -105,38 +94,41 @@ export default function (args, appBuild, config, paths) {
         },
       ],
     },
-    babel: {
-      presets: [
-        require.resolve('babel-preset-es2015'),
-        require.resolve('babel-preset-react'),
-        require.resolve('babel-preset-stage-0'),
-      ],
-      plugins: [
-        require.resolve('babel-plugin-add-module-exports'),
-        require.resolve('babel-plugin-react-require'),
-      ].concat(config.extraBabelPlugins || []),
-      cacheDirectory: true,
-    },
-    postcss() {
-      return [
-        autoprefixer(config.autoprefixer || {
-          browsers: [
-            '>1%',
-            'last 4 versions',
-            'Firefox ESR',
-            'not ie < 9', // React doesn't support IE8 anyway
-          ],
-        }),
-      ]
-        .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
-    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify(NODE_ENV),
         },
       }),
-      new webpack.optimize.OccurrenceOrderPlugin(),
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          babel: {
+            presets: [
+              require.resolve('babel-preset-es2015'),
+              require.resolve('babel-preset-react'),
+              require.resolve('babel-preset-stage-0'),
+            ],
+            plugins: [
+              require.resolve('babel-plugin-add-module-exports'),
+              require.resolve('babel-plugin-react-require'),
+            ].concat(config.extraBabelPlugins || []),
+            cacheDirectory: true,
+          },
+          postcss() {
+            return [
+              autoprefixer(config.autoprefixer || {
+                browsers: [
+                  '>1%',
+                  'last 4 versions',
+                  'Firefox ESR',
+                  'not ie < 9', // React doesn't support IE8 anyway
+                ],
+              }),
+            ]
+              .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
+          },
+        },
+      }),
       new webpack.optimize.DedupePlugin(),
       new ExtractTextPlugin('[name].css'),
     ]
