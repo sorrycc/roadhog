@@ -19,12 +19,12 @@ export default function (config, cwd) {
 
   let hasTsLoader = true;
   try {
-    require("awesome-typescript-loader");
+    require('awesome-typescript-loader');
   } catch (e) {
     hasTsLoader = false;
   }
 
-  let val = {
+  const val = {
     devtool: 'cheap-module-source-map',
     entry: getEntry(config, paths.appDirectory),
     output: {
@@ -165,10 +165,10 @@ export default function (config, cwd) {
 
   if (hasTsLoader) {
     val.module.loaders.push({
-          test: /\.tsx?$/,
-          include: paths.appSrc,
-          loader: 'babel!awesome-typescript',
-        })
+      test: /\.tsx?$/,
+      include: paths.appSrc,
+      loader: 'babel!awesome-typescript',
+    });
   }
 
   return val;

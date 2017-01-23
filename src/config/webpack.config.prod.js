@@ -19,12 +19,12 @@ export default function (args, appBuild, config, paths) {
 
   let hasTsLoader = true;
   try {
-    require("awesome-typescript-loader");
+    require('awesome-typescript-loader');
   } catch (e) {
     hasTsLoader = false;
   }
 
-  let val = {
+  const val = {
     bail: true,
     entry: getEntry(config, paths.appDirectory),
     output: {
@@ -195,10 +195,10 @@ export default function (args, appBuild, config, paths) {
 
   if (hasTsLoader) {
     val.module.loaders.push({
-          test: /\.tsx?$/,
-          include: paths.appSrc,
-          loader: 'babel!awesome-typescript',
-        })
+      test: /\.tsx?$/,
+      include: paths.appSrc,
+      loader: 'babel!awesome-typescript',
+    });
   }
 
   return val;
