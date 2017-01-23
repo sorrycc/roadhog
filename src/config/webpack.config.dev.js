@@ -33,7 +33,10 @@ export default function (config, cwd) {
       ],
     },
     resolveLoader: {
-      root: paths.ownNodeModules,
+      root: [
+        paths.ownNodeModules,
+        paths.appNodeModules,
+      ],
       moduleTemplates: ['*-loader'],
     },
     module: {
