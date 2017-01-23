@@ -17,14 +17,7 @@ export default function (config, cwd) {
   const theme = JSON.stringify(getTheme(process.cwd(), config));
   const paths = getPaths(cwd);
 
-  let hasTsLoader = true;
-  try {
-    require('awesome-typescript-loader');
-  } catch (e) {
-    hasTsLoader = false;
-  }
-
-  const val = {
+  return {
     devtool: 'cheap-module-source-map',
     entry: getEntry(config, paths.appDirectory),
     output: {
@@ -55,7 +48,8 @@ export default function (config, cwd) {
             /\.(css|less)$/,
             /\.json$/,
             /\.svg$/,
-          ].concat(hasTsLoader ? /\.tsx?$/ : []),
+            /\.tsx?$/,
+          ],
           loader: 'url',
           query: {
             limit: 10000,
@@ -101,6 +95,11 @@ export default function (config, cwd) {
           query: {
             name: 'static/[name].[hash:8].[ext]',
           },
+        },
+        {
+          test: /\.tsx?$/,
+          include: paths.appSrc,
+          loader: 'babel!awesome-typescript',
         },
       ],
     },
@@ -162,14 +161,4 @@ export default function (config, cwd) {
       tls: 'empty',
     },
   };
-
-  if (hasTsLoader) {
-    val.module.loaders.push({
-      test: /\.tsx?$/,
-      include: paths.appSrc,
-      loader: 'babel!awesome-typescript',
-    });
-  }
-
-  return val;
 }
