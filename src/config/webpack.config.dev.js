@@ -17,7 +17,14 @@ export default function (config, cwd) {
   const theme = JSON.stringify(getTheme(process.cwd(), config));
   const paths = getPaths(cwd);
 
-  return {
+  let hasTsLoader = true;
+  try {
+    require("awesome-typescript-loader");
+  } catch (e) {
+    hasTsLoader = false;
+  }
+
+  let val = {
     devtool: 'cheap-module-source-map',
     entry: getEntry(config, paths.appDirectory),
     output: {
@@ -29,12 +36,12 @@ export default function (config, cwd) {
     resolve: {
       extensions: [
         '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
-        '.js', '.json', '.jsx', '.ts', 'tsx', '',
+        '.js', '.json', '.jsx', '.ts', '.tsx', '',
       ],
     },
     resolveLoader: {
       root: paths.ownNodeModules,
-      moduleTemplates: ['*-loader'],
+      moduleTemplates: ["*-webpack-loader", "*-web-loader", "*-loader", "*"],
     },
     module: {
       loaders: [
@@ -45,7 +52,7 @@ export default function (config, cwd) {
             /\.(css|less)$/,
             /\.json$/,
             /\.svg$/,
-          ],
+          ].concat(hasTsLoader ? /\.tsx?$/ : []),
           loader: 'url',
           query: {
             limit: 10000,
@@ -152,4 +159,14 @@ export default function (config, cwd) {
       tls: 'empty',
     },
   };
+
+  if (hasTsLoader) {
+    val.module.loaders.push({
+          test: /\.tsx?$/,
+          include: paths.appSrc,
+          loader: 'babel!awesome-typescript',
+        })
+  }
+
+  return val;
 }
