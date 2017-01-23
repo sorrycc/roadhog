@@ -32,7 +32,10 @@ export default function (args, appBuild, config, paths) {
       ],
     },
     resolveLoader: {
-      root: paths.ownNodeModules,
+      root: [
+        paths.ownNodeModules,
+        paths.appNodeModules,
+      ],
       moduleTemplates: ['*-loader'],
     },
     module: {
