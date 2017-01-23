@@ -40,8 +40,11 @@ export default function (config, cwd) {
       ],
     },
     resolveLoader: {
-      root: paths.ownNodeModules,
-      moduleTemplates: ["*-webpack-loader", "*-web-loader", "*-loader", "*"],
+      root: [
+        paths.ownNodeModules,
+        paths.appNodeModules,
+      ],
+      moduleTemplates: ['*-loader'],
     },
     module: {
       loaders: [
