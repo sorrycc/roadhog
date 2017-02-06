@@ -28,7 +28,7 @@ export default function (args, appBuild, config, paths) {
     resolve: {
       extensions: [
         '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
-        '.js', '.json', '.jsx', '.ts', 'tsx', '',
+        '.js', '.json', '.jsx', '.ts', '.tsx', '',
       ],
     },
     resolveLoader: {
@@ -47,6 +47,7 @@ export default function (args, appBuild, config, paths) {
             /\.(css|less)$/,
             /\.json$/,
             /\.svg$/,
+            /\.tsx?$/,
           ],
           loader: 'url',
           query: {
@@ -105,6 +106,11 @@ export default function (args, appBuild, config, paths) {
           query: {
             name: 'static/[name].[hash:8].[ext]',
           },
+        },
+        {
+          test: /\.tsx?$/,
+          include: paths.appSrc,
+          loader: 'babel!awesome-typescript',
         },
       ],
     },

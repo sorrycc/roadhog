@@ -46,6 +46,7 @@
   "dependencies": {
     "atool-monitor": "^0.3.4",
     "autoprefixer": "^6.5.4",
+    "awesome-typescript-loader": "^3.0.0-beta.18",
     "babel-core": "^6.20.0",
     "babel-loader": "^6.2.9",
     "babel-plugin-add-module-exports": "^0.2.1",
@@ -86,6 +87,7 @@
     "strip-json-comments": "^2.0.1",
     "style-loader": "^0.13.1",
     "system-bell-webpack-plugin": "^1.0.0",
+    "typescript": "^2.1.5",
     "url-loader": "^0.5.7",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2",
