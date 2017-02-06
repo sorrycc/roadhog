@@ -183,7 +183,7 @@ export default {
 "extraBabelPlugins": [
   "transform-runtime",
   "dva-hmr",
-  ["import", { "libraryName": "antd", "libarayDirectory": "lib", "style": "css" }]
+  ["import", { "libraryName": "antd", "libraryDirectory": "lib", "style": "css" }]
 ]
 ```
 
