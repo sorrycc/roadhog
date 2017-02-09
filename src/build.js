@@ -16,7 +16,7 @@ const argv = require('yargs')
   .usage('Usage: roadhog build [options]')
   .option('debug', {
     type: 'boolean',
-    describe: 'Build with compress',
+    describe: 'Build without compress',
     default: false,
   })
   .option('watch', {
