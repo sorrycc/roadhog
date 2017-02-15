@@ -161,6 +161,7 @@ export default function (args, appBuild, config, paths) {
           output: {
             comments: false,
             screw_ie8: true,
+            ascii_only: true,
           },
         }),
       )
