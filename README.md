@@ -183,7 +183,7 @@ export default {
 "extraBabelPlugins": [
   "transform-runtime",
   "dva-hmr",
-  ["import", { "libraryName": "antd", "libarayDirectory": "lib", "style": "css" }]
+  ["import", { "libraryName": "antd", "libraryDirectory": "lib", "style": "css" }]
 ]
 ```
 
@@ -334,7 +334,7 @@ $ roadhog build -h
 Usage: roadhog build [options]
 
 Options:
-  --debug            Build with compress              [boolean] [default: false]
+  --debug            Build without compress           [boolean] [default: false]
   --watch, -w        Watch file changes and rebuild   [boolean] [default: false]
   --output-path, -o  Specify output path                [string] [default: null]
   --analyze          Visualize and analyze your Webpack bundle.
