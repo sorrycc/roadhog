@@ -9,6 +9,19 @@ import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
 import normalizeDefine from '../utils/normalizeDefine';
 
+const baseSvgLoader = {
+  test: /\.svg$/,
+  loader: 'file',
+  query: {
+    name: 'static/[name].[hash:8].[ext]',
+  },
+};
+
+const spriteSvgLoader = {
+  test: /\.(svg)$/i,
+  loader: 'svg-sprite',
+};
+
 export default function (args, appBuild, config, paths) {
   const { debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
@@ -17,7 +30,7 @@ export default function (args, appBuild, config, paths) {
   const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
 
-  return {
+  const finalWebpackConfig = {
     bail: true,
     entry: getEntry(config, paths.appDirectory),
     output: {
@@ -99,13 +112,6 @@ export default function (args, appBuild, config, paths) {
         {
           test: /\.json$/,
           loader: 'json',
-        },
-        {
-          test: /\.svg$/,
-          loader: 'file',
-          query: {
-            name: 'static/[name].[hash:8].[ext]',
-          },
         },
         {
           test: /\.tsx?$/,
@@ -192,4 +198,16 @@ export default function (args, appBuild, config, paths) {
       tls: 'empty',
     },
   };
+
+  if (config.svgSpriteLoaderDirs) {
+    baseSvgLoader.exclude = config.svgSpriteLoaderDirs;
+    spriteSvgLoader.include = config.svgSpriteLoaderDirs;
+    finalWebpackConfig.module.loaders = finalWebpackConfig.module.loaders.concat([
+      baseSvgLoader,
+      spriteSvgLoader,
+    ]);
+  } else {
+    finalWebpackConfig.module.loaders.push(baseSvgLoader);
+  }
+  return finalWebpackConfig;
 }

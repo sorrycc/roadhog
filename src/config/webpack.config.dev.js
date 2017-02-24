@@ -11,13 +11,26 @@ import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
 import normalizeDefine from '../utils/normalizeDefine';
 
+const baseSvgLoader = {
+  test: /\.svg$/,
+  loader: 'file',
+  query: {
+    name: 'static/[name].[hash:8].[ext]',
+  },
+};
+
+const spriteSvgLoader = {
+  test: /\.(svg)$/i,
+  loader: 'svg-sprite',
+};
+
 export default function (config, cwd) {
   const publicPath = '/';
   const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
   const paths = getPaths(cwd);
 
-  return {
+  const finalWebpackConfig = {
     devtool: 'cheap-module-source-map',
     entry: getEntry(config, paths.appDirectory),
     output: {
@@ -90,13 +103,6 @@ export default function (config, cwd) {
           loader: 'json',
         },
         {
-          test: /\.svg$/,
-          loader: 'file',
-          query: {
-            name: 'static/[name].[hash:8].[ext]',
-          },
-        },
-        {
           test: /\.tsx?$/,
           include: paths.appSrc,
           loader: 'babel!awesome-typescript',
@@ -161,4 +167,16 @@ export default function (config, cwd) {
       tls: 'empty',
     },
   };
+
+  if (config.svgSpriteLoaderDirs) {
+    baseSvgLoader.exclude = config.svgSpriteLoaderDirs;
+    spriteSvgLoader.include = config.svgSpriteLoaderDirs;
+    finalWebpackConfig.module.loaders = finalWebpackConfig.module.loaders.concat([
+      baseSvgLoader,
+      spriteSvgLoader,
+    ]);
+  } else {
+    finalWebpackConfig.module.loaders.push(baseSvgLoader);
+  }
+  return finalWebpackConfig;
 }

@@ -296,6 +296,29 @@ extraPostCSSPlugins: [
 
 这里有 [如何配置 antd theme 的例子](https://github.com/dvajs/dva-example-user-dashboard/commit/d6da33b3a6e18eb7f003752a4b00b5a660747c31) 。
 
+### svgSpriteLoaderDirs
+
+配置一个路径数组, 该路径下的 svg 文件会全部交给 [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader) 处理
+
+比如，使用 antd-mobile 的 [自定义 svg icon](https://mobile.ant.design/components/icon) 功能的用户，可以在 `.roadhogrc.js` 文件中做如下配置
+
+```js
+// npm i antd-mobile -S
+const path = require('path');
+const svgSpriteDirs = [
+  require.resolve('antd-mobile').replace(/warn\.js$/, ''), // antd-mobile 内置svg
+  path.resolve(__dirname, 'src/my-project-svg-foler'),  // 业务代码本地私有 svg 存放目录
+];
+
+export default {
+  // ...
+  svgSpriteLoaderDirs: svgSpriteDirs,
+  //...
+}
+
+```
+
+
 ## 环境变量
 
 可环境变量临时配置一些参数，包括：
