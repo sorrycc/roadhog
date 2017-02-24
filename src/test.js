@@ -17,8 +17,7 @@ const argv = require('yargs')
 const compiler = join(__dirname, './test/compiler.js');
 const setup = join(__dirname, './test/setup.js');
 const mochaArgs = process.argv.slice(2).filter(item => item !== '--coverage').join(' ');
-const mochaPath = join(process.cwd(), './node_modules/.bin/_mocha');
-const mochaBin = fs.existsSync(mochaPath) ? mochaPath : join(__dirname, '../node_modules/.bin/_mocha');
+const mochaBin = require.resolve('mocha/bin/_mocha');
 const istanbul = join(require.resolve('istanbul'), '../lib/cli.js');
 const cmd = argv.coverage ?
   `node ${istanbul} cover ${mochaBin} -- --compilers .:${compiler} --require ${setup} ${mochaArgs}` :
