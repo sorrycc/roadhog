@@ -27,6 +27,7 @@
   "scripts": {
     "build": "rimraf lib && babel src --out-dir lib",
     "lint": "eslint --ext .js src",
+    "lint:f": "eslint --fix --ext .js src",
     "test": "npm run lint && npm run build && cross-env NODE_ENV=test nyc mocha --no-timeouts test/**/*-test.js",
     "debug": "cross-env NODE_ENV=test mocha --require babel-register --no-timeouts test/**/*-test.js",
     "report": "nyc report --reporter=html",

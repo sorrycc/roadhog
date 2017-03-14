@@ -7,7 +7,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
-import normalizeDefine from '../utils/normalizeDefine';
+import getDefineConfig from '../utils/normalizeDefine';
 
 const baseSvgLoader = {
   test: /\.svg$/,
@@ -146,11 +146,7 @@ export default function (args, appBuild, config, paths) {
         .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(NODE_ENV),
-        },
-      }),
+      new webpack.DefinePlugin(getDefineConfig(NODE_ENV, config.define)),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.optimize.DedupePlugin(),
       new ExtractTextPlugin('[name].css'),
@@ -186,10 +182,6 @@ export default function (args, appBuild, config, paths) {
       .concat(
         !config.multipage ? [] :
           new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
-      )
-      .concat(
-        !config.define ? [] :
-          new webpack.DefinePlugin(normalizeDefine(config.define)),
       ),
     externals: config.externals,
     node: {
