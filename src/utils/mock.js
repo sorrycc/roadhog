@@ -2,6 +2,9 @@ import fs from 'fs';
 import assert from 'assert';
 import chokidar from 'chokidar';
 import chalk from 'chalk';
+import proxy from 'express-http-proxy';
+import url from 'url';
+import { join } from 'path';
 import getPaths from '../config/paths';
 
 let error = null;
@@ -44,6 +47,17 @@ function createMockHandler(method, path, value) {
   };
 }
 
+function createProxy(method, target) {
+  return proxy(target, {
+    filter(req) {
+      return method ? req.method.toLowerCase() === method.toLowerCase() : true;
+    },
+    forwardPath(req) {
+      return join((url.parse(target).path), req.baseUrl);
+    },
+  });
+}
+
 export function applyMock(devServer) {
   const realRequire = require.extensions['.js'];
   try {
@@ -83,13 +97,22 @@ function realApplyMock(devServer) {
       `method of ${key} is not valid`,
     );
     assert(
-      typeof config[key] === 'function' || typeof config[key] === 'object',
-      `mock value of ${key} should be function or object, but got ${typeof config[key]}`,
+      typeof config[key] === 'function' ||
+      typeof config[key] === 'object' ||
+      typeof config[key] === 'string',
+      `mock value of ${key} should be function or object or string, but got ${typeof config[key]}`,
     );
-    app[keyParsed.method](
-      keyParsed.path,
-      createMockHandler(keyParsed.method, keyParsed.path, config[key]),
-    );
+    if (typeof config[key] === 'string') {
+      app.use(
+        keyParsed.path,
+        createProxy(keyParsed.method, config[key]),
+      );
+    } else {
+      app[keyParsed.method](
+        keyParsed.path,
+        createMockHandler(keyParsed.method, keyParsed.path, config[key]),
+      );
+    }
   });
 
   // 调整 stack，把 historyApiFallback 放到最后
