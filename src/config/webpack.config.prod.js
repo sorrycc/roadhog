@@ -179,7 +179,7 @@ export default function (args, appBuild, config, paths) {
           new CopyWebpackPlugin([
             {
               from: paths.appPublic,
-              to: paths.appBuild,
+              to: appBuild,
             },
           ]),
       )
