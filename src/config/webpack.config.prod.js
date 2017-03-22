@@ -4,6 +4,7 @@ import fs from 'fs';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import Visualizer from 'webpack-visualizer-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import getEnv from './env';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
@@ -146,11 +147,7 @@ export default function (args, appBuild, config, paths) {
         .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(NODE_ENV),
-        },
-      }),
+      new webpack.DefinePlugin(getEnv(paths.resolveApp, NODE_ENV)),
       new webpack.optimize.OccurrenceOrderPlugin(),
       new webpack.optimize.DedupePlugin(),
       new ExtractTextPlugin('[name].css'),
