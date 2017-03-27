@@ -25,8 +25,6 @@ if (((major * 10) + (minor * 1)) < 65) {
   process.exit(1);
 }
 
-require('atool-monitor').emit();
-
 var result; // eslint-disable-line
 
 switch (script) {
@@ -37,6 +35,7 @@ switch (script) {
   case 'build':
   case 'server':
   case 'test':
+    require('atool-monitor').emit();
     result = spawn.sync(
       'node',
       [require.resolve(`../lib/${script}`)].concat(args),
