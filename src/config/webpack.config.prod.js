@@ -32,7 +32,7 @@ export default function (args, appBuild, config, paths) {
 
   const finalWebpackConfig = {
     bail: true,
-    entry: getEntry(config, paths.appDirectory),
+    entry: getEntry(config, paths.appDirectory, /* isBuild */true),
     output: {
       path: appBuild,
       filename: '[name].js',
