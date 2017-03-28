@@ -47,13 +47,18 @@ function createMockHandler(method, path, value) {
   };
 }
 
-function createProxy(method, target) {
+function createProxy(method, path, target) {
   return proxy(target, {
     filter(req) {
       return method ? req.method.toLowerCase() === method.toLowerCase() : true;
     },
     forwardPath(req) {
-      return join((url.parse(target).path), req.baseUrl);
+      let matchPath = req.baseUrl;
+      const matches = matchPath.match(path);
+      if (matches.length > 1) {
+        matchPath = matches[1];
+      }
+      return join((url.parse(target).path), matchPath);
     },
   });
 }
@@ -103,9 +108,13 @@ function realApplyMock(devServer) {
       `mock value of ${key} should be function or object or string, but got ${typeof config[key]}`,
     );
     if (typeof config[key] === 'string') {
+      let path = keyParsed.path;
+      if (/\(.+\)/.test(keyParsed.path)) {
+        path = new RegExp(`^${keyParsed.path}$`);
+      }
       app.use(
-        keyParsed.path,
-        createProxy(keyParsed.method, config[key]),
+        path,
+        createProxy(keyParsed.method, path, config[key]),
       );
     } else {
       app[keyParsed.method](
