@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import proxy from 'express-http-proxy';
 import url from 'url';
 import { join } from 'path';
+import bodyParser from 'body-parser';
 import getPaths from '../config/paths';
 
 let error = null;
@@ -94,6 +95,11 @@ function realApplyMock(devServer) {
   const config = ret.config;
   const files = ret.files;
   const app = devServer.app;
+
+  devServer.use(bodyParser.json());
+  devServer.use(bodyParser.urlencoded({
+    extended: true,
+  }));
 
   Object.keys(config).forEach((key) => {
     const keyParsed = parseKey(key);
