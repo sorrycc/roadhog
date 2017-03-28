@@ -18,12 +18,14 @@ describe('server', () => {
           got('http://localhost:8000/b'),
           got('http://localhost:8000/tb-page/taobao-home/0.0.50/index.css'),
           got('http://localhost:8000/someDir/0.0.50/index.css'),
+          got.post('http://localhost:8000/c', { body: { a:'b' } }),
         ]).then((res) => {
           const data = res.map(item => item.body);
           expect(data[0]).toEqual('a');
           expect(data[1]).toEqual('{"data":"b"}');
           expect(data[2].indexOf('.iconfont,.tb-icon,body')).toEqual(0);
           expect(data[3].indexOf('.iconfont,.tb-icon,body')).toEqual(0);
+          expect(data[4]).toEqual('b');
           p.kill('SIGINT');
           done();
         });

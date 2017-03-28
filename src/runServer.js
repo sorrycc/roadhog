@@ -9,6 +9,7 @@ import historyApiFallback from 'connect-history-api-fallback';
 import WebpackDevServer from 'webpack-dev-server';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
+import bodyParser from 'body-parser';
 import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
@@ -130,6 +131,10 @@ function setupCompiler(host, port, protocol) {
 
 function addMiddleware(devServer) {
   const proxy = require(paths.appPackageJson).proxy;  // eslint-disable-line
+  devServer.use(bodyParser.json());
+  devServer.use(bodyParser.urlencoded({
+    extended: true
+  }));
   devServer.use(historyApiFallback({
     disableDotRule: true,
     htmlAcceptHeaders: proxy ?
