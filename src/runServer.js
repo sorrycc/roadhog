@@ -133,7 +133,7 @@ function addMiddleware(devServer) {
   const proxy = require(paths.appPackageJson).proxy;  // eslint-disable-line
   devServer.use(bodyParser.json());
   devServer.use(bodyParser.urlencoded({
-    extended: true
+    extended: true,
   }));
   devServer.use(historyApiFallback({
     disableDotRule: true,
