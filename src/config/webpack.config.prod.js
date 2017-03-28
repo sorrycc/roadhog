@@ -37,6 +37,7 @@ export default function (args, appBuild, config, paths) {
       path: appBuild,
       filename: '[name].js',
       publicPath,
+      chunkFilename: '[id].async.js',
     },
     resolve: {
       extensions: [

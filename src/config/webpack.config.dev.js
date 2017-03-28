@@ -38,6 +38,7 @@ export default function (config, cwd) {
       filename: '[name].js',
       pathinfo: true,
       publicPath,
+      chunkFilename: '[id].async.js',
     },
     resolve: {
       extensions: [
