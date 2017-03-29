@@ -6,7 +6,7 @@ import uniq from 'lodash.uniq';
 
 export default function (argv, rcConfig, paths) {
   const appBuild = paths.dllNodeModule;
-  const pkg = require(join(paths.appDirectory, 'package.json')); // disable-eslint-line
+  const pkg = require(join(paths.appDirectory, 'package.json')); // eslint-disable-line
 
   const { include, exclude } = rcConfig.dllPlugin || {};
 

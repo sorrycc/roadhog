@@ -18,7 +18,6 @@ const argv = require('yargs')
   .argv;
 
 let rcConfig;
-let outputPath;
 let appBuild;
 let config;
 

@@ -161,7 +161,7 @@ export default function (config, cwd) {
       new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       new SystemBellWebpackPlugin(),
     ].concat(
-      dllPlugins
+      dllPlugins,
     ).concat(
       !fs.existsSync(paths.appPublic) ? [] :
         new CopyWebpackPlugin([
