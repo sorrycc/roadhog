@@ -23,11 +23,6 @@ const cwd = process.cwd();
 const paths = getPaths(cwd);
 let compiler;
 
-const argv = require('yargs')
-  .usage('Usage: roadhog server [options]')
-  .help('h')
-  .argv;
-
 let rcConfig;
 let config;
 
@@ -155,7 +150,7 @@ function runDevServer(host, port, protocol) {
   addMiddleware(devServer);
   applyMock(devServer);
 
-  devServer.listen(port, (err) => {
+  devServer.listen(port, host, (err) => {
     if (err) {
       return console.log(err);
     }
