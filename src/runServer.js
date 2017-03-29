@@ -25,11 +25,6 @@ let compiler;
 
 const argv = require('yargs')
   .usage('Usage: roadhog server [options]')
-  .option('open', {
-    type: 'boolean',
-    describe: 'Open url in browser after started',
-    default: true,
-  })
   .help('h')
   .argv;
 
@@ -176,9 +171,7 @@ function runDevServer(host, port, protocol) {
       outputMockError();
     }
 
-    if (argv.open) {
-      openBrowser(`${protocol}://${host}:${port}/`);
-    }
+    openBrowser(`${protocol}://${host}:${port}/`);
   });
 
   setupWatch(devServer, port);
