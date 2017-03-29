@@ -23,6 +23,11 @@ const cwd = process.cwd();
 const paths = getPaths(cwd);
 let compiler;
 
+require('yargs') // eslint-disable-line
+  .usage('Usage: roadhog server [options]')
+  .help('h')
+  .argv;
+
 let rcConfig;
 let config;
 

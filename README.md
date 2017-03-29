@@ -333,6 +333,7 @@ export default {
 * `PORT`, 端口号，默认 8000
 * `HOST`, 默认 localhost
 * `HTTPS`，是否开启 https，默认关闭
+* `BROWSER`，设为 none 时不自动打开浏览器
 
 比如，使用 3000 端口开启服务器可以这样：
 
@@ -353,7 +354,6 @@ $ roadhog server -h
 Usage: roadhog server [options]
 
 Options:
-  --open  Open url in browser after started            [boolean] [default: true]
   -h      Show help                                                    [boolean]
 ```
 
@@ -413,7 +413,11 @@ SyntaxError: Unexpected token (15:23)
 ### Windows/Ubuntu 下每次启动后打开新 Tab 比较烦
 
 ```bash
-$ roadhog server --no-open
+# Ubuntu
+$ BROWSER=none roadhog server
+
+# Windows
+$ set BROWSER=none&&roadhog server
 ```
 
 ## LICENSE
