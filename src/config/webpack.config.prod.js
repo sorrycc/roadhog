@@ -8,6 +8,7 @@ import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
 import normalizeDefine from '../utils/normalizeDefine';
+import addExtraBabelIncludes from '../utils/addExtraBabelIncludes';
 
 const baseSvgLoader = {
   test: /\.svg$/,
@@ -210,5 +211,6 @@ export default function (args, appBuild, config, paths) {
   } else {
     finalWebpackConfig.module.loaders.push(baseSvgLoader);
   }
-  return finalWebpackConfig;
+
+  return addExtraBabelIncludes(finalWebpackConfig, paths, config.extraBabelIncludes);
 }
