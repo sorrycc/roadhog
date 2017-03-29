@@ -33,6 +33,7 @@ switch (script) {
     console.log(require('../package.json').version);
     break;
   case 'build':
+  case 'buildDll':
   case 'server':
   case 'test':
     require('atool-monitor').emit();

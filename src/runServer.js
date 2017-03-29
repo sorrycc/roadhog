@@ -1,4 +1,5 @@
 import detect from 'detect-port';
+import fs from 'fs';
 import clearConsole from 'react-dev-utils/clearConsole';
 import getProcessForPort from 'react-dev-utils/getProcessForPort';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
@@ -211,6 +212,12 @@ function run(port) {
 
 function init() {
   readRcConfig();
+
+  if (rcConfig.dllPlugin && !fs.existsSync(paths.dllManifest)) {
+    console.log(chalk.red('Failed to start the server, since you have enabled dllPlugin, but have not run `roadhog buildDll` before `roadhog server`.'));
+    process.exit(1);
+  }
+
   readWebpackConfig();
   detect(DEFAULT_PORT).then((port) => {
     if (port === DEFAULT_PORT) {
