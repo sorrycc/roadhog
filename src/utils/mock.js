@@ -2,6 +2,10 @@ import fs from 'fs';
 import assert from 'assert';
 import chokidar from 'chokidar';
 import chalk from 'chalk';
+import proxy from 'express-http-proxy';
+import url from 'url';
+import { join } from 'path';
+import bodyParser from 'body-parser';
 import getPaths from '../config/paths';
 
 let error = null;
@@ -44,6 +48,22 @@ function createMockHandler(method, path, value) {
   };
 }
 
+function createProxy(method, path, target) {
+  return proxy(target, {
+    filter(req) {
+      return method ? req.method.toLowerCase() === method.toLowerCase() : true;
+    },
+    forwardPath(req) {
+      let matchPath = req.baseUrl;
+      const matches = matchPath.match(path);
+      if (matches.length > 1) {
+        matchPath = matches[1];
+      }
+      return join((url.parse(target).path), matchPath);
+    },
+  });
+}
+
 export function applyMock(devServer) {
   const realRequire = require.extensions['.js'];
   try {
@@ -76,6 +96,11 @@ function realApplyMock(devServer) {
   const files = ret.files;
   const app = devServer.app;
 
+  devServer.use(bodyParser.json());
+  devServer.use(bodyParser.urlencoded({
+    extended: true,
+  }));
+
   Object.keys(config).forEach((key) => {
     const keyParsed = parseKey(key);
     assert(
@@ -83,13 +108,26 @@ function realApplyMock(devServer) {
       `method of ${key} is not valid`,
     );
     assert(
-      typeof config[key] === 'function' || typeof config[key] === 'object',
-      `mock value of ${key} should be function or object, but got ${typeof config[key]}`,
+      typeof config[key] === 'function' ||
+      typeof config[key] === 'object' ||
+      typeof config[key] === 'string',
+      `mock value of ${key} should be function or object or string, but got ${typeof config[key]}`,
     );
-    app[keyParsed.method](
-      keyParsed.path,
-      createMockHandler(keyParsed.method, keyParsed.path, config[key]),
-    );
+    if (typeof config[key] === 'string') {
+      let path = keyParsed.path;
+      if (/\(.+\)/.test(keyParsed.path)) {
+        path = new RegExp(`^${keyParsed.path}$`);
+      }
+      app.use(
+        path,
+        createProxy(keyParsed.method, path, config[key]),
+      );
+    } else {
+      app[keyParsed.method](
+        keyParsed.path,
+        createMockHandler(keyParsed.method, keyParsed.path, config[key]),
+      );
+    }
   });
 
   // 调整 stack，把 historyApiFallback 放到最后

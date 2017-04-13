@@ -7,8 +7,8 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
-import getDefineConfig from '../utils/normalizeDefine';
-
+import normalizeDefine from '../utils/normalizeDefine';
+import addExtraBabelIncludes from '../utils/addExtraBabelIncludes';
 const baseSvgLoader = {
   test: /\.svg$/,
   loader: 'file',
@@ -32,11 +32,12 @@ export default function (args, appBuild, config, paths) {
 
   const finalWebpackConfig = {
     bail: true,
-    entry: getEntry(config, paths.appDirectory),
+    entry: getEntry(config, paths.appDirectory, /* isBuild */true),
     output: {
       path: appBuild,
       filename: '[name].js',
       publicPath,
+      chunkFilename: '[id].async.js',
     },
     resolve: {
       extensions: [
@@ -175,7 +176,7 @@ export default function (args, appBuild, config, paths) {
           new CopyWebpackPlugin([
             {
               from: paths.appPublic,
-              to: paths.appBuild,
+              to: appBuild,
             },
           ]),
       )
@@ -201,5 +202,6 @@ export default function (args, appBuild, config, paths) {
   } else {
     finalWebpackConfig.module.loaders.push(baseSvgLoader);
   }
-  return finalWebpackConfig;
+
+  return addExtraBabelIncludes(finalWebpackConfig, paths, config.extraBabelIncludes);
 }

@@ -1,4 +1,5 @@
 import detect from 'detect-port';
+import fs from 'fs';
 import clearConsole from 'react-dev-utils/clearConsole';
 import getProcessForPort from 'react-dev-utils/getProcessForPort';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
@@ -14,7 +15,7 @@ import getConfig from './utils/getConfig';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
 import { applyMock, outputError as outputMockError } from './utils/mock';
 
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const DEFAULT_PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 8000;
 const isInteractive = process.stdout.isTTY;
@@ -22,13 +23,8 @@ const cwd = process.cwd();
 const paths = getPaths(cwd);
 let compiler;
 
-const argv = require('yargs')
+require('yargs') // eslint-disable-line
   .usage('Usage: roadhog server [options]')
-  .option('open', {
-    type: 'boolean',
-    describe: 'Open url in browser after started',
-    default: true,
-  })
   .help('h')
   .argv;
 
@@ -159,7 +155,7 @@ function runDevServer(host, port, protocol) {
   addMiddleware(devServer);
   applyMock(devServer);
 
-  devServer.listen(port, (err) => {
+  devServer.listen(port, host, (err) => {
     if (err) {
       return console.log(err);
     }
@@ -175,9 +171,7 @@ function runDevServer(host, port, protocol) {
       outputMockError();
     }
 
-    if (argv.open) {
-      openBrowser(`${protocol}://${host}:${port}/`);
-    }
+    openBrowser(`${protocol}://${host}:${port}/`);
   });
 
   setupWatch(devServer, port);
@@ -211,6 +205,12 @@ function run(port) {
 
 function init() {
   readRcConfig();
+
+  if (rcConfig.dllPlugin && !fs.existsSync(paths.dllManifest)) {
+    console.log(chalk.red('Failed to start the server, since you have enabled dllPlugin, but have not run `roadhog buildDll` before `roadhog server`.'));
+    process.exit(1);
+  }
+
   readWebpackConfig();
   detect(DEFAULT_PORT).then((port) => {
     if (port === DEFAULT_PORT) {

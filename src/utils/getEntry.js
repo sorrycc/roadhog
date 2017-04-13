@@ -4,9 +4,9 @@ import glob from 'glob';
 
 const DEFAULT_ENTRY = './src/index.js';
 
-function getEntry(filePath, isProduction) {
+function getEntry(filePath, isBuild) {
   const key = basename(filePath, '.js');
-  const value = isProduction
+  const value = isBuild
     ? [filePath]
     : [
       require.resolve('react-dev-utils/webpackHotDevClient'),
@@ -36,15 +36,14 @@ export function getFiles(entry, cwd) {
   }
 }
 
-export function getEntries(files, isProduction) {
+export function getEntries(files, isBuild) {
   return files.reduce((memo, file) => {
-    return Object.assign(memo, getEntry(file, isProduction));
+    return Object.assign(memo, getEntry(file, isBuild));
   }, {});
 }
 
-export default function (config, appDirectory) {
+export default function (config, appDirectory, isBuild) {
   const entry = config.entry;
-  const isProduction = process.env.NODE_ENV === 'production';
   const files = entry ? getFiles(entry, appDirectory) : [DEFAULT_ENTRY];
-  return getEntries(files, isProduction);
+  return getEntries(files, isBuild);
 }
