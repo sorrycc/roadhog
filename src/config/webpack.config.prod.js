@@ -27,19 +27,29 @@ export default function (args, appBuild, config, paths) {
   const { debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
-  const publicPath = config.publicPath || '/';
+  const {
+    publicPath = '/',
+    library = null,
+    libraryTarget = 'var',
+  } = config;
+
   const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
+
+  const output = {
+    path: appBuild,
+    filename: '[name].js',
+    publicPath,
+    libraryTarget,
+    chunkFilename: '[id].async.js',
+  };
+
+  if (library) output.library = library;
 
   const finalWebpackConfig = {
     bail: true,
     entry: getEntry(config, paths.appDirectory, /* isBuild */true),
-    output: {
-      path: appBuild,
-      filename: '[name].js',
-      publicPath,
-      chunkFilename: '[id].async.js',
-    },
+    output,
     resolve: {
       extensions: [
         '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
