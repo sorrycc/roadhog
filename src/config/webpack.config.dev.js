@@ -28,9 +28,24 @@ const spriteSvgLoader = {
 
 export default function (config, cwd) {
   const publicPath = '/';
+  const {
+    library = null,
+    libraryTarget = 'var',
+  } = config;
+
   const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
   const paths = getPaths(cwd);
+
+  const output = {
+    path: paths.appBuild,
+    filename: '[name].js',
+    publicPath,
+    libraryTarget,
+    chunkFilename: '[id].async.js',
+  };
+
+  if (library) output.library = library;
 
   const dllPlugins = config.dllPlugin ? [
     new webpack.DllReferencePlugin({
@@ -48,13 +63,7 @@ export default function (config, cwd) {
   const finalWebpackConfig = {
     devtool: 'cheap-module-source-map',
     entry: getEntry(config, paths.appDirectory),
-    output: {
-      path: paths.appBuild,
-      filename: '[name].js',
-      pathinfo: true,
-      publicPath,
-      chunkFilename: '[id].async.js',
-    },
+    output,
     resolve: {
       extensions: [
         '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
