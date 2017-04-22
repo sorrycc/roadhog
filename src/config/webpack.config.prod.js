@@ -31,6 +31,7 @@ export default function (args, appBuild, config, paths) {
     publicPath = '/',
     library = null,
     libraryTarget = 'var',
+    devtool = null,
   } = config;
 
   const cssLoaders = getCSSLoaders(config);
@@ -210,6 +211,8 @@ export default function (args, appBuild, config, paths) {
       tls: 'empty',
     },
   };
+
+  if (devtool) finalWebpackConfig.devtool = devtool;
 
   if (config.svgSpriteLoaderDirs) {
     baseSvgLoader.exclude = config.svgSpriteLoaderDirs;

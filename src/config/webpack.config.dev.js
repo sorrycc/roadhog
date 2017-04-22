@@ -31,6 +31,7 @@ export default function (config, cwd) {
   const {
     library = null,
     libraryTarget = 'var',
+    devtool = '#cheap-module-eval-source-map',
   } = config;
 
   const cssLoaders = getCSSLoaders(config);
@@ -61,7 +62,7 @@ export default function (config, cwd) {
   ] : [];
 
   const finalWebpackConfig = {
-    devtool: 'cheap-module-source-map',
+    devtool,
     entry: getEntry(config, paths.appDirectory),
     output,
     resolve: {
