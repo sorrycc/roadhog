@@ -150,6 +150,7 @@ function runDevServer(host, port, protocol) {
     https: protocol === 'https',
     host,
     proxy: rcConfig.proxy,
+    disableHostCheck: true,
   });
 
   addMiddleware(devServer);
