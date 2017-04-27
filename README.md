@@ -149,6 +149,8 @@ export default {
   "autoprefixer": null,
   "proxy": null,
   "externals": null,
+  "library": null,
+  "libraryTarget": "var",
   "multipage": false,
   "define": null,
   "env": null,
@@ -257,6 +259,14 @@ extraPostCSSPlugins: [
 ### externals
 
 配置 webpack 的 [externals](http://webpack.github.io/docs/configuration.html#externals) 属性。
+
+### library
+
+配置 webpack 的 [library](http://webpack.github.io/docs/configuration.html#output-library) 属性。
+
+### libraryTarget
+
+配置 webpack 的 [libraryTarget](http://webpack.github.io/docs/configuration.html#output-librarytarget) 属性。
 
 ### multipage
 

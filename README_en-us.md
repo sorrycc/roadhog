@@ -69,6 +69,8 @@ Default configuration:
   "autoprefixer": null,
   "proxy": null,
   "externals": null,
+  "library": null,
+  "libraryTarget": "var",
   "multipage": false,
   "define": null,
   "env": null,
@@ -160,6 +162,14 @@ Then, when accessing `/api/users`, you will get the content of http://jsonplaceh
 ### externals
 
 Specify the [externals](http://webpack.github.io/docs/configuration.html#externals) configuration of webpack.
+
+### library
+
+Specify the [library](http://webpack.github.io/docs/configuration.html#output-library) configuration of webpack.
+
+### libraryTarget
+
+Specify the [libraryTarget](http://webpack.github.io/docs/configuration.html#output-librarytarget) configuration of webpack.
 
 ### multipage
 
