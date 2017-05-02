@@ -133,6 +133,10 @@ export default function (config, cwd) {
           include: paths.appSrc,
           loader: 'babel!awesome-typescript',
         },
+        { 
+          test: /\.(png|jpg)$/, 
+          loader: "url-loader?limit=8192"
+        }
       ],
     },
     babel: {

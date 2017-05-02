@@ -131,6 +131,10 @@ export default function (args, appBuild, config, paths) {
           include: paths.appSrc,
           loader: 'babel!awesome-typescript',
         },
+        { 
+          test: /\.(png|jpg)$/, 
+          loader: "url-loader?limit=8192"
+        }
       ],
     },
     babel: {
