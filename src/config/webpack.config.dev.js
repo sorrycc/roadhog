@@ -132,10 +132,6 @@ export default function (config, cwd) {
           test: /\.tsx?$/,
           include: paths.appSrc,
           loader: 'babel!awesome-typescript',
-        },
-        { 
-          test: /\.(png|jpg)$/, 
-          loader: "url-loader?limit=8192"
         }
       ],
     },
