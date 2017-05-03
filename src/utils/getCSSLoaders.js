@@ -3,11 +3,14 @@ export default function getCSSLoaders(config) {
   const own = [];
   const nodeModules = [];
 
-  if (config.disableCSSModules) {
-    own.push('css?importLoaders=1');
-  } else {
-    own.push('css?importLoaders=1&modules&localIdentName=[local]___[hash:base64:5]');
+  var cssLoaderOption = 'css?importLoaders=1';
+  if (!config.disableCSSModules) {
+    cssLoaderOption += '&module&localIdentName=[local]___[hash:base64:5]';
   }
+  if (!config.disableCSSSourceMap) {
+    cssLoaderOption += '&sourceMap';
+  }
+  own.push(cssLoaderOption);
   nodeModules.push('css?importLoaders=1');
 
   own.push('postcss');
