@@ -3,7 +3,7 @@ export default function getCSSLoaders(config) {
   const own = [];
   const nodeModules = [];
 
-  var cssLoaderOption = 'css?importLoaders=1';
+  let cssLoaderOption = 'css?importLoaders=1';
   if (!config.disableCSSModules) {
     cssLoaderOption += '&module&localIdentName=[local]___[hash:base64:5]';
   }
