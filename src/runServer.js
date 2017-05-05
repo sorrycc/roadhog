@@ -72,7 +72,8 @@ function setupCompiler(host, port, protocol) {
       clearConsoleWrapped();
     }
 
-    const messages = formatWebpackMessages(stats.toJson({}, true));
+    const json = stats.toJson({}, true);
+    const messages = formatWebpackMessages(json);
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
     const showInstructions = isSuccessful && (isInteractive || isFirstCompile);
 
@@ -89,7 +90,7 @@ function setupCompiler(host, port, protocol) {
       console.log(`  ${chalk.cyan(`${protocol}://${host}:${port}/`)}`);
       console.log();
       console.log('Note that the development build is not optimized.');
-      console.log(`To create a production build, use ${chalk.cyan('npm run build')}.`);
+      console.log(`To create a production build, use ${chalk.cyan('npm run build')}. (${json.time})`);
       console.log();
       isFirstCompile = false;
     }
