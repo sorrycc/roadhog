@@ -111,9 +111,11 @@
     "expect": "^1.20.2",
     "got": "^6.7.1",
     "husky": "^0.13.3",
+    "node-sass": "^4.5.2",
     "nyc": "^10.2.0",
     "postcss-pxtorem": "^4.0.0",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "sass-loader": "^6.0.3"
   },
   "_from": "https://github.com/huangjinlin/roadhog.git",
   "_resolved": "https://github.com/huangjinlin/roadhog.git#master"
