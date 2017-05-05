@@ -87,6 +87,7 @@
     "postcss-loader": "^1.2.0",
     "react-dev-utils": "^0.5.2",
     "recursive-readdir": "^2.1.0",
+    "rimraf": "^2.5.4",
     "strip-ansi": "^3.0.1",
     "strip-json-comments": "^2.0.1",
     "style-loader": "^0.16.1",
@@ -112,7 +113,6 @@
     "got": "^6.7.1",
     "husky": "^0.13.3",
     "nyc": "^10.2.0",
-    "postcss-pxtorem": "^4.0.0",
-    "rimraf": "^2.5.4"
+    "postcss-pxtorem": "^4.0.0"
   }
 }

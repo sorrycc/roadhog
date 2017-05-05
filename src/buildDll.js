@@ -5,6 +5,7 @@ import filesize from 'filesize';
 import { sync as gzipSize } from 'gzip-size';
 import webpack from 'webpack';
 import recursive from 'recursive-readdir';
+import rimraf from 'rimraf';
 import stripAnsi from 'strip-ansi';
 import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
@@ -45,6 +46,9 @@ export function build(argv) {
   );
 
   return new Promise((resolve) => {
+    // Clear babel cache directory
+    rimraf.sync(paths.appBabelCache);
+
     // First, read the current file sizes in build directory.
     // This lets us display how much they changed later.
     recursive(appBuild, (err, fileNames) => {
