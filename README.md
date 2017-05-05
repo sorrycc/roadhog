@@ -344,6 +344,7 @@ export default {
 * `HOST`, 默认 localhost
 * `HTTPS`，是否开启 https，默认关闭
 * `BROWSER`，设为 none 时不自动打开浏览器
+* `CLEAR_CONSOLE`，设为 none 时清屏
 
 比如，使用 3000 端口开启服务器可以这样：
 
