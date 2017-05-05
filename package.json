@@ -25,7 +25,8 @@
     "lib"
   ],
   "scripts": {
-    "build": "rimraf lib && babel src --out-dir lib",
+    "build": "babel src --out-dir lib",
+    "rimraf": "rimraf lib",
     "lint": "eslint --ext .js src",
     "test": "npm run lint && npm run build && cross-env NODE_ENV=test nyc mocha --no-timeouts test/**/*-test.js",
     "debug": "cross-env NODE_ENV=test mocha --require babel-register --no-timeouts test/**/*-test.js",
