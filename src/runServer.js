@@ -32,7 +32,7 @@ let rcConfig;
 let config;
 
 function clearConsoleWrapped() {
-  if (process.env.CLEAR_CONSOLE !== 'NONE') {
+  if (process.env.CLEAR_CONSOLE !== 'none') {
     clearConsole();
   }
 }
