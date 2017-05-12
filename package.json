@@ -30,8 +30,7 @@
     "lint": "eslint --ext .js src",
     "test": "npm run lint && npm run build && cross-env NODE_ENV=test nyc mocha --no-timeouts test/**/*-test.js",
     "debug": "cross-env NODE_ENV=test mocha --require babel-register --no-timeouts test/**/*-test.js",
-    "report": "nyc report --reporter=html",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "report": "nyc report --reporter=html"
   },
   "nyc": {
     "include": [
