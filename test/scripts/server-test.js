@@ -3,7 +3,7 @@ import { join } from 'path';
 import { fork } from 'child_process';
 import got from 'got';
 
-process.env.CLEAR_CONSOLE = 'NONE';
+process.env.CLEAR_CONSOLE = 'none';
 const fixtures = join(__dirname, '../fixtures');
 
 describe('server', () => {

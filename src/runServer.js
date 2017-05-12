@@ -32,7 +32,7 @@ let rcConfig;
 let config;
 
 function clearConsoleWrapped() {
-  if (process.env.CLEAR_CONSOLE !== 'NONE') {
+  if (process.env.CLEAR_CONSOLE !== 'none') {
     clearConsole();
   }
 }
@@ -72,14 +72,15 @@ function setupCompiler(host, port, protocol) {
       clearConsoleWrapped();
     }
 
-    const messages = formatWebpackMessages(stats.toJson({}, true));
+    const json = stats.toJson({}, true);
+    const messages = formatWebpackMessages(json);
     const isSuccessful = !messages.errors.length && !messages.warnings.length;
     const showInstructions = isSuccessful && (isInteractive || isFirstCompile);
 
     warnIfExists();
 
     if (isSuccessful) {
-      console.log(chalk.green('Compiled successfully!'));
+      console.log(chalk.green(`Compiled successfully in ${(json.time / 1000).toFixed(1)}s!`));
     }
 
     if (showInstructions) {
