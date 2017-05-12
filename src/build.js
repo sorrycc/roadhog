@@ -168,7 +168,7 @@ function doneHandler(previousSizeMap, argv, resolve, err, stats) {
 
   warnIfExists();
 
-  console.log(chalk.green('Compiled successfully.'));
+  console.log(chalk.green(`Compiled successfully in ${(stats.toJson().time / 1000).toFixed(1)}s.`));
   console.log();
 
   console.log('File sizes after gzip:');

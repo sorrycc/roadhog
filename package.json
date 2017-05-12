@@ -25,12 +25,12 @@
     "lib"
   ],
   "scripts": {
-    "build": "rimraf lib && babel src --out-dir lib",
+    "build": "babel src --out-dir lib",
+    "rimraf": "rimraf lib",
     "lint": "eslint --ext .js src",
     "test": "npm run lint && npm run build && cross-env NODE_ENV=test nyc mocha --no-timeouts test/**/*-test.js",
     "debug": "cross-env NODE_ENV=test mocha --require babel-register --no-timeouts test/**/*-test.js",
-    "report": "nyc report --reporter=html",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+    "report": "nyc report --reporter=html"
   },
   "nyc": {
     "include": [
@@ -86,6 +86,7 @@
     "postcss-loader": "^1.2.0",
     "react-dev-utils": "^0.5.2",
     "recursive-readdir": "^2.1.0",
+    "rimraf": "^2.5.4",
     "strip-ansi": "^3.0.1",
     "strip-json-comments": "^2.0.1",
     "style-loader": "^0.16.1",
@@ -110,10 +111,10 @@
     "expect": "^1.20.2",
     "got": "^6.7.1",
     "husky": "^0.13.3",
+    "node-sass": "^4.5.2",
     "nyc": "^10.2.0",
     "postcss-pxtorem": "^4.0.0",
-    "rimraf": "^2.5.4"
-  },
-  "_from": "https://github.com/huangjinlin/roadhog.git",
-  "_resolved": "https://github.com/huangjinlin/roadhog.git#master"
+    "rimraf": "^2.5.4",
+    "sass-loader": "^6.0.3"
+  }
 }

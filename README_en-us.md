@@ -221,6 +221,8 @@ You can temporarily configure some parameters for environment variables, includi
 * `PORT`, default 8000
 * `HOST`, default localhost
 * `HTTPS`，use https or not，default false
+* `BROWSER`，don't open browser automatically when set to none
+* `CLEAR_CONSOLE`，don't clear screen when set to none
 
 e.g. start server in 3000 port:
 
