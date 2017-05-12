@@ -169,7 +169,7 @@ export default function (config, cwd) {
           ],
         }),
       ]
-        .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
+      .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
       new webpack.DefinePlugin({
