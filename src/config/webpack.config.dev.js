@@ -43,7 +43,7 @@ export default function (config, cwd) {
     filename: '[name].js',
     publicPath,
     libraryTarget,
-    chunkFilename: '[id].async.js',
+    chunkFilename: '[name].async.js',
   };
 
   if (library) output.library = library;

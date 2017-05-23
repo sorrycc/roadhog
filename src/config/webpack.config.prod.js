@@ -42,7 +42,7 @@ export default function (args, appBuild, config, paths) {
     filename: '[name].js',
     publicPath,
     libraryTarget,
-    chunkFilename: '[id].async.js',
+    chunkFilename: '[name].async.js',
   };
 
   if (library) output.library = library;
