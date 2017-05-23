@@ -7,6 +7,7 @@ import url from 'url';
 import { join } from 'path';
 import bodyParser from 'body-parser';
 import getPaths from '../config/paths';
+import winPath from './winPath';
 
 let error = null;
 const CONFIG_FILE = '.roadhogrc.mock.js';
@@ -59,7 +60,7 @@ function createProxy(method, path, target) {
       if (matches.length > 1) {
         matchPath = matches[1];
       }
-      return join((url.parse(target).path), matchPath);
+      return join(winPath(url.parse(target).path), matchPath);
     },
   });
 }
