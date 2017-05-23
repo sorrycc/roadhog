@@ -84,7 +84,7 @@ export default function (config, cwd) {
           exclude: [
             /\.html$/,
             /\.(js|jsx)$/,
-            /\.(css|less)$/,
+            /\.(css|less|scss)$/,
             /\.json$/,
             /\.svg$/,
             /\.tsx?$/,
@@ -111,6 +111,11 @@ export default function (config, cwd) {
           loader: `style!${cssLoaders.own.join('!')}!less?{"modifyVars":${theme}}`,
         },
         {
+          test: /\.scss$/,
+          include: paths.appSrc,
+          loader: `style!${cssLoaders.own.join('!')}!sass`,
+        },
+        {
           test: /\.css$/,
           include: paths.appNodeModules,
           loader: `style!${cssLoaders.nodeModules.join('!')}`,
@@ -119,6 +124,11 @@ export default function (config, cwd) {
           test: /\.less$/,
           include: paths.appNodeModules,
           loader: `style!${cssLoaders.nodeModules.join('!')}!less?{"modifyVars":${theme}}`,
+        },
+        {
+          test: /\.scss$/,
+          include: paths.appNodeModules,
+          loader: `style!${cssLoaders.nodeModules.join('!')}!sass`,
         },
         {
           test: /\.html$/,
@@ -132,7 +142,7 @@ export default function (config, cwd) {
           test: /\.tsx?$/,
           include: paths.appSrc,
           loader: 'babel!awesome-typescript',
-        },
+        }
       ],
     },
     babel: {
@@ -159,7 +169,7 @@ export default function (config, cwd) {
           ],
         }),
       ]
-        .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
+      .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
       new webpack.DefinePlugin({
