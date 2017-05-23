@@ -70,7 +70,7 @@ export default function (args, appBuild, config, paths) {
           exclude: [
             /\.html$/,
             /\.(js|jsx)$/,
-            /\.(css|less)$/,
+            /\.(css|less|scss)$/,
             /\.json$/,
             /\.svg$/,
             /\.tsx?$/,
@@ -103,6 +103,14 @@ export default function (args, appBuild, config, paths) {
           ),
         },
         {
+          test: /\.scss$/,
+          include: paths.appSrc,
+          loader: ExtractTextPlugin.extract(
+            'style',
+            `${cssLoaders.own.join('!')}!sass`,
+          ),
+        },
+        {
           test: /\.css$/,
           include: paths.appNodeModules,
           loader: ExtractTextPlugin.extract(
@@ -119,6 +127,14 @@ export default function (args, appBuild, config, paths) {
           ),
         },
         {
+          test: /\.scss$/,
+          include: paths.appNodeModules,
+          loader: ExtractTextPlugin.extract(
+            'style',
+            `${cssLoaders.nodeModules.join('!')}!sass`,
+          ),
+        },
+        {
           test: /\.html$/,
           loader: 'file?name=[name].[ext]',
         },
@@ -130,7 +146,7 @@ export default function (args, appBuild, config, paths) {
           test: /\.tsx?$/,
           include: paths.appSrc,
           loader: 'babel!awesome-typescript',
-        },
+        }
       ],
     },
     babel: {
