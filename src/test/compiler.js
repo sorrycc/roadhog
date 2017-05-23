@@ -1,3 +1,7 @@
+import getConfig from '../utils/getConfig';
+
+const config = getConfig('test', process.cwd());
+
 require('babel-register')({
   presets: [
     require.resolve('babel-preset-es2015'),
@@ -6,7 +10,7 @@ require('babel-register')({
   ],
   plugins: [
     require.resolve('babel-plugin-add-module-exports'),
-  ],
+  ].concat(config.extraBabelPlugins || []),
 });
 
 const noop = () => null;
