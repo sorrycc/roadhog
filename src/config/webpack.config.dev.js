@@ -37,6 +37,7 @@ export default function (config, cwd) {
   const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
   const paths = getPaths(cwd);
+  const NODE_ENV = process.env.NODE_ENV;
 
   const output = {
     path: paths.appBuild,
@@ -162,11 +163,7 @@ export default function (config, cwd) {
         .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        },
-      }),
+      new webpack.DefinePlugin(getDefineConfig(NODE_ENV, config.define)),
       new webpack.HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
       new WatchMissingNodeModulesPlugin(paths.appNodeModules),
@@ -184,9 +181,6 @@ export default function (config, cwd) {
     ).concat(
       !config.multipage ? [] :
         new webpack.optimize.CommonsChunkPlugin('common', 'common.js'),
-    ).concat(
-      !config.define ? [] :
-        new webpack.DefinePlugin(normalizeDefine(config.define)),
     ),
     externals: config.externals,
     node: {
