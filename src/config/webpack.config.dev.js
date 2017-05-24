@@ -187,6 +187,8 @@ export default function (config, cwd) {
     ).concat(
       !config.define ? [] :
         new webpack.DefinePlugin(normalizeDefine(config.define)),
+    ).concat(
+      config.plugins || [],
     ),
     externals: config.externals,
     node: {

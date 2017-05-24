@@ -203,6 +203,9 @@ export default function (args, appBuild, config, paths) {
       .concat(
         !config.define ? [] :
           new webpack.DefinePlugin(normalizeDefine(config.define)),
+      )
+      .concat(
+        config.plugins || [],
       ),
     externals: config.externals,
     node: {
