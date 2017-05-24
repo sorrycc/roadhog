@@ -7,6 +7,7 @@ import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModul
 import SystemBellWebpackPlugin from 'system-bell-webpack-plugin';
 import { join } from 'path';
 import getPaths from './paths';
+import getEnv from './env';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
@@ -162,11 +163,7 @@ export default function (config, cwd) {
         .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-        },
-      }),
+      new webpack.DefinePlugin(getEnv(paths.resolveApp)),
       new webpack.HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
       new WatchMissingNodeModulesPlugin(paths.appNodeModules),
