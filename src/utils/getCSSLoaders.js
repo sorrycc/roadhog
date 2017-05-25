@@ -1,4 +1,3 @@
-import autoprefixer from 'autoprefixer';
 
 export default function getCSSLoaders(config) {
   const own = [];
@@ -30,21 +29,6 @@ export default function getCSSLoaders(config) {
 
   const postcssLoader = {
     loader: 'postcss',
-    options: {
-      postcss() {
-        return [
-          autoprefixer(config.autoprefixer || {
-            browsers: [
-              '>1%',
-              'last 4 versions',
-              'Firefox ESR',
-              'not ie < 9', // React doesn't support IE8 anyway
-            ],
-          }),
-        ]
-          .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
-      },
-    },
   };
 
   own.push(postcssLoader);
