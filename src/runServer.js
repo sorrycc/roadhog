@@ -1,10 +1,10 @@
-import detect from 'detect-port';
 import fs from 'fs';
 import clearConsole from 'react-dev-utils/clearConsole';
-import getProcessForPort from 'react-dev-utils/getProcessForPort';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import openBrowser from 'react-dev-utils/openBrowser';
-import prompt from 'react-dev-utils/prompt';
+import {
+  choosePort,
+} from 'react-dev-utils/WebpackDevServerUtils';
 import webpack from 'webpack';
 import historyApiFallback from 'connect-history-api-fallback';
 import WebpackDevServer from 'webpack-dev-server';
@@ -57,7 +57,11 @@ function readWebpackConfig() {
 
 
 function setupCompiler(host, port, protocol) {
-  compiler = webpack(config);
+  try {
+    compiler = webpack(config);
+  } catch (e) {
+    console.log(e);
+  }
 
   compiler.plugin('invalid', () => {
     if (isInteractive) {
@@ -214,26 +218,14 @@ function init() {
   }
 
   readWebpackConfig();
-  detect(DEFAULT_PORT).then((port) => {
-    if (port === DEFAULT_PORT) {
-      run(port);
+
+  const HOST = process.env.HOST || '0.0.0.0';
+  choosePort(HOST, DEFAULT_PORT).then((port) => {
+    if (port === null) {
       return;
     }
 
-    if (isInteractive) {
-      clearConsoleWrapped();
-      const existingProcess = getProcessForPort(DEFAULT_PORT);
-      const question =
-        chalk.yellow(`Something is already running on port ${DEFAULT_PORT}.${((existingProcess) ? ` Probably:\n  ${existingProcess}` : '')}\n\nWould you like to run the app on another port instead?`);
-
-      prompt(question, true).then((shouldChangePort) => {
-        if (shouldChangePort) {
-          run(port);
-        }
-      });
-    } else {
-      console.log(chalk.red(`Something is already running on port ${DEFAULT_PORT}.`));
-    }
+    run(port);
   });
 }
 

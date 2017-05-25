@@ -6,5 +6,6 @@ const svgSpriteDirs = [
 ];
 
 export default {
+  devtool: '',
   svgSpriteLoaderDirs: svgSpriteDirs,
 };

@@ -4,14 +4,35 @@ export default function getCSSLoaders(config) {
   const nodeModules = [];
 
   if (config.disableCSSModules) {
-    own.push('css?importLoaders=1');
+    own.push({
+      loader: 'css',
+      options: {
+        importLoaders: 1,
+      },
+    });
   } else {
-    own.push('css?importLoaders=1&modules&localIdentName=[local]___[hash:base64:5]');
+    own.push({
+      loader: 'css',
+      options: {
+        importLoaders: 1,
+        modules: true,
+        localIdentName: '[local]___[hash:base64:5]',
+      },
+    });
   }
-  nodeModules.push('css?importLoaders=1');
+  nodeModules.push({
+    loader: 'css',
+    options: {
+      importLoaders: 1,
+    },
+  });
 
-  own.push('postcss');
-  nodeModules.push('postcss');
+  const postcssLoader = {
+    loader: 'postcss',
+  };
+
+  own.push(postcssLoader);
+  nodeModules.push(postcssLoader);
 
   return {
     own,
