@@ -1,0 +1,6 @@
+{
+  "devtool": "",
+  "externals": {
+    "a": "window.a"
+  }
+}
