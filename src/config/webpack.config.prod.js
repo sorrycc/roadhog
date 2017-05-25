@@ -31,7 +31,7 @@ export default function (args, appBuild, config, paths) {
 
   const babelOptions = getBabelOptions(config);
   const cssLoaders = getCSSLoaders(config);
-  const theme = JSON.stringify(getTheme(process.cwd(), config));
+  const theme = getTheme(process.cwd(), config);
 
   const output = {
     path: appBuild,

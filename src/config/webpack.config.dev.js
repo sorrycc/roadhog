@@ -32,7 +32,7 @@ export default function (config, cwd) {
 
   const babelOptions = getBabelOptions(config);
   const cssLoaders = getCSSLoaders(config);
-  const theme = JSON.stringify(getTheme(process.cwd(), config));
+  const theme = getTheme(process.cwd(), config);
   const paths = getPaths(cwd);
 
   const output = {

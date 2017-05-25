@@ -77,7 +77,7 @@
     "is-plain-object": "^2.0.1",
     "istanbul": "^0.4.5",
     "less": "^2.7.1",
-    "less-loader": "^3.0.0",
+    "less-loader": "^4.0.3",
     "lodash.pullall": "^4.2.0",
     "lodash.uniq": "^4.5.0",
     "mocha": "^3.4.2",
