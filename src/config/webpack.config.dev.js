@@ -1,4 +1,3 @@
-import autoprefixer from 'autoprefixer';
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import webpack from 'webpack';
@@ -16,7 +15,7 @@ import addExtraBabelIncludes from '../utils/addExtraBabelIncludes';
 const baseSvgLoader = {
   test: /\.svg$/,
   loader: 'file',
-  query: {
+  options: {
     name: 'static/[name].[hash:8].[ext]',
   },
 };
@@ -37,6 +36,20 @@ export default function (config, cwd) {
   const cssLoaders = getCSSLoaders(config);
   const theme = JSON.stringify(getTheme(process.cwd(), config));
   const paths = getPaths(cwd);
+
+  const babelOptions = {
+    babelrc: false,
+    presets: [
+      require.resolve('babel-preset-es2015'),
+      require.resolve('babel-preset-react'),
+      require.resolve('babel-preset-stage-0'),
+    ].concat(config.extraBabelPresets || []),
+    plugins: [
+      require.resolve('babel-plugin-add-module-exports'),
+      require.resolve('babel-plugin-react-require'),
+    ].concat(config.extraBabelPlugins || []),
+    cacheDirectory: true,
+  };
 
   const output = {
     path: paths.appBuild,
@@ -66,20 +79,24 @@ export default function (config, cwd) {
     entry: getEntry(config, paths.appDirectory),
     output,
     resolve: {
-      extensions: [
-        '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
-        '.js', '.json', '.jsx', '.ts', '.tsx', '',
-      ],
-    },
-    resolveLoader: {
-      root: [
+      modules: [
         paths.ownNodeModules,
         paths.appNodeModules,
       ],
-      moduleTemplates: ['*-loader'],
+      extensions: [
+        '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
+        '.js', '.json', '.jsx', '.ts', '.tsx',
+      ],
+    },
+    resolveLoader: {
+      modules: [
+        paths.ownNodeModules,
+        paths.appNodeModules,
+      ],
+      moduleExtensions: ['-loader'],
     },
     module: {
-      loaders: [
+      rules: [
         {
           exclude: [
             /\.html$/,
@@ -90,7 +107,7 @@ export default function (config, cwd) {
             /\.tsx?$/,
           ],
           loader: 'url',
-          query: {
+          options: {
             limit: 10000,
             name: 'static/[name].[hash:8].[ext]',
           },
@@ -99,67 +116,71 @@ export default function (config, cwd) {
           test: /\.(js|jsx)$/,
           include: paths.appSrc,
           loader: 'babel',
+          options: babelOptions,
         },
         {
           test: /\.css$/,
           include: paths.appSrc,
-          loader: `style!${cssLoaders.own.join('!')}`,
+          use: [
+            'style',
+            ...cssLoaders.own,
+          ],
         },
         {
           test: /\.less$/,
           include: paths.appSrc,
-          loader: `style!${cssLoaders.own.join('!')}!less?{"modifyVars":${theme}}`,
+          use: [
+            'style',
+            ...cssLoaders.own,
+            {
+              loader: 'less',
+              options: {
+                modifyVars: theme,
+              },
+            },
+          ],
         },
         {
           test: /\.css$/,
           include: paths.appNodeModules,
-          loader: `style!${cssLoaders.nodeModules.join('!')}`,
+          use: [
+            'style',
+            ...cssLoaders.nodeModules,
+          ],
         },
         {
           test: /\.less$/,
           include: paths.appNodeModules,
-          loader: `style!${cssLoaders.nodeModules.join('!')}!less?{"modifyVars":${theme}}`,
+          use: [
+            'style',
+            ...cssLoaders.nodeModules,
+            {
+              loader: 'less',
+              options: {
+                modifyVars: theme,
+              },
+            },
+          ],
         },
         {
           test: /\.html$/,
-          loader: 'file?name=[name].[ext]',
-        },
-        {
-          test: /\.json$/,
-          loader: 'json',
+          loader: 'file',
+          options: {
+            name: '[name].[ext]',
+          },
         },
         {
           test: /\.tsx?$/,
           include: paths.appSrc,
-          loader: 'babel!awesome-typescript',
+          use: [
+            {
+              loader: 'babel',
+              options: babelOptions,
+            },
+            'awesome-typescript',
+          ],
         },
       ],
-    },
-    babel: {
-      babelrc: false,
-      presets: [
-        require.resolve('babel-preset-es2015'),
-        require.resolve('babel-preset-react'),
-        require.resolve('babel-preset-stage-0'),
-      ].concat(config.extraBabelPresets || []),
-      plugins: [
-        require.resolve('babel-plugin-add-module-exports'),
-        require.resolve('babel-plugin-react-require'),
-      ].concat(config.extraBabelPlugins || []),
-      cacheDirectory: true,
-    },
-    postcss() {
-      return [
-        autoprefixer(config.autoprefixer || {
-          browsers: [
-            '>1%',
-            'last 4 versions',
-            'Firefox ESR',
-            'not ie < 9', // React doesn't support IE8 anyway
-          ],
-        }),
-      ]
-        .concat(config.extraPostCSSPlugins ? config.extraPostCSSPlugins : []);
     },
     plugins: [
       new webpack.DefinePlugin({
@@ -199,12 +220,12 @@ export default function (config, cwd) {
   if (config.svgSpriteLoaderDirs) {
     baseSvgLoader.exclude = config.svgSpriteLoaderDirs;
     spriteSvgLoader.include = config.svgSpriteLoaderDirs;
-    finalWebpackConfig.module.loaders = finalWebpackConfig.module.loaders.concat([
+    finalWebpackConfig.module.rules.push([
       baseSvgLoader,
       spriteSvgLoader,
     ]);
   } else {
-    finalWebpackConfig.module.loaders.push(baseSvgLoader);
+    finalWebpackConfig.module.rules.push(baseSvgLoader);
   }
 
   return addExtraBabelIncludes(finalWebpackConfig, paths, config.extraBabelIncludes);

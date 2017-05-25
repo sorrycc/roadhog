@@ -54,15 +54,15 @@ export default function (args, appBuild, config, paths) {
     resolve: {
       extensions: [
         '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
-        '.js', '.json', '.jsx', '.ts', '.tsx', '',
+        '.js', '.json', '.jsx', '.ts', '.tsx',
       ],
     },
     resolveLoader: {
-      root: [
+      modules: [
         paths.ownNodeModules,
         paths.appNodeModules,
       ],
-      moduleTemplates: ['*-loader'],
+      moduleExtensions: ['-loader'],
     },
     module: {
       loaders: [
@@ -121,10 +121,6 @@ export default function (args, appBuild, config, paths) {
         {
           test: /\.html$/,
           loader: 'file?name=[name].[ext]',
-        },
-        {
-          test: /\.json$/,
-          loader: 'json',
         },
         {
           test: /\.tsx?$/,
