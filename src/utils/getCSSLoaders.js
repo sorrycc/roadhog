@@ -3,18 +3,21 @@ export default function getCSSLoaders(config) {
   const own = [];
   const nodeModules = [];
 
+  const baseCSSOptions = {
+    importLoaders: 1,
+    sourceMap: !config.disableCSSSourceMap,
+  };
+
   if (config.disableCSSModules) {
     own.push({
       loader: 'css',
-      options: {
-        importLoaders: 1,
-      },
+      options: baseCSSOptions,
     });
   } else {
     own.push({
       loader: 'css',
       options: {
-        importLoaders: 1,
+        ...baseCSSOptions,
         modules: true,
         localIdentName: '[local]___[hash:base64:5]',
       },
@@ -22,9 +25,7 @@ export default function getCSSLoaders(config) {
   }
   nodeModules.push({
     loader: 'css',
-    options: {
-      importLoaders: 1,
-    },
+    options: baseCSSOptions,
   });
 
   const postcssLoader = {
