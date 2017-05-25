@@ -89,13 +89,11 @@ export default function (args, appBuild, config, paths) {
   if (config.svgSpriteLoaderDirs) {
     baseSvgLoader.exclude = config.svgSpriteLoaderDirs;
     spriteSvgLoader.include = config.svgSpriteLoaderDirs;
-    finalWebpackConfig.module.rules.push([
-      baseSvgLoader,
-      spriteSvgLoader,
-    ]);
+    finalWebpackConfig.module.rules.push(baseSvgLoader);
+    finalWebpackConfig.module.rules.push(spriteSvgLoader);
   } else {
     finalWebpackConfig.module.rules.push(baseSvgLoader);
   }
 
-  return addExtraBabelIncludes(finalWebpackConfig, paths, config.extraBabelIncludes);
+  return addExtraBabelIncludes(finalWebpackConfig, paths, config.extraBabelIncludes, babelOptions);
 }

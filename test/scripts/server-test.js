@@ -12,6 +12,7 @@ describe('server', () => {
     process.chdir(mock);
     const p = fork(`${__dirname}/../../lib/server`, [], {
       env: {
+        CLEAR_CONSOLE: 'none',
         BROWSER: 'none',
       },
     });

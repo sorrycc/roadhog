@@ -19,7 +19,11 @@ function testBuild(cwd, done) {
     debug: true,
     cwd,
   }).then(() => {
-    assertResult(join(cwd, 'dist'), join(cwd, 'expected'));
+    try {
+      assertResult(join(cwd, 'dist'), join(cwd, 'expected'));
+    } catch (e) {
+      console.log(e);
+    }
     done();
   });
 }
@@ -31,7 +35,8 @@ describe('build', () => {
   dirs
     .filter(dir => dir.charAt(0) !== '.')
     .forEach((dir) => {
-      it(dir, (done) => {
+      const fn = dir.indexOf('-only') > -1 ? it.only : it;
+      fn(dir, (done) => {
         const cwd = join(buildPath, dir);
         process.chdir(cwd);
         testBuild(cwd, done);
