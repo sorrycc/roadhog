@@ -5,7 +5,7 @@ import glob from 'glob';
 const DEFAULT_ENTRY = './src/index.js';
 
 function getEntry(filePath, isBuild) {
-  const key = basename(filePath, '.js');
+  const key = basename(filePath).replace(/\.(js|tsx?)$/, '');
   const value = isBuild
     ? [filePath]
     : [

@@ -1,11 +1,18 @@
 import { join } from 'path';
 import expect from 'expect';
-import { getFiles } from '../../src/utils/getEntry';
+import { getFiles, getEntries } from '../../src/utils/getEntry';
 
 const fixtures = join(__dirname, '..', 'fixtures');
 const getEntryFixture = join(fixtures, 'getEntry');
 
 describe('getEntry', () => {
+
+  it('ts', () => {
+    expect(getEntries(['./src/a.js'], getEntryFixture)).toEqual({
+      a: ['./src/a.js']
+    });
+  })
+
   it('array', () => {
     expect(getFiles(['./src/a.js'], getEntryFixture)).toEqual([
       './src/a.js',
