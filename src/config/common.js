@@ -101,7 +101,12 @@ export function getLastRules({ paths, babelOptions }) {
           loader: 'babel',
           options: babelOptions,
         },
-        'awesome-typescript',
+        {
+          loader: 'awesome-typescript',
+          options: {
+            transpileOnly: true,
+          },
+        },
       ],
     },
   ];
