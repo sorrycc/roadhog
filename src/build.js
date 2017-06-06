@@ -36,6 +36,12 @@ const argv = require('yargs')
     describe: 'Visualize and analyze your Webpack bundle.',
     default: false,
   })
+  .option('config', {
+    type: 'string',
+    alias: 'c',
+    describe: 'Specify config file for roadhog',
+    default: '.roadhogrc',
+  })
   .help('h')
   .argv;
 
@@ -48,7 +54,7 @@ export function build(argv) {
   const paths = getPaths(argv.cwd);
 
   try {
-    rcConfig = getConfig(process.env.NODE_ENV, argv.cwd);
+    rcConfig = getConfig(process.env.NODE_ENV, argv.cwd, argv.config);
   } catch (e) {
     console.log(chalk.red('Failed to parse .roadhogrc config.'));
     console.log();

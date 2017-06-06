@@ -23,8 +23,14 @@ const cwd = process.cwd();
 const paths = getPaths(cwd);
 let compiler;
 
-require('yargs') // eslint-disable-line
+const argv = require('yargs') // eslint-disable-line
   .usage('Usage: roadhog server [options]')
+  .option('config', {
+    type: 'string',
+    alias: 'c',
+    describe: 'Specify config file for roadhog',
+    default: '.roadhogrc',
+  })
   .help('h')
   .argv;
 
@@ -39,7 +45,7 @@ function clearConsoleWrapped() {
 
 function readRcConfig() {
   try {
-    rcConfig = getConfig(process.env.NODE_ENV, cwd);
+    rcConfig = getConfig(process.env.NODE_ENV, cwd, argv.config);
   } catch (e) {
     console.log(chalk.red('Failed to parse .roadhogrc config.'));
     console.log();

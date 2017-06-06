@@ -55,8 +55,8 @@ export function realGetConfig(configFile, env, pkg = {}, paths) {
   }, {});
 }
 
-export default function (env, cwd) {
+export default function (env, cwd, configFile = '.roadhogrc') {
   const paths = getPaths(cwd);
   const pkg = JSON.parse(readFileSync(paths.appPackageJson, 'utf-8'));
-  return realGetConfig('.roadhogrc', env, pkg, paths);
+  return realGetConfig(configFile, env, pkg, paths);
 }
