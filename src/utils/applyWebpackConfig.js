@@ -12,10 +12,10 @@ export function warnIfExists() {
   }
 }
 
-export default function applyWebpackConfig(config, env) {
+export default function applyWebpackConfig(config, env, configPath) {
   const filePath = resolve('webpack.config.js');
   if (existsSync(filePath)) {
-    return require(filePath)(config, env);  // eslint-disable-line
+    return require(filePath)(config, env, configPath);  // eslint-disable-line
   } else {
     return config;
   }

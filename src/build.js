@@ -56,7 +56,7 @@ export function build(argv) {
   try {
     rcConfig = getConfig(process.env.NODE_ENV, argv.cwd, argv.config);
   } catch (e) {
-    console.log(chalk.red('Failed to parse .roadhogrc config.'));
+    console.log(chalk.red(`Failed to parse ${argv.config} config.`));
     console.log();
     console.log(e.message);
     process.exit(1);
@@ -67,6 +67,7 @@ export function build(argv) {
   config = applyWebpackConfig(
     require('./config/webpack.config.prod')(argv, appBuild, rcConfig, paths),
     process.env.NODE_ENV,
+    argv.config,
   );
 
   return new Promise((resolve) => {

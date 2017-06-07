@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { extname } from 'path';
 import clearConsole from 'react-dev-utils/clearConsole';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import openBrowser from 'react-dev-utils/openBrowser';
@@ -47,7 +48,7 @@ function readRcConfig() {
   try {
     rcConfig = getConfig(process.env.NODE_ENV, cwd, argv.config);
   } catch (e) {
-    console.log(chalk.red('Failed to parse .roadhogrc config.'));
+    console.log(chalk.red(`Failed to parse ${argv.config} config.`));
     console.log();
     console.log(e.message);
     process.exit(1);
@@ -58,6 +59,7 @@ function readWebpackConfig() {
   config = applyWebpackConfig(
     require('./config/webpack.config.dev')(rcConfig, cwd),
     process.env.NODE_ENV,
+    argv.config,
   );
 }
 
@@ -190,9 +192,13 @@ function runDevServer(host, port, protocol) {
 }
 
 function setupWatch(devServer) {
+  const watchConfig = [argv.config];
+  const notJsFile = extname(argv.config) !== '.js';
+  if (notJsFile) {
+    watchConfig.push(`${argv.config}.js`);
+  }
   const files = [
-    paths.resolveApp('.roadhogrc'),
-    paths.resolveApp('.roadhogrc.js'),
+    ...watchConfig.map(file => paths.resolveApp(file)),
     paths.resolveApp('webpack.config.js'),
   ]
     .concat(typeof rcConfig.theme === 'string' ? paths.resolveApp(rcConfig.theme) : []);
