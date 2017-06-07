@@ -19,7 +19,7 @@ import {
 } from './common';
 
 export default function (args, appBuild, config, paths) {
-  const { debug, analyze } = args;
+  const { watch, debug, analyze } = args;
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
   const {
@@ -57,8 +57,10 @@ export default function (args, appBuild, config, paths) {
       ],
     },
     plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
-      new webpack.optimize.DedupePlugin(),
+      ...(watch ? [] : [
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.optimize.DedupePlugin(),
+      ]),
       new ExtractTextPlugin('[name].css'),
       ...getCommonPlugins({
         config,
