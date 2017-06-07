@@ -201,7 +201,10 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
     ]));
   }
   if (config.multipage) {
-    ret.push(new webpack.optimize.CommonsChunkPlugin('common', 'common.js'));
+    ret.push(new webpack.optimize.CommonsChunkPlugin({
+      name: 'common',
+      filename: 'common.js',
+    }));
   }
 
   ret.push(new webpack.LoaderOptionsPlugin({

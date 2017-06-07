@@ -1,0 +1,5 @@
+{
+  "devtool": "",
+  "entry": "./src/pages/*.js",
+  "multipage": true
+}
