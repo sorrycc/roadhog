@@ -93,7 +93,7 @@
     "system-bell-webpack-plugin": "^1.0.0",
     "typescript": "^2.3.3",
     "url-loader": "^0.5.7",
-    "webpack": "^2.3.3",
+    "webpack": "^3.0.0-rc.0",
     "webpack-dev-server": "^2.4.5",
     "webpack-visualizer-plugin": "^0.1.6",
     "yargs": "^8.0.1"
