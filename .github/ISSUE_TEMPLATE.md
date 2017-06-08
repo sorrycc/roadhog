@@ -3,7 +3,7 @@
 2. 提问前建议先搜索以下资料 [issue列表](https://github.com/sorrycc/roadhog/issues?utf8=%E2%9C%93&q=is%3Aissue)。
 3. 建议使用英文提问，便于讨论被更多的人阅读和回答。如果表达上确实较复杂，可以使用英文标题加中文描述。
 4. 报告 *bug* 时请务必按照最下方的模板书写，并尽可能提供源代码、复现步骤、复现演示、GIF 演示等。
-5. 若粘贴源码，尽量避免截图，建议使用Markdown代码格式化。关于如何在 Markdown 中书写代码可以参考[文档](https://segmentfault.com/markdown)
+5. 若粘贴源码，尽量避免截图，建议使用 Markdown 代码格式化。关于如何在 Markdown 中书写代码可以参考[文档](https://segmentfault.com/markdown)
 -->
 
 <!-- BUG TEMPLATE -->
