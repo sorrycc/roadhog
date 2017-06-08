@@ -8,10 +8,10 @@ const getEntryFixture = join(fixtures, 'getEntry');
 describe('getEntry', () => {
 
   it('ts', () => {
-    expect(getEntries(['./src/a.js'], getEntryFixture)).toEqual({
-      a: ['./src/a.js']
+    expect(getEntries(['./src/a.ts'], getEntryFixture)).toEqual({
+      a: ['./src/a.ts'],
     });
-  })
+  });
 
   it('array', () => {
     expect(getFiles(['./src/a.js'], getEntryFixture)).toEqual([
