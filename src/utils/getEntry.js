@@ -1,6 +1,7 @@
 import { basename, sep } from 'path';
 import assert from 'assert';
 import glob from 'glob';
+import isPlainObject from 'is-plain-object';
 
 const DEFAULT_ENTRY = './src/index.js';
 
@@ -44,6 +45,9 @@ export function getEntries(files, isBuild) {
 
 export default function (config, appDirectory, isBuild) {
   const entry = config.entry;
+  if (isPlainObject(entry)) {
+    return entry;
+  }
   const files = entry ? getFiles(entry, appDirectory) : [DEFAULT_ENTRY];
   return getEntries(files, isBuild);
 }
