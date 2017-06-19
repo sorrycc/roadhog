@@ -30,10 +30,8 @@ export default function (argv, rcConfig, paths) {
       }),
     ],
     resolve: {
-      root: [
+      modules: [
         paths.appDirectory,
-      ],
-      modulesDirectories: [
         'node_modules',
         paths.ownNodeModules,
       ],

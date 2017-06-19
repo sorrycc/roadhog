@@ -1,0 +1,8 @@
+{
+    "entry": "src/index.js",
+    "dllPlugin": {
+        "include": [
+            "a"
+        ]
+    }
+}
