@@ -36,7 +36,7 @@ export const spriteSvgLoader = {
 
 export const defaultDevtool = '#cheap-module-eval-source-map';
 
-export function getResolve(paths) {
+export function getResolve(config, paths) {
   return {
     resolve: {
       modules: [
@@ -44,6 +44,7 @@ export function getResolve(paths) {
         paths.appNodeModules,
       ],
       extensions: [
+        ...(config.extraResolveExtensions || []),
         '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
         '.js', '.json', '.jsx', '.ts', '.tsx',
       ],

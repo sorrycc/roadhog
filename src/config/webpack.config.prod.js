@@ -48,7 +48,7 @@ export default function (args, appBuild, config, paths) {
     devtool,
     entry: getEntry(config, paths.appDirectory, /* isBuild */true),
     output,
-    ...getResolve(paths),
+    ...getResolve(config, paths),
     module: {
       rules: [
         ...getFirstRules({ paths, babelOptions }),

@@ -62,7 +62,7 @@ export default function (config, cwd) {
     devtool,
     entry: getEntry(config, paths.appDirectory),
     output,
-    ...getResolve(paths),
+    ...getResolve(config, paths),
     module: {
       rules: [
         ...getFirstRules({ paths, babelOptions }),

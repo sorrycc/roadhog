@@ -1,0 +1,4 @@
+{
+  "extraResolveExtensions": [".tiny.js"],
+  "devtool": ""
+}
