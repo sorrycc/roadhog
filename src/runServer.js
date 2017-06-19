@@ -12,6 +12,7 @@ import chalk from 'chalk';
 import chokidar from 'chokidar';
 import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
+import runArray from './utils/runArray';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
 import { applyMock, outputError as outputMockError } from './utils/mock';
 
@@ -49,10 +50,12 @@ function readRcConfig() {
 }
 
 function readWebpackConfig() {
-  config = applyWebpackConfig(
-    require('./config/webpack.config.dev')(rcConfig, cwd),
-    process.env.NODE_ENV,
-  );
+  config = runArray(rcConfig, (c) => {
+    return applyWebpackConfig(
+      require('./config/webpack.config.dev')(c, cwd),
+      process.env.NODE_ENV,
+    );
+  });
 }
 
 
@@ -84,7 +87,11 @@ function setupCompiler(host, port, protocol) {
     warnIfExists();
 
     if (isSuccessful) {
-      console.log(chalk.green(`Compiled successfully in ${(json.time / 1000).toFixed(1)}s!`));
+      if (stats.stats) {
+        console.log(chalk.green('Compiled successfully'));
+      } else {
+        console.log(chalk.green(`Compiled successfully in ${(json.time / 1000).toFixed(1)}s!`));
+      }
     }
 
     if (showInstructions) {
@@ -141,6 +148,14 @@ function addMiddleware(devServer) {
   devServer.use(devServer.middleware);
 }
 
+function getPublicPath() {
+  if (Array.isArray(config)) {
+    return config[0].output.publicPath;
+  } else {
+    return config.output.publicPath;
+  }
+}
+
 function runDevServer(host, port, protocol) {
   const devServer = new WebpackDevServer(compiler, {
     disableHostCheck: true,
@@ -148,7 +163,7 @@ function runDevServer(host, port, protocol) {
     clientLogLevel: 'none',
     contentBase: paths.appPublic,
     hot: true,
-    publicPath: config.output.publicPath,
+    publicPath: getPublicPath(),
     quiet: true,
     watchOptions: {
       ignored: /node_modules/,
@@ -225,7 +240,11 @@ function init() {
       return;
     }
 
-    run(port);
+    try {
+      run(port);
+    } catch (e) {
+      console.log(e);
+    }
   });
 }
 

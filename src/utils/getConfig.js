@@ -41,18 +41,28 @@ function replaceNpmVariables(value, pkg) {
   }
 }
 
-export function realGetConfig(configFile, env, pkg = {}, paths) {
-  env = env || 'development';
-  const config = getConfig(configFile, paths);
+function mergeConfig(config, env, pkg) {
   if (config.env) {
     if (config.env[env]) merge(config, config.env[env]);
     delete config.env;
   }
-
   return Object.keys(config).reduce((memo, key) => {
     memo[key] = replaceNpmVariables(config[key], pkg);
     return memo;
   }, {});
+}
+
+export function realGetConfig(configFile, env, pkg = {}, paths) {
+  env = env || 'development';
+  const config = getConfig(configFile, paths);
+
+  if (Array.isArray(config)) {
+    return config.map((c) => {
+      return mergeConfig(c, env, pkg);
+    });
+  } else {
+    return mergeConfig(config, env, pkg);
+  }
 }
 
 export default function (env, cwd) {

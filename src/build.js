@@ -8,6 +8,7 @@ import recursive from 'recursive-readdir';
 import stripAnsi from 'strip-ansi';
 import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
+import runArray from './utils/runArray';
 import applyWebpackConfig, { warnIfExists } from './utils/applyWebpackConfig';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'production';
@@ -44,6 +45,14 @@ let outputPath;
 let appBuild;
 let config;
 
+function getOutputPath(rcConfig) {
+  if (Array.isArray(rcConfig)) {
+    return rcConfig[0].outputPath;
+  } else {
+    return rcConfig.outputPath;
+  }
+}
+
 export function build(argv) {
   const paths = getPaths(argv.cwd);
 
@@ -56,12 +65,15 @@ export function build(argv) {
     process.exit(1);
   }
 
-  outputPath = argv.outputPath || rcConfig.outputPath || 'dist';
+  outputPath = argv.outputPath || getOutputPath(rcConfig) || 'dist';
   appBuild = paths.resolveApp(outputPath);
-  config = applyWebpackConfig(
-    require('./config/webpack.config.prod')(argv, appBuild, rcConfig, paths),
-    process.env.NODE_ENV,
-  );
+
+  config = runArray(rcConfig, (c) => {
+    return applyWebpackConfig(
+      require('./config/webpack.config.prod')(argv, appBuild, c, paths),
+      process.env.NODE_ENV,
+    );
+  });
 
   return new Promise((resolve) => {
     // First, read the current file sizes in build directory.
@@ -161,20 +173,26 @@ function doneHandler(previousSizeMap, argv, resolve, err, stats) {
     process.exit(1);
   }
 
-  if (stats.compilation.errors.length) {
-    printErrors('Failed to compile.', stats.compilation.errors);
-    process.exit(1);
-  }
+  runArray(stats.stats || stats, (item) => {
+    if (item.compilation.errors.length) {
+      printErrors('Failed to compile.', item.compilation.errors);
+      process.exit(1);
+    }
+  });
 
   warnIfExists();
 
-  console.log(chalk.green(`Compiled successfully in ${(stats.toJson().time / 1000).toFixed(1)}s.`));
-  console.log();
+  if (stats.stats) {
+    console.log(chalk.green('Compiled successfully.'));
+  } else {
+    console.log(chalk.green(`Compiled successfully in ${(stats.toJson().time / 1000).toFixed(1)}s.`));
+    console.log();
 
-  console.log('File sizes after gzip:');
-  console.log();
-  printFileSizes(stats, previousSizeMap);
-  console.log();
+    console.log('File sizes after gzip:');
+    console.log();
+    printFileSizes(stats, previousSizeMap);
+    console.log();
+  }
 
   if (argv.analyze) {
     console.log(`Analyze result is generated at ${chalk.cyan('dist/stats.html')}.`);
