@@ -15,6 +15,12 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'production';
 
 const argv = require('yargs')
   .usage('Usage: roadhog buildDll [options]')
+  .option('config', {
+    type: 'string',
+    alias: 'c',
+    describe: 'Specify config file for roadhog',
+    default: '.roadhogrc',
+  })
   .help('h')
   .argv;
 
@@ -26,16 +32,16 @@ export function build(argv) {
   const paths = getPaths(argv.cwd);
 
   try {
-    rcConfig = getConfig(process.env.NODE_ENV, argv.cwd);
+    rcConfig = getConfig(process.env.NODE_ENV, argv.cwd, argv.config);
   } catch (e) {
-    console.log(chalk.red('Failed to parse .roadhogrc config.'));
+    console.log(chalk.red(`Failed to parse ${argv.config} config.`));
     console.log();
     console.log(e.message);
     process.exit(1);
   }
 
   if (!rcConfig.dllPlugin) {
-    console.log(chalk.red('dllPlugin config not found in .roadhogrc'));
+    console.log(chalk.red(`dllPlugin config not found in ${argv.config}`));
     process.exit(1);
   }
 
@@ -43,6 +49,7 @@ export function build(argv) {
   config = applyWebpackConfig(
     require('./config/webpack.config.dll')(argv, rcConfig, paths),
     process.env.NODE_ENV,
+    argv.config,
   );
 
   return new Promise((resolve) => {

@@ -1,4 +1,5 @@
 import { existsSync, readFileSync } from 'fs';
+import { extname } from 'path';
 import stripJsonComments from 'strip-json-comments';
 import isPlainObject from 'is-plain-object';
 import parseJSON from 'parse-json-pretty';
@@ -21,8 +22,11 @@ function merge(oldObj, newObj) {
 function getConfig(configFile, paths) {
   const rcConfig = paths.resolveApp(configFile);
   const jsConfig = paths.resolveApp(`${configFile}.js`);
+  const isJsFile = extname(configFile) === '.js';
 
-  if (existsSync(rcConfig)) {
+  if (isJsFile && existsSync(rcConfig)) {
+    return require(rcConfig);  // eslint-disable-line
+  } else if (existsSync(rcConfig)) {
     return parseJSON(stripJsonComments(readFileSync(rcConfig, 'utf-8')), './roadhogrc');
   } else if (existsSync(jsConfig)) {
     return require(jsConfig);  // eslint-disable-line
@@ -55,8 +59,8 @@ export function realGetConfig(configFile, env, pkg = {}, paths) {
   }, {});
 }
 
-export default function (env, cwd) {
+export default function (env, cwd, configFile = '.roadhogrc') {
   const paths = getPaths(cwd);
   const pkg = JSON.parse(readFileSync(paths.appPackageJson, 'utf-8'));
-  return realGetConfig('.roadhogrc', env, pkg, paths);
+  return realGetConfig(configFile, env, pkg, paths);
 }
