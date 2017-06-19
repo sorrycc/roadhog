@@ -77,7 +77,26 @@ module.exports = __webpack_require__(1);
 "use strict";
 
 
+var _a = __webpack_require__(2);
+
+var _a2 = _interopRequireDefault(_a);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 alert('welcome');
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+module.exports = abc.b(function require(path) {
+    try {
+      exports.requireDepth += 1;
+      return self.require(path);
+    } finally {
+      exports.requireDepth -= 1;
+    }
+  });
 
 /***/ })
 /******/ ]);
