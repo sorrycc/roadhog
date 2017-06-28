@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
 import { existsSync } from 'fs';
+import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import normalizeDefine from '../utils/normalizeDefine';
@@ -48,6 +49,16 @@ export function getResolve(config, paths) {
         '.web.js', '.web.jsx', '.web.ts', '.web.tsx',
         '.js', '.json', '.jsx', '.ts', '.tsx',
       ],
+      alias: {
+        '@': paths.appSrc, // eslint-disable-line
+        components: path.join(paths.appSrc, 'components'),
+        models: path.join(paths.appSrc, 'models'),
+        routes: path.join(paths.appSrc, 'routes'),
+        services: path.join(paths.appSrc, 'services'),
+        assets: path.join(paths.appSrc, 'assets'),
+        utils: path.join(paths.appSrc, 'utils'),
+        ...(config.alias || {}),
+      },
     },
     resolveLoader: {
       modules: [
@@ -65,7 +76,7 @@ export function getFirstRules({ paths, babelOptions }) {
       exclude: [
         /\.html$/,
         /\.(js|jsx)$/,
-        /\.(css|less)$/,
+        /\.(css|less|scss|sass)$/,
         /\.json$/,
         /\.svg$/,
         /\.tsx?$/,
@@ -138,6 +149,17 @@ export function getCSSRules(env, { paths, cssLoaders, theme }) {
       ],
     },
     {
+      test: /\.scss$/,
+      include: paths.appSrc,
+      use: [
+        'style',
+        ...cssLoaders.own,
+        {
+          loader: 'sass',
+        },
+      ],
+    },
+    {
       test: /\.css$/,
       include: paths.appNodeModules,
       use: [
@@ -156,6 +178,17 @@ export function getCSSRules(env, { paths, cssLoaders, theme }) {
           options: {
             modifyVars: theme,
           },
+        },
+      ],
+    },
+    {
+      test: /\.scss$/,
+      include: paths.appNodeModules,
+      use: [
+        'style',
+        ...cssLoaders.nodeModules,
+        {
+          loader: 'sass',
         },
       ],
     },
@@ -224,6 +257,10 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
       ],
     },
   }));
+
+  if (config.provide) {
+    ret.push(new webpack.ProvidePlugin(config.provide));
+  }
 
   return ret;
 }
