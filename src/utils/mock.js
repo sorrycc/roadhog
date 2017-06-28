@@ -27,13 +27,9 @@ export function getConfig(filePath) {
     };
 
     const config = require(resolvedFilePath);  // eslint-disable-line
-    const socketio = config.connectSocketIO; // eslint-disable-line
-    if (config.connectSocketIO) {
-      delete config.connectSocketIO; // eslint-disable-line
-    }
     require.extensions['.js'] = realRequire;
 
-    return { config, socketio, files };
+    return { config, files };
   } else {
     return {
       config: {},
@@ -98,7 +94,6 @@ export function applyMock(devServer) {
 function realApplyMock(devServer) {
   const ret = getConfig(CONFIG_FILE);
   const config = ret.config;
-  const socketio = ret.socketio;
   const files = ret.files;
   const app = devServer.app;
 
@@ -151,10 +146,6 @@ function realApplyMock(devServer) {
     newStack.push(newStack[lastIndex]);
     newStack.splice(lastIndex - 1, 2);
     app._router.stack = newStack;
-  }
-
-  if (socketio) {
-    devServer = socketio(devServer);
   }
 
   const watcher = chokidar.watch(files, {
