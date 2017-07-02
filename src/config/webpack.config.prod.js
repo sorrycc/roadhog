@@ -23,10 +23,12 @@ export default function (args, appBuild, config, paths) {
   const NODE_ENV = debug ? 'development' : process.env.NODE_ENV;
 
   const {
+    filename = '[name].js',
     publicPath = '/',
     library = null,
     libraryTarget = 'var',
     devtool = debug ? defaultDevtool : false,
+    chunkFilename = '[name].async.js',
   } = config;
 
   const babelOptions = getBabelOptions(config);
@@ -35,10 +37,10 @@ export default function (args, appBuild, config, paths) {
 
   const output = {
     path: appBuild,
-    filename: '[name].js',
+    filename,
     publicPath,
     libraryTarget,
-    chunkFilename: '[name].async.js',
+    chunkFilename,
   };
 
   if (library) output.library = library;
