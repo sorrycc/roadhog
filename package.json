@@ -1,11 +1,12 @@
 {
-  "name": "roadhog",
-  "version": "1.0.0-beta.7",
-  "description": "Cli tool for serve and build react app, based on create-react-app, support JSON pattern config.",
+  "name": "hyrule",
+  "version": "1.0.0",
+  "description": "Cli tool for serve and build react app, based on roadhog, support JSON pattern config, support more features",
   "bin": {
-    "roadhog": "./bin/roadhog.js"
+    "hyrule": "./bin/roadhog.js"
   },
   "keywords": [
+    "hyrule",
     "roadhog",
     "react",
     "cli",
@@ -13,11 +14,11 @@
     "webpack"
   ],
   "authors": [
-    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+    "Eason <uniquecolesmith@gmail.com> (https://github.com/whatwewant)"
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sorrycc/roadhog/issues"
+    "url": "https://github.com/whatwewant/roadhog/issues"
   },
   "files": [
     "bin",
