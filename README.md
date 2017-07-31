@@ -315,6 +315,10 @@ extraPostCSSPlugins: [
 
 ### svgSpriteLoaderDirs
 
+Notice:
+  - roadhog 版本必须 >= `0.6.0-beta1`。
+  - 因为 `.roadhogrc` 配置文件优先级大于 `.roadhogrc.js`, 请先删除 `.roadhogrc`。
+
 配置一个路径数组, 该路径下的 svg 文件会全部交给 [svg-sprite-loader](https://github.com/kisenka/svg-sprite-loader) 处理
 
 比如，使用 antd-mobile 的 [自定义 svg icon](https://mobile.ant.design/components/icon) 功能的用户，可以在 `.roadhogrc.js` 文件中做如下配置
