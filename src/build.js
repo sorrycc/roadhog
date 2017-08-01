@@ -170,13 +170,19 @@ function printErrors(summary, errors) {
 function doneHandler(previousSizeMap, argv, resolve, err, stats) {
   if (err) {
     printErrors('Failed to compile.', [err]);
-    process.exit(1);
+    if (!argv.watch) {
+      process.exit(1);
+    }
+    resolve();
+    return;
   }
 
   runArray(stats.stats || stats, (item) => {
     if (item.compilation.errors.length) {
       printErrors('Failed to compile.', item.compilation.errors);
-      process.exit(1);
+      if (!argv.watch) {
+        process.exit(1);
+      }
     }
   });
 
