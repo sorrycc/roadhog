@@ -23,7 +23,10 @@ function getConfig(configFile, paths) {
   const jsConfig = paths.resolveApp(`${configFile}.js`);
 
   if (existsSync(rcConfig)) {
-    return parseJSON(stripJsonComments(readFileSync(rcConfig, 'utf-8')), './roadhogrc');
+    if (process.env.NODE_ENV === 'development' && existsSync(jsConfig)) {
+      console.error(`Config error: You must delete ${rcConfig} if you want to use ${jsConfig}`);
+    }
+    return parseJSON(stripJsonComments(readFileSync(rcConfig, 'utf-8')), configFile);
   } else if (existsSync(jsConfig)) {
     return require(jsConfig);  // eslint-disable-line
   } else {
