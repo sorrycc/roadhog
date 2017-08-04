@@ -52,7 +52,7 @@ export default function (args, appBuild, config, paths) {
     module: {
       rules: [
         ...getFirstRules({ paths, babelOptions }),
-        ...getCSSRules('production', { paths, cssLoaders, theme }),
+        ...getCSSRules('production', { config, paths, cssLoaders, theme }),
         ...getLastRules({ paths, babelOptions }),
       ],
     },

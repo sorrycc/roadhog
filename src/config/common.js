@@ -65,7 +65,7 @@ export function getFirstRules({ paths, babelOptions }) {
       exclude: [
         /\.html$/,
         /\.(js|jsx)$/,
-        /\.(css|less)$/,
+        /\.(css|less|scss)$/,
         /\.json$/,
         /\.svg$/,
         /\.tsx?$/,
@@ -113,8 +113,8 @@ export function getLastRules({ paths, babelOptions }) {
   ];
 }
 
-export function getCSSRules(env, { paths, cssLoaders, theme }) {
-  const rules = [
+export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
+  let rules = [
     {
       test: /\.css$/,
       include: paths.appSrc,
@@ -160,6 +160,36 @@ export function getCSSRules(env, { paths, cssLoaders, theme }) {
       ],
     },
   ];
+  if (config.sass) {
+    const sassOptions = config.sass === true ? {} : config.sass;
+    rules = [
+      ...rules,
+      {
+        test: /\.scss$/,
+        include: paths.appSrc,
+        use: [
+          'style',
+          ...cssLoaders.own,
+          {
+            loader: 'sass',
+            options: sassOptions,
+          },
+        ],
+      },
+      {
+        test: /\.scss$/,
+        include: paths.appNodeModules,
+        use: [
+          'style',
+          ...cssLoaders.nodeModules,
+          {
+            loader: 'sass',
+            options: sassOptions,
+          },
+        ],
+      },
+    ];
+  }
   if (env === 'production') {
     rules.forEach((rule) => {
       rule.use = ExtractTextPlugin.extract({
