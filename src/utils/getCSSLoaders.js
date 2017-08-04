@@ -2,6 +2,7 @@
 export default function getCSSLoaders(config) {
   const own = [];
   const nodeModules = [];
+  const noCSSModules = [];
 
   const baseCSSOptions = {
     importLoaders: 1,
@@ -27,16 +28,22 @@ export default function getCSSLoaders(config) {
     loader: 'css',
     options: baseCSSOptions,
   });
+  noCSSModules.push({
+    loader: 'css',
+    options: baseCSSOptions,
+  });
 
   const postcssLoader = {
     loader: 'postcss',
   };
 
+  noCSSModules.push(postcssLoader);
   own.push(postcssLoader);
   nodeModules.push(postcssLoader);
 
   return {
     own,
     nodeModules,
+    noCSSModules,
   };
 }

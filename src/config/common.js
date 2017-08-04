@@ -1,9 +1,11 @@
 import webpack from 'webpack';
 import autoprefixer from 'autoprefixer';
 import { existsSync } from 'fs';
+import { join } from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import normalizeDefine from '../utils/normalizeDefine';
+import winPath from '../utils/winPath';
 
 export function getBabelOptions(config) {
   return {
@@ -114,10 +116,23 @@ export function getLastRules({ paths, babelOptions }) {
 }
 
 export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
+  function isExclude(modulePath) {
+    if (config.cssModulesExclude && config.cssModulesExclude.length) {
+      return config.cssModulesExclude.some((item) => {
+        return winPath(join(paths.appDirectory, item)).indexOf(winPath(modulePath)) > -1;
+      });
+    }
+    return false;
+  }
+
+  function includeTest(root, modulePath) {
+    return modulePath.indexOf(root) > -1 && !isExclude(modulePath);
+  }
+
   let rules = [
     {
       test: /\.css$/,
-      include: paths.appSrc,
+      include: includeTest.bind(null, paths.appSrc),
       use: [
         'style',
         ...cssLoaders.own,
@@ -125,7 +140,7 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
     },
     {
       test: /\.less$/,
-      include: paths.appSrc,
+      include: includeTest.bind(null, paths.appSrc),
       use: [
         'style',
         ...cssLoaders.own,
@@ -139,7 +154,7 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
     },
     {
       test: /\.css$/,
-      include: paths.appNodeModules,
+      include: includeTest.bind(null, paths.appNodeModules),
       use: [
         'style',
         ...cssLoaders.nodeModules,
@@ -147,7 +162,7 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
     },
     {
       test: /\.less$/,
-      include: paths.appNodeModules,
+      include: includeTest.bind(null, paths.appNodeModules),
       use: [
         'style',
         ...cssLoaders.nodeModules,
@@ -160,13 +175,43 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
       ],
     },
   ];
+  if (config.cssModulesExclude && config.cssModulesExclude.length) {
+    const include = config.cssModulesExclude.map((item) => {
+      return join(paths.appDirectory, item);
+    });
+    rules = [
+      ...rules,
+      {
+        test: /\.css$/,
+        include,
+        use: [
+          'style',
+          ...cssLoaders.noCSSModules,
+        ],
+      },
+      {
+        test: /\.less$/,
+        include,
+        use: [
+          'style',
+          ...cssLoaders.noCSSModules,
+          {
+            loader: 'less',
+            options: {
+              modifyVars: theme,
+            },
+          },
+        ],
+      },
+    ];
+  }
   if (config.sass) {
     const sassOptions = config.sass === true ? {} : config.sass;
     rules = [
       ...rules,
       {
         test: /\.scss$/,
-        include: paths.appSrc,
+        include: includeTest.bind(null, paths.appSrc),
         use: [
           'style',
           ...cssLoaders.own,
@@ -178,7 +223,7 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
       },
       {
         test: /\.scss$/,
-        include: paths.appNodeModules,
+        include: includeTest.bind(null, paths.appNodeModules),
         use: [
           'style',
           ...cssLoaders.nodeModules,
@@ -189,6 +234,27 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
         ],
       },
     ];
+
+    if (config.cssModulesExclude && config.cssModulesExclude.length) {
+      const include = config.cssModulesExclude.map((item) => {
+        return join(paths.appDirectory, item);
+      });
+      rules = [
+        ...rules,
+        {
+          test: /\.scss$/,
+          include,
+          use: [
+            'style',
+            ...cssLoaders.noCSSModules,
+            {
+              loader: 'sass',
+              options: sassOptions,
+            },
+          ],
+        },
+      ];
+    }
   }
   if (env === 'production') {
     rules.forEach((rule) => {
