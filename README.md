@@ -236,6 +236,12 @@ extraPostCSSPlugins: [
 }
 ```
 
+### sass
+
+支持 sass，值为 [node-sass](https://github.com/sass/node-sass#options) 的配置参数。
+
+注意：开启 sass 支持需在项目代码中安装 node-sass 和 sass-loader 两个依赖。
+
 ### proxy
 
 配置代理，详见 [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy)。

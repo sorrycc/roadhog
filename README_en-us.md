@@ -141,6 +141,12 @@ e.g. If you are making mobile app:
 }
 ```
 
+### sass
+
+Support sass, set the options of [node-sass](https://github.com/sass/node-sass#options).
+
+Notice: need to install node-sass and sass-loader deps in your project.
+
 ### proxy
 
 Specify proxy for webpack-dev-server, view [webpack-dev-server#proxy](https://webpack.github.io/docs/webpack-dev-server.html#proxy) for details。
