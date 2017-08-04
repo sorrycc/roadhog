@@ -1,0 +1,7 @@
+{
+  "devtool": "",
+  "cssModulesExclude": [
+    "./src/a-n.css",
+    "./src/b-n.less"
+  ]
+}
