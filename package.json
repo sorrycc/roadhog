@@ -110,7 +110,9 @@
     "expect": "^1.20.2",
     "got": "^6.7.1",
     "husky": "^0.13.3",
+    "node-sass": "^4.5.3",
     "nyc": "^10.3.2",
-    "postcss-pxtorem": "^4.0.0"
+    "postcss-pxtorem": "^4.0.0",
+    "sass-loader": "^6.0.6"
   }
 }

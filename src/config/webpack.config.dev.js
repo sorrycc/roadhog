@@ -66,7 +66,7 @@ export default function (config, cwd) {
     module: {
       rules: [
         ...getFirstRules({ paths, babelOptions }),
-        ...getCSSRules('development', { paths, cssLoaders, theme }),
+        ...getCSSRules('development', { config, paths, cssLoaders, theme }),
         ...getLastRules({ paths, babelOptions }),
       ],
     },
