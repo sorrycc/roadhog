@@ -33,19 +33,16 @@ export default function (args, appBuild, config, paths) {
   const cssLoaders = getCSSLoaders(config);
   const theme = getTheme(process.cwd(), config);
 
+  // Support hash
+  const name = config.hash ? '[name].[chunkhash]' : '[name]';
+
   const output = {
     path: appBuild,
-    filename: '[name].js',
+    filename: `${name}.js`,
     publicPath,
     libraryTarget,
-    chunkFilename: '[name].async.js',
+    chunkFilename: `${name}.async.js`,
   };
-
-  // Support hash
-  if (config.hash) {
-    output.filename = '[name].[chunkhash].js';
-    output.chunkFilename = '[name].[chunkhash].async.js';
-  }
 
   if (library) output.library = library;
 
@@ -67,7 +64,7 @@ export default function (args, appBuild, config, paths) {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
       ]),
-      new ExtractTextPlugin('[name].css'),
+      new ExtractTextPlugin(`${name}.css`),
       ...getCommonPlugins({
         config,
         paths,
