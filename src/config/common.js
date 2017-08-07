@@ -4,6 +4,7 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import normalizeDefine from '../utils/normalizeDefine';
 import winPath from '../utils/winPath';
 
@@ -65,7 +66,7 @@ export function getFirstRules({ paths, babelOptions }) {
   return [
     {
       exclude: [
-        /\.html$/,
+        /\.(html|ejs)$/,
         /\.(js|jsx)$/,
         /\.(css|less|scss)$/,
         /\.json$/,
@@ -288,6 +289,13 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
     };
   }
   ret.push(new webpack.DefinePlugin(defineObj));
+
+  if (existsSync(join(paths.appSrc, 'index.ejs'))) {
+    ret.push(new HtmlWebpackPlugin({
+      template: 'src/index.ejs',
+      inject: true,
+    }));
+  }
 
   if (existsSync(paths.appPublic)) {
     ret.push(new CopyWebpackPlugin([

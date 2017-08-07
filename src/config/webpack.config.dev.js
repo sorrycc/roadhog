@@ -43,12 +43,6 @@ export default function (config, cwd) {
     chunkFilename: '[name].async.js',
   };
 
-  // Support hash
-  if (config.hash) {
-    output.filename = '[name].[chunkhash].js';
-    output.chunkFilename = '[name].[chunkhash].async.js';
-  }
-
   if (library) output.library = library;
 
   const dllPlugins = config.dllPlugin ? [
