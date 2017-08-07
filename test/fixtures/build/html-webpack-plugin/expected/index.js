@@ -77,41 +77,7 @@ module.exports = __webpack_require__(1);
 "use strict";
 
 
-__webpack_require__(2);
-
-__webpack_require__(3);
-
-__webpack_require__(4);
-
-__webpack_require__(5);
-
 alert(1);
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-module.exports = {"a":"a___2q-LT"};
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-module.exports = {"b":"b___pM7qR"};
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);
