@@ -98,6 +98,23 @@ e.g.
 
 CSS Modules is enabled by default.
 
+### cssModulesExclude
+
+Exclude the files that don't want to compile as css modules.
+
+```
+"cssModulesExclude": [
+  './src/a.css',
+  './src/b.less',
+]
+```
+
+### hash
+
+```
+"hash": true
+```
+
 ### publicPath
 
 Specify [publicPath](http://webpack.github.io/docs/configuration.html#output-publicpath) for webpack.

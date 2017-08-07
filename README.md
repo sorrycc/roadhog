@@ -174,6 +174,25 @@ export default {
 
 禁用 [CSS Modules](https://github.com/css-modules/css-modules)。最好别关，熟悉并使用他后，你会发现写样式简单了很多。
 
+### cssModulesExclude
+
+支持 CSSModules 混用，通过 cssModulesExclude 可指定不需要走 CSSModules 的文件列表。
+
+```
+"cssModulesExclude": [
+  './src/a.css',
+  './src/b.less',
+]
+```
+
+### hash
+
+使用 hash 文件名。
+
+```
+"hash": true
+```
+
 ### publicPath
 
 配置生产环境的 [publicPath](http://webpack.github.io/docs/configuration.html#output-publicpath)，开发环境下永远为 `/`。
