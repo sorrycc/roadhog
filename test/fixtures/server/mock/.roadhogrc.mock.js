@@ -1,5 +1,7 @@
+import c from './mock/c';
 
-module.exports = {
+export default {
+  ...c,
   '/a'(req, res) { res.end('a'); },
   '/b': { data: 'b' },
   'POST /c'(req, res) { res.end(req.body.a); },
