@@ -28,7 +28,7 @@ export const baseSvgLoader = {
   test: /\.svg$/,
   loader: 'file',
   options: {
-    name: 'static/[name].[hash:8].[ext]',
+    name: 'static/[id].[name].[hash:8].[ext]',
   },
 };
 
@@ -76,7 +76,7 @@ export function getFirstRules({ paths, babelOptions }) {
       loader: 'url',
       options: {
         limit: 10000,
-        name: 'static/[name].[hash:8].[ext]',
+        name: 'static/[id].[name].[hash:8].[ext]',
       },
     },
     {

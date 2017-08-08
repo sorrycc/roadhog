@@ -34,7 +34,7 @@ export default function (args, appBuild, config, paths) {
   const theme = getTheme(process.cwd(), config);
 
   // Support hash
-  const name = config.hash ? '[name].[chunkhash]' : '[name]';
+  const name = config.hash ? '[id].[name].[chunkhash]' : '[name]';
 
   const output = {
     path: appBuild,
