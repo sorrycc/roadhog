@@ -4,6 +4,7 @@ npm-debug.log*
 /lib
 /.nyc_output
 /test/**/dist
+.idea
 
 # tnpm cache directory
 /test/**/.cache

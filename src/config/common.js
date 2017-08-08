@@ -62,7 +62,7 @@ export function getResolve(config, paths) {
   };
 }
 
-export function getFirstRules({ paths, babelOptions }) {
+export function getFirstRules({ paths, babelOptions, async }) {
   return [
     {
       exclude: [
@@ -79,16 +79,18 @@ export function getFirstRules({ paths, babelOptions }) {
         name: 'static/[name].[hash:8].[ext]',
       },
     },
-    {
+    getFilterLoader(async, paths, {
       test: /\.(js|jsx)$/,
       include: paths.appSrc,
-      loader: 'babel',
-      options: babelOptions,
-    },
+      use: [{
+        loader: 'babel',
+        options: babelOptions,
+      }],
+    }),
   ];
 }
 
-export function getLastRules({ paths, babelOptions }) {
+export function getLastRules({ paths, babelOptions, async }) {
   return [
     {
       test: /\.html$/,
@@ -97,7 +99,7 @@ export function getLastRules({ paths, babelOptions }) {
         name: '[name].[ext]',
       },
     },
-    {
+    getFilterLoader(async, paths, {
       test: /\.tsx?$/,
       include: paths.appSrc,
       use: [
@@ -112,8 +114,56 @@ export function getLastRules({ paths, babelOptions }) {
           },
         },
       ],
-    },
+    }),
   ];
+}
+
+export function getFilterLoader(async, paths, loader) {
+  if (async && async.target) {
+    if (loader.test === /\.(js|jsx)$/ || loader.test === /\.tsx?$/) {
+      loader.exclude = getAsyncPath(paths, async.target);
+    }
+  }
+  return loader;
+}
+
+function getAsyncPath(paths, target) {
+  return target.toString().split(',').map(path => paths.resolveApp(path));
+}
+
+export function getAsyncLoader({ async, paths, babelOptions }) {
+  if (async && async.target) {
+    return [{
+      test: /\.(js|jsx)$/,
+      include: getAsyncPath(paths, async.target),
+      use: [{
+        loader: 'bundle',
+        options: 'lazy',
+      },
+      {
+        loader: 'babel',
+        options: babelOptions,
+      }],
+    }, {
+      test: /\.tsx?$/,
+      include: getAsyncPath(paths, async.target),
+      use: [{
+        loader: 'bundle',
+        options: 'lazy',
+      },
+      {
+        loader: 'babel',
+        options: babelOptions,
+      },
+      {
+        loader: 'awesome-typescript',
+        options: {
+          transpileOnly: true,
+        },
+      }],
+    }];
+  }
+  return {};
 }
 
 export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
