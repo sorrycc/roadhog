@@ -307,7 +307,7 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
   }
   if (config.multipage) {
     // Support hash
-    const name = config.hash ? 'common.[chunkhash]' : 'common';
+    const name = config.hash ? 'common.[hash]' : 'common';
     ret.push(new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
       filename: `${name}.js`,
