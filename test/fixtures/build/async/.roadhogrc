@@ -1,0 +1,6 @@
+{
+  "entry": "src/index.js",
+  "async": {
+    "target": "src/routes"
+  }
+}

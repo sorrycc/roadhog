@@ -18,6 +18,7 @@ import {
   getFirstRules,
   getCSSRules,
   getLastRules,
+  getAsyncLoader,
   getCommonPlugins,
   node,
 } from './common';
@@ -28,6 +29,7 @@ export default function (config, cwd) {
     library = null,
     libraryTarget = 'var',
     devtool = defaultDevtool,
+    async = null,
   } = config;
 
   const babelOptions = getBabelOptions(config);
@@ -65,9 +67,10 @@ export default function (config, cwd) {
     ...getResolve(config, paths),
     module: {
       rules: [
-        ...getFirstRules({ paths, babelOptions }),
+        ...getFirstRules({ paths, babelOptions, async }),
         ...getCSSRules('development', { config, paths, cssLoaders, theme }),
-        ...getLastRules({ paths, babelOptions }),
+        ...getLastRules({ paths, babelOptions, async }),
+        ...getAsyncLoader({ paths, babelOptions, async }),
       ],
     },
     plugins: [
