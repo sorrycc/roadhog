@@ -19,6 +19,7 @@ export function getBabelOptions(config) {
     plugins: [
       require.resolve('babel-plugin-add-module-exports'),
       require.resolve('babel-plugin-react-require'),
+      require.resolve('babel-plugin-syntax-dynamic-import'),
     ].concat(config.extraBabelPlugins || []),
     cacheDirectory: true,
   };
