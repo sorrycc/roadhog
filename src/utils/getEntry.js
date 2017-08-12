@@ -6,7 +6,7 @@ import isPlainObject from 'is-plain-object';
 const DEFAULT_ENTRY = './src/index.js';
 
 function getEntry(filePath, isBuild) {
-  const key = basename(filePath).replace(/\.(js|tsx?)$/, '');
+  const key = basename(filePath).replace(/\.(js|jsx|tsx?)$/, '');
   const value = isBuild
     ? [filePath]
     : [
@@ -46,7 +46,18 @@ export function getEntries(files, isBuild) {
 export default function (config, appDirectory, isBuild) {
   const entry = config.entry;
   if (isPlainObject(entry)) {
-    return entry;
+    if (isBuild) {
+      return entry;
+    }
+
+    return Object.keys(entry).reduce((memo, key) => {
+      return Object.assign(memo, {
+        [key]: [
+          require.resolve('react-dev-utils/webpackHotDevClient'),
+          entry[key],
+        ],
+      });
+    }, {});
   }
   const files = entry ? getFiles(entry, appDirectory) : [DEFAULT_ENTRY];
   return getEntries(files, isBuild);
