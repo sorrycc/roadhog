@@ -159,21 +159,6 @@ module.exports = __webpack_require__(1);
 "use strict";
 
 
-// import(/* webpackChunkName: 'a' */'./a').then(() => {
-//   console.log('a done');
-// });
-
-// import(/* webpackChunkName: 'b' */'./b').then(() => {
-//   console.log('b done');
-// });
-
-// Promise.all([
-//   import(/* webpackChunkName: 'a' */'./a'),
-//   import(/* webpackChunkName: 'b' */'./b')
-// ]).then(([a, b]) => {
-//   console.log(`all done: ${a}, ${b}`);
-// });
-
 __webpack_require__(2)(function (ret) {
   console.log(ret + ' done');
 });
