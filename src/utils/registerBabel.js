@@ -1,12 +1,13 @@
 import { join } from 'path';
+import winPath from './winPath';
 
 const cwd = process.cwd();
 const files = [
   'webpack.config.js',
   '.roadhogrc.js',
   '.roadhogrc.mock.js',
-  join(cwd, 'mock'),
-  join(cwd, 'src'),
+  winPath(join(cwd, 'mock')),
+  winPath(join(cwd, 'src')),
 ];
 
 if (process.env.NODE_ENV !== 'test') {
