@@ -381,11 +381,14 @@ export default {
 比如，使用 3000 端口开启服务器可以这样：
 
 ```bash
-// OS X, Linux
+# OS X, Linux
 $ PORT=3000 roadhog server
 
-// Windows (cmd.exe)
+# Windows (cmd.exe)
 $ set PORT=3000&&roadhog server
+
+# Or use cross-env for all platforms
+$ cross-env PORT=3000 roadhog server
 ```
 
 ## 命令行参数
@@ -456,11 +459,14 @@ SyntaxError: Unexpected token (15:23)
 ### Windows/Ubuntu 下每次启动后打开新 Tab 比较烦
 
 ```bash
-# Ubuntu
+# Mac, Ubuntu
 $ BROWSER=none roadhog server
 
 # Windows
 $ set BROWSER=none&&roadhog server
+
+# Or use cross-env for all platforms
+$ cross-env BROWSER=none roadhog server
 ```
 
 ## LICENSE
