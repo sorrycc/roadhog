@@ -46,6 +46,7 @@ export function getResolve(config, paths) {
       modules: [
         paths.ownNodeModules,
         paths.appNodeModules,
+        'node_modules',
       ],
       extensions: [
         ...(config.extraResolveExtensions || []),
