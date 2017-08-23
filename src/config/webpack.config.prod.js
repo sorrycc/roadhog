@@ -34,14 +34,15 @@ export default function (args, appBuild, config, paths) {
   const theme = getTheme(process.cwd(), config);
 
   // Support hash
-  const name = config.hash ? '[name].[chunkhash]' : '[name]';
+  const jsFileName = config.hash ? '[name].[chunkhash:8]' : '[name]';
+  const cssFileName = config.hash ? '[name].[contenthash:8]' : '[name]';
 
   const output = {
     path: appBuild,
-    filename: `${name}.js`,
+    filename: `${jsFileName}.js`,
     publicPath,
     libraryTarget,
-    chunkFilename: `${name}.async.js`,
+    chunkFilename: `${jsFileName}.async.js`,
   };
 
   if (library) output.library = library;
@@ -64,7 +65,7 @@ export default function (args, appBuild, config, paths) {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
       ]),
-      new ExtractTextPlugin(`${name}.css`),
+      new ExtractTextPlugin(`${cssFileName}.css`),
       ...getCommonPlugins({
         config,
         paths,
