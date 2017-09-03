@@ -65,7 +65,10 @@ export default function (args, appBuild, config, paths) {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.DedupePlugin(),
       ]),
-      new ExtractTextPlugin(`${cssFileName}.css`),
+      new ExtractTextPlugin({
+        filename: `${cssFileName}.css`,
+        allChunks: true,
+      }),
       ...getCommonPlugins({
         config,
         paths,
