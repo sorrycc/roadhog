@@ -50,13 +50,16 @@ export default function (config, appDirectory, isBuild) {
       return entry;
     }
 
-    return Object.keys(entry).reduce((memo, key) => ({
+    return Object.keys(entry).reduce((memo, key) => (!Array.isArray(entry[key]) ? ({
       ...memo,
       [key]: [
         require.resolve('react-dev-utils/webpackHotDevClient'),
         entry[key],
       ],
-    }), {});
+    }) : ({
+      ...memo,
+      [key]: entry[key],
+    })), {});
   }
   const files = entry ? getFiles(entry, appDirectory) : [DEFAULT_ENTRY];
   return getEntries(files, isBuild);
