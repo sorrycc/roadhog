@@ -307,6 +307,7 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
       },
     ]));
   }
+
   if (config.multipage) {
     // Support hash
     const name = config.hash ? 'common.[hash]' : 'common';
@@ -314,6 +315,10 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
       name: 'common',
       filename: `${name}.js`,
     }));
+  }
+
+  if (config.ignoreMoment) {
+    ret.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
   }
 
   ret.push(new webpack.LoaderOptionsPlugin({
