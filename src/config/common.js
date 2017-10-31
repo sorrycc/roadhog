@@ -317,7 +317,7 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
     }));
   }
 
-  if (config.ignoreMoment) {
+  if (config.ignoreMomentLocale) {
     ret.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
   }
 
