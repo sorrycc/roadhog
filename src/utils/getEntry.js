@@ -6,7 +6,7 @@ import isPlainObject from 'is-plain-object';
 const DEFAULT_ENTRY = './src/index.js';
 
 function getEntry(filePath, isBuild) {
-  const key = basename(filePath).replace(/\.(js|tsx?)$/, '');
+  const key = basename(filePath).replace(/\.(jsx?|tsx?)$/, '');
   const value = isBuild
     ? [filePath]
     : [
