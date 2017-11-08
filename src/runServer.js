@@ -1,4 +1,3 @@
-import fs from 'fs';
 import clearConsole from 'react-dev-utils/clearConsole';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import openBrowser from 'react-dev-utils/openBrowser';
@@ -226,12 +225,6 @@ function run(port) {
 
 function init() {
   readRcConfig();
-
-  if (rcConfig.dllPlugin && !fs.existsSync(paths.dllManifest)) {
-    console.log(chalk.red('Failed to start the server, since you have enabled dllPlugin, but have not run `roadhog buildDll` before `roadhog server`.'));
-    process.exit(1);
-  }
-
   readWebpackConfig();
 
   const HOST = process.env.HOST || '0.0.0.0';
