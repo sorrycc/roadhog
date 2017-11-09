@@ -2,6 +2,7 @@ import { basename, sep } from 'path';
 import assert from 'assert';
 import glob from 'glob';
 import isPlainObject from 'is-plain-object';
+import { webpackHotDevClientPath } from 'af-webpack/react-dev-utils';
 
 const DEFAULT_ENTRY = './src/index.js';
 
@@ -10,7 +11,7 @@ function getEntry(filePath, isBuild) {
   const value = isBuild
     ? [filePath]
     : [
-      require.resolve('react-dev-utils/webpackHotDevClient'),
+      webpackHotDevClientPath,
       filePath,
     ];
   return {
@@ -53,7 +54,7 @@ export default function (config, appDirectory, isBuild) {
     return Object.keys(entry).reduce((memo, key) => (!Array.isArray(entry[key]) ? ({
       ...memo,
       [key]: [
-        require.resolve('react-dev-utils/webpackHotDevClient'),
+        webpackHotDevClientPath,
         entry[key],
       ],
     }) : ({

@@ -4,8 +4,6 @@ import isPlainObject from 'is-plain-object';
 import parseJSON from 'parse-json-pretty';
 import getPaths from '../config/paths';
 
-require('./registerBabel');
-
 function merge(oldObj, newObj) {
   for (const key in newObj) {
     if (Array.isArray(newObj[key]) && Array.isArray(oldObj[key])) {

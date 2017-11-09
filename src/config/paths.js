@@ -19,8 +19,6 @@ export default function getPaths(cwd) {
     appSrc: resolveApp('src'),
     appNodeModules: resolveApp('node_modules'),
     ownNodeModules: resolveOwn('../../node_modules'),
-    dllNodeModule: resolveApp('node_modules/roadhog-dlls'),
-    dllManifest: resolveApp('node_modules/roadhog-dlls/roadhog.json'),
     appBabelCache: resolveApp('node_modules/.cache/babel-loader'),
     resolveApp,
     appDirectory,

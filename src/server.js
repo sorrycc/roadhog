@@ -1,20 +1,38 @@
-#!/usr/bin/env node
+import { resolve } from 'path';
+import dev from 'af-webpack/dev';
+import getWebpackConfig from './getWebpackConfig';
+import getConfig from './utils/getConfig';
+import getPaths from './config/paths';
 
-import { fork } from 'child_process';
+const debug = require('debug')('roadhog:build');
 
-function start() {
-  const p = fork(`${__dirname}/server`, process.argv.slice(2));
-  p.on('message', (data) => {
-    if (data === 'RESTART') {
-      p.kill('SIGINT');
-      start();
-    }
+export default function (opts = {}) {
+  const {
+    cwd = process.cwd(),
+  } = opts;
+
+  const env = process.env.NODE_ENV;
+  const babel = resolve(__dirname, './babel.js');
+  const paths = getPaths(cwd);
+
+  // register babel for config files
+  // TODO
+
+  // get user config
+  const config = getConfig(env, cwd);
+  debug(`user config: ${JSON.stringify(config)}`);
+
+  // get webpack config
+  const webpackConfig = getWebpackConfig({
+    cwd,
+    config,
+    babel,
+    paths,
   });
-}
 
-if (!process.send) {
-  start();
-} else {
-  require('./runServer');
+  dev({
+    webpackConfig,
+    appName: 'your app',
+  });
 }
 

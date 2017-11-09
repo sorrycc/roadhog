@@ -39,7 +39,7 @@ switch (script) {
     require('atool-monitor').emit();
     result = spawn.sync(
       'node',
-      [require.resolve(`../lib/${script}`)].concat(args),
+      [require.resolve(`../lib/scripts/${script}`)].concat(args),
       { stdio: 'inherit' }  // eslint-disable-line
     );
     process.exit(result.status);
