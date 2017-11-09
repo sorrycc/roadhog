@@ -26,10 +26,16 @@
   ],
   "scripts": {
     "build": "ruban build",
-    "lint": "eslint --ext .js src",
     "test": "ruban test",
     "debug": "ruban debug",
-    "precommit": "npm run lint"
+    "lint": "eslint --ext .js src",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --trailing-comma all --single-quote --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "@babel/core": "7.0.0-beta.31",
@@ -68,17 +74,17 @@
     "yargs": "^8.0.1"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.1",
-    "eslint": "^3.12.2",
-    "eslint-config-airbnb": "^15.0.1",
-    "eslint-plugin-import": "^2.3.0",
-    "eslint-plugin-jsx-a11y": "^5.0.3",
-    "eslint-plugin-react": "^7.0.1",
+    "babel-eslint": "^8.0.2",
+    "eslint": "^4.10.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0",
     "expect": "^1.20.2",
     "got": "^6.7.1",
-    "husky": "^0.13.3",
-    "node-sass": "^4.5.3",
-    "ruban": "^0.2.0",
-    "sass-loader": "^6.0.6"
+    "husky": "^0.14.3",
+    "lint-staged": "^4.3.0",
+    "prettier": "^1.8.1",
+    "ruban": "^0.2.0"
   }
 }
