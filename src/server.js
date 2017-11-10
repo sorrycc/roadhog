@@ -3,6 +3,7 @@ import dev from 'af-webpack/dev';
 import getWebpackConfig from './getWebpackConfig';
 import getConfig from './utils/getConfig';
 import getPaths from './getPaths';
+import registerBabel from './registerBabel';
 
 const debug = require('debug')('roadhog:build');
 
@@ -14,7 +15,10 @@ export default function(opts = {}) {
   const paths = getPaths(cwd);
 
   // register babel for config files
-  // TODO
+  registerBabel(babel, {
+    cwd,
+    configOnly: true,
+  });
 
   // get user config
   const config = getConfig(env, cwd);
