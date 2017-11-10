@@ -2,14 +2,12 @@ import { resolve } from 'path';
 import dev from 'af-webpack/dev';
 import getWebpackConfig from './getWebpackConfig';
 import getConfig from './utils/getConfig';
-import getPaths from './config/paths';
+import getPaths from './getPaths';
 
 const debug = require('debug')('roadhog:build');
 
-export default function (opts = {}) {
-  const {
-    cwd = process.cwd(),
-  } = opts;
+export default function(opts = {}) {
+  const { cwd = process.cwd() } = opts;
 
   const env = process.env.NODE_ENV;
   const babel = resolve(__dirname, './babel.js');
@@ -35,4 +33,3 @@ export default function (opts = {}) {
     appName: 'your app',
   });
 }
-

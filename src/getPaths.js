@@ -5,7 +5,7 @@ function resolveOwn(relativePath) {
   return resolve(__dirname, relativePath);
 }
 
-export default function getPaths(cwd) {
+export default function(cwd) {
   const appDirectory = realpathSync(cwd);
 
   function resolveApp(relativePath) {
@@ -19,7 +19,6 @@ export default function getPaths(cwd) {
     appSrc: resolveApp('src'),
     appNodeModules: resolveApp('node_modules'),
     ownNodeModules: resolveOwn('../../node_modules'),
-    appBabelCache: resolveApp('node_modules/.cache/babel-loader'),
     resolveApp,
     appDirectory,
   };
