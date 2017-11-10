@@ -23,7 +23,7 @@ export default function(opts = {}) {
       presets: [[babel, { browsers }], ...(config.extraBabelPresets || [])],
       plugins: config.extraBabelPlugins || [],
     },
-    // dev ģʽ��ʼ�ղ����� hash
+    // no hash in dev mode
     hash: isDev ? false : config.hash,
     enableCSSModules: !config.disableCSSModules,
     define: opts.define,

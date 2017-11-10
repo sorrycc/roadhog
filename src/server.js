@@ -35,5 +35,6 @@ export default function(opts = {}) {
   dev({
     webpackConfig,
     appName: 'your app',
+    proxy: config.proxy,
   });
 }
