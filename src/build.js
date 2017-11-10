@@ -22,7 +22,7 @@ export default function(opts = {}) {
     });
 
     // get user config
-    const config = getConfig(env, cwd);
+    const config = getConfig(env, cwd, paths);
     debug(`user config: ${JSON.stringify(config)}`);
 
     // get webpack config

@@ -2,7 +2,6 @@ import { existsSync, readFileSync } from 'fs';
 import stripJsonComments from 'strip-json-comments';
 import isPlainObject from 'is-plain-object';
 import parseJSON from 'parse-json-pretty';
-import getPaths from '../config/paths';
 
 function merge(oldObj, newObj) {
   for (const key in newObj) {
@@ -22,11 +21,18 @@ function getConfig(configFile, paths) {
 
   if (existsSync(rcConfig)) {
     if (process.env.NODE_ENV === 'development' && existsSync(jsConfig)) {
-      console.error(`Config error: You must delete ${rcConfig} if you want to use ${jsConfig}`);
+      console.error(
+        `Config error: You must delete ${rcConfig} if you want to use ${
+          jsConfig
+        }`,
+      );
     }
-    return parseJSON(stripJsonComments(readFileSync(rcConfig, 'utf-8')), configFile);
+    return parseJSON(
+      stripJsonComments(readFileSync(rcConfig, 'utf-8')),
+      configFile,
+    );
   } else if (existsSync(jsConfig)) {
-    return require(jsConfig);  // eslint-disable-line
+    return require(jsConfig); // eslint-disable-line
   } else {
     return {};
   }
@@ -58,7 +64,7 @@ export function realGetConfig(configFile, env, pkg = {}, paths) {
   const config = getConfig(configFile, paths);
 
   if (Array.isArray(config)) {
-    return config.map((c) => {
+    return config.map(c => {
       return mergeConfig(c, env, pkg);
     });
   } else {
@@ -66,8 +72,7 @@ export function realGetConfig(configFile, env, pkg = {}, paths) {
   }
 }
 
-export default function (env, cwd) {
-  const paths = getPaths(cwd);
+export default function(env, cwd, paths) {
   const pkg = JSON.parse(readFileSync(paths.appPackageJson, 'utf-8'));
   return realGetConfig('.roadhogrc', env, pkg, paths);
 }
