@@ -13,6 +13,12 @@ describe('getEntry', () => {
     });
   });
 
+  it('jsx', () => {
+    expect(getEntries(['./src/a.jsx'], getEntryFixture)).toEqual({
+      a: ['./src/a.jsx'],
+    });
+  });
+
   it('array', () => {
     expect(getFiles(['./src/a.js'], getEntryFixture)).toEqual([
       './src/a.js',
