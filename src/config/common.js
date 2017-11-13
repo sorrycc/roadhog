@@ -44,8 +44,8 @@ export function getResolve(config, paths) {
   return {
     resolve: {
       modules: [
-        paths.ownNodeModules,
         paths.appNodeModules,
+        paths.ownNodeModules,
         'node_modules',
       ],
       extensions: [
@@ -56,8 +56,8 @@ export function getResolve(config, paths) {
     },
     resolveLoader: {
       modules: [
-        paths.ownNodeModules,
         paths.appNodeModules,
+        paths.ownNodeModules,
       ],
       moduleExtensions: ['-loader'],
     },
