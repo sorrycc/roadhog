@@ -26,9 +26,9 @@ export default function(opts = {}) {
     // no hash in dev mode
     hash: isDev ? false : config.hash,
     enableCSSModules: !config.disableCSSModules,
-    define: opts.define,
-    commons: opts.commons,
-    // theme,
+    theme: config.theme,
+    define: config.define,
+    commons: config.commons,
     copy: existsSync(paths.appPublic)
       ? [
           {
