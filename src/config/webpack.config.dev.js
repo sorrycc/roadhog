@@ -1,5 +1,6 @@
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin';
 import webpack from 'webpack';
 import WatchMissingNodeModulesPlugin from 'react-dev-utils/WatchMissingNodeModulesPlugin';
 import SystemBellWebpackPlugin from 'system-bell-webpack-plugin';
@@ -56,6 +57,11 @@ export default function (config, cwd) {
         to: join(paths.appBuild, 'roadhog.dll.js'),
       },
     ]),
+    new AddAssetHtmlPlugin({
+      filepath: join(paths.dllNodeModule, 'roadhog.dll.js'),
+      includeSourcemap: false,
+      hash: true,
+    }),
   ] : [];
 
   const finalWebpackConfig = {
