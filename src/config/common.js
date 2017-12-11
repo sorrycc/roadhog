@@ -70,7 +70,7 @@ export function getFirstRules({ paths, babelOptions }) {
       exclude: [
         /\.(html|ejs)$/,
         /\.(js|jsx)$/,
-        /\.(css|less|scss)$/,
+        /\.(css|less|scss|sass)$/,
         /\.json$/,
         /\.svg$/,
         /\.tsx?$/,
@@ -213,7 +213,7 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
     rules = [
       ...rules,
       {
-        test: /\.scss$/,
+        test: /\.(scss|sass)$/,
         include: includeTest.bind(null, paths.appSrc),
         use: [
           'style',
@@ -225,7 +225,7 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
         ],
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|sass)$/,
         include: includeTest.bind(null, paths.appNodeModules),
         use: [
           'style',
@@ -245,7 +245,7 @@ export function getCSSRules(env, { config, paths, cssLoaders, theme }) {
       rules = [
         ...rules,
         {
-          test: /\.scss$/,
+          test: /\.(scss|sass)$/,
           include,
           use: [
             'style',
