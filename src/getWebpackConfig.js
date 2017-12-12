@@ -5,8 +5,7 @@ import getEntry from './utils/getEntry';
 
 const debug = require('debug')('roadhog:getWebpackConfig');
 
-const env = process.env.NODE_ENV;
-const isDev = env === 'development';
+const isDev = process.env.NODE_ENV === 'development';
 
 export default function(opts = {}) {
   const { cwd, config, babel, paths } = opts;
@@ -14,7 +13,7 @@ export default function(opts = {}) {
   const browsers = config.browsers || defaultBrowsers;
   debug(`babel: ${babel}`);
 
-  return getConfig(env, {
+  return getConfig({
     cwd,
     outputPath: paths.appBuild,
     entry: getEntry(config, paths.appDirectory, /* isBuild */ !isDev),

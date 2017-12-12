@@ -1,5 +1,5 @@
-export default function (context, opts = {}) {
+export default function(context, opts = {}) {
   return {
-    presets: [[require.resolve('babel-preset-af-react'), opts]],
+    presets: [[require.resolve('babel-preset-umi'), opts]],
   };
 }
