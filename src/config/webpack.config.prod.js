@@ -30,7 +30,7 @@ export default function (args, appBuild, config, paths) {
   } = config;
 
   const babelOptions = getBabelOptions(config);
-  const cssLoaders = getCSSLoaders(config);
+  const cssLoaders = getCSSLoaders(config, NODE_ENV);
   const theme = getTheme(process.cwd(), config);
 
   // Support hash

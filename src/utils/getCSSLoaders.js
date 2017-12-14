@@ -1,13 +1,20 @@
 
-export default function getCSSLoaders(config) {
+export default function getCSSLoaders(config, NODE_ENV) {
   const own = [];
   const nodeModules = [];
   const noCSSModules = [];
 
-  const baseCSSOptions = {
+  let baseCSSOptions = {
     importLoaders: 1,
     sourceMap: !config.disableCSSSourceMap,
   };
+
+  if (NODE_ENV === 'production') {
+    baseCSSOptions = {
+      ...baseCSSOptions,
+      minimize: true,
+    };
+  }
 
   if (config.disableCSSModules) {
     own.push({
