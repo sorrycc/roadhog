@@ -17,6 +17,7 @@ export default function(opts = {}) {
   return getConfig(env, {
     cwd,
     outputPath: paths.appBuild,
+    publicPath: config.publicPath,
     entry: getEntry(config, paths.appDirectory, /* isBuild */ !isDev),
     autoprefixer: { browsers },
     babel: {
