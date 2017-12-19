@@ -8,12 +8,7 @@ const DEFAULT_ENTRY = './src/index.js';
 
 function getEntry(filePath, isBuild) {
   const key = basename(filePath).replace(/\.(js|tsx?)$/, '');
-  const value = isBuild
-    ? [filePath]
-    : [
-      webpackHotDevClientPath,
-      filePath,
-    ];
+  const value = isBuild ? [filePath] : [webpackHotDevClientPath, filePath];
   return {
     [key]: value,
   };
@@ -32,8 +27,8 @@ export function getFiles(entry, cwd) {
     const files = glob.sync(entry, {
       cwd,
     });
-    return files.map((file) => {
-      return (file.charAt(0) === '.') ? file : `.${sep}${file}`;
+    return files.map(file => {
+      return file.charAt(0) === '.' ? file : `.${sep}${file}`;
     });
   }
 }
@@ -44,23 +39,26 @@ export function getEntries(files, isBuild) {
   }, {});
 }
 
-export default function (config, appDirectory, isBuild) {
-  const entry = config.entry;
+export default function(config, appDirectory, isBuild) {
+  const { entry } = config;
   if (isPlainObject(entry)) {
     if (isBuild) {
       return entry;
     }
 
-    return Object.keys(entry).reduce((memo, key) => (!Array.isArray(entry[key]) ? ({
-      ...memo,
-      [key]: [
-        webpackHotDevClientPath,
-        entry[key],
-      ],
-    }) : ({
-      ...memo,
-      [key]: entry[key],
-    })), {});
+    return Object.keys(entry).reduce(
+      (memo, key) =>
+        !Array.isArray(entry[key])
+          ? {
+              ...memo,
+              [key]: [webpackHotDevClientPath, entry[key]],
+            }
+          : {
+              ...memo,
+              [key]: entry[key],
+            },
+      {},
+    );
   }
   const files = entry ? getFiles(entry, appDirectory) : [DEFAULT_ENTRY];
   return getEntries(files, isBuild);
