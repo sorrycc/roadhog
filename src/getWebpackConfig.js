@@ -1,5 +1,4 @@
 import getConfig from 'af-webpack/getConfig';
-import { existsSync } from 'fs';
 import defaultBrowsers from './defaultConfigs/browsers';
 import getEntry from './utils/getEntry';
 
@@ -10,31 +9,18 @@ const isDev = process.env.NODE_ENV === 'development';
 export default function(opts = {}) {
   const { cwd, config, babel, paths } = opts;
 
-  const browsers = config.browsers || defaultBrowsers;
+  const browserslist = config.browserslist || defaultBrowsers;
   debug(`babel: ${babel}`);
+  debug(`browserslist: ${browserslist}`);
 
   return getConfig({
     cwd,
-    outputPath: paths.appBuild,
+    ...config,
+
     entry: getEntry(config, paths.appDirectory, /* isBuild */ !isDev),
-    autoprefixer: { browsers },
-    babel: {
-      presets: [[babel, { browsers }], ...(config.extraBabelPresets || [])],
-      plugins: config.extraBabelPlugins || [],
+    babel: config.babel || {
+      presets: [[babel, { browsers: browserslist }]],
     },
-    // no hash in dev mode
-    hash: isDev ? false : config.hash,
-    enableCSSModules: !config.disableCSSModules,
-    theme: config.theme,
-    define: config.define,
-    commons: config.commons,
-    copy: existsSync(paths.appPublic)
-      ? [
-          {
-            from: paths.appPublic,
-            to: paths.appBuild,
-          },
-        ]
-      : [],
+    browserslist,
   });
 }

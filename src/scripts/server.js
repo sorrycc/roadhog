@@ -1,4 +1,4 @@
-import server from '../server';
+import server from '../dev';
 
 // 修复 Ctrl+C 时 dev server 没有正常退出的问题
 process.on('SIGINT', () => {

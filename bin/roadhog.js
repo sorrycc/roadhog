@@ -2,7 +2,6 @@
 
 const chalk = require('chalk');
 const spawn = require('cross-spawn');
-const os = require('os');
 
 const script = process.argv[2];
 const args = process.argv.slice(3);
@@ -11,17 +10,9 @@ const nodeVersion = process.versions.node;
 const versions = nodeVersion.split('.');
 const major = versions[0];
 const minor = versions[1];
-const platform = os.platform();
 
-if (((major * 10) + (minor * 1)) < 65) {
-  console.log(chalk.red(`Node version (${major}.${minor}) is not compatibile, ${chalk.cyan('must >= 6.5')}.`));
-  console.log(chalk.red(`你的 Node 版本是 ${chalk.yellow(`${major}.${minor}`)}，请升级到${chalk.cyan(' 6.5 或以上')}.`));
-  console.log();
-  if (platform === 'darwin') {
-    console.log(`推荐用 ${chalk.cyan('https://github.com/creationix/nvm')} 管理和升级你的 node 版本。`);
-  } else if (platform === 'win32') {
-    console.log(`推荐到 ${chalk.cyan('https://nodejs.org/')} 下载最新的 node 版本。`);
-  }
+if (major * 10 + minor * 1 < 65) {
+  console.log(`Node version must >= 6.5, but got ${major}.${minor}`);
   process.exit(1);
 }
 
@@ -31,16 +22,18 @@ switch (script) {
   case '-v':
   case '--version':
     console.log(require('../package.json').version);
+    if (__dirname.indexOf('/Users/chencheng/Documents/Work/Misc') > -1) {
+      console.log(chalk.cyan('@local'));
+    }
     break;
   case 'build':
-  case 'buildDll':
   case 'server':
   case 'test':
     require('atool-monitor').emit();
     result = spawn.sync(
       'node',
       [require.resolve(`../lib/scripts/${script}`)].concat(args),
-      { stdio: 'inherit' }  // eslint-disable-line
+      { stdio: 'inherit' }, // eslint-disable-line
     );
     process.exit(result.status);
     break;
