@@ -157,7 +157,7 @@ export default {
   "multipage": false,
   "define": null,
   "env": null,
-  "theme": null,
+  "theme": null
 }
 ```
 
