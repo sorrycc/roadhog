@@ -19,7 +19,11 @@ export default function(opts = {}) {
 
     entry: getEntry(config, paths.appDirectory, /* isBuild */ !isDev),
     babel: config.babel || {
-      presets: [[babel, { browsers: browserslist }]],
+      presets: [
+        [babel, { browsers: browserslist }],
+        ...(config.extraBabelPresets || []),
+      ],
+      plugins: config.extraBabelPlugins || [],
     },
     browserslist,
   });

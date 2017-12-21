@@ -18,7 +18,11 @@ if (major * 10 + minor * 1 < 65) {
 
 var result; // eslint-disable-line
 
-switch (script) {
+const scriptAlias = {
+  server: 'dev',
+};
+const aliasedScript = scriptAlias[script] || script;
+switch (aliasedScript) {
   case '-v':
   case '--version':
     console.log(require('../package.json').version);
@@ -27,7 +31,7 @@ switch (script) {
     }
     break;
   case 'build':
-  case 'server':
+  case 'dev':
   case 'test':
     require('atool-monitor').emit();
     result = spawn.sync(
