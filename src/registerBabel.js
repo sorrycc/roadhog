@@ -4,7 +4,11 @@ import winPath from './utils/winPath';
 
 export default function(babelPreset, opts) {
   const { configOnly, disablePreventTest, ignore, cwd } = opts;
-  const files = [winPath(join(cwd, 'mock')), winPath(join(cwd, 'src'))];
+  const files = [
+    '.roadhogrc.mock.js',
+    winPath(join(cwd, 'mock')),
+    winPath(join(cwd, 'src')),
+  ];
   const only = configOnly ? [new RegExp(`(${files.join('|')})`)] : null;
 
   registerBabel({

@@ -8,6 +8,7 @@ import getConfig, {
 import getWebpackConfig from './getWebpackConfig';
 import getPaths from './getPaths';
 import registerBabel from './registerBabel';
+import { applyMock } from './utils/mock';
 
 const debug = require('debug')('roadhog:dev');
 
@@ -35,7 +36,7 @@ export default function runDev(opts = {}) {
     console.error(chalk.red(e.message));
     debug('Get .webpackrc config failed, watch config and reload');
 
-    // ��������������Ȼ������ִ�� dev �߼�
+    // 监听配置项变更，然后重新执行 dev 逻辑
     watchConfigs().on('all', (event, path) => {
       debug(`[${event}] ${path}, unwatch and reload`);
       unwatchConfigs();
@@ -52,9 +53,18 @@ export default function runDev(opts = {}) {
     paths,
   });
 
+  console.log(1);
   dev({
     webpackConfig,
     proxy: config.proxy || {},
+    beforeServer(devServer) {
+      console.log('beforeServer');
+      try {
+        applyMock(devServer);
+      } catch (e) {
+        console.log(e);
+      }
+    },
     afterServer(devServer) {
       returnedWatchConfig(devServer);
     },

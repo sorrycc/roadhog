@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs, { existsSync } from 'fs';
 import assert from 'assert';
 import chokidar from 'chokidar';
 import chalk from 'chalk';
@@ -6,35 +6,26 @@ import proxy from 'express-http-proxy';
 import url from 'url';
 import { join } from 'path';
 import bodyParser from 'body-parser';
-import getPaths from '../config/paths';
+import getPaths from '../getPaths';
 import winPath from './winPath';
 
+const debug = require('debug')('roadhog:mock');
+
 let error = null;
-const CONFIG_FILE = '.roadhogrc.mock.js';
 const paths = getPaths(process.cwd());
+const configFile = paths.resolveApp('.roadhogrc.mock.js');
+const mockDir = paths.resolveApp('./mock/');
 
-export function getConfig(filePath) {
-  const resolvedFilePath = paths.resolveApp(filePath);
-  if (fs.existsSync(resolvedFilePath)) {
-    const files = [];
-    const realRequire = require.extensions['.js'];
-    require.extensions['.js'] = (m, filename) => {
-      if (filename.indexOf(paths.appNodeModules) === -1) {
-        files.push(filename);
+function getConfig() {
+  if (existsSync(configFile)) {
+    // disable require cache
+    Object.keys(require.cache).forEach(file => {
+      if (file === configFile || file.indexOf(mockDir) > -1) {
+        debug(`delete cache ${file}`);
+        delete require.cache[file];
       }
-      delete require.cache[filename];
-      return realRequire(m, filename);
-    };
-
-    const config = require(resolvedFilePath);  // eslint-disable-line
-    require.extensions['.js'] = realRequire;
-
-    return { config, files };
-  } else {
-    return {
-      config: {},
-      files: [resolvedFilePath],
-    };
+    });
+    return require(configFile);
   }
 }
 
@@ -66,25 +57,25 @@ function createProxy(method, path, target) {
 }
 
 export function applyMock(devServer) {
-  const realRequire = require.extensions['.js'];
   try {
     realApplyMock(devServer);
     error = null;
   } catch (e) {
-    // 避免 require mock 文件出错时 100% cpu
-    require.extensions['.js'] = realRequire;
-
+    console.log(e);
     error = e;
 
     console.log();
     outputError();
 
-    const watcher = chokidar.watch(paths.resolveApp(CONFIG_FILE), {
+    const watcher = chokidar.watch([configFile, mockDir], {
       ignored: /node_modules/,
-      persistent: true,
+      ignoreInitial: true,
     });
-    watcher.on('change', (path) => {
-      console.log(chalk.green('CHANGED'), path.replace(paths.appDirectory, '.'));
+    watcher.on('change', path => {
+      console.log(
+        chalk.green('CHANGED'),
+        path.replace(paths.appDirectory, '.'),
+      );
       watcher.close();
       applyMock(devServer);
     });
@@ -92,38 +83,34 @@ export function applyMock(devServer) {
 }
 
 function realApplyMock(devServer) {
-  const ret = getConfig(CONFIG_FILE);
-  const config = ret.config;
-  const files = ret.files;
-  const app = devServer.app;
+  const config = getConfig();
+  const { app } = devServer;
 
   devServer.use(bodyParser.json({ limit: '5mb' }));
-  devServer.use(bodyParser.urlencoded({
-    extended: true,
-    limit: '5mb',
-  }));
+  devServer.use(
+    bodyParser.urlencoded({
+      extended: true,
+      limit: '5mb',
+    }),
+  );
 
-  Object.keys(config).forEach((key) => {
+  Object.keys(config).forEach(key => {
     const keyParsed = parseKey(key);
-    assert(
-      !!app[keyParsed.method],
-      `method of ${key} is not valid`,
-    );
+    assert(!!app[keyParsed.method], `method of ${key} is not valid`);
     assert(
       typeof config[key] === 'function' ||
-      typeof config[key] === 'object' ||
-      typeof config[key] === 'string',
-      `mock value of ${key} should be function or object or string, but got ${typeof config[key]}`,
+        typeof config[key] === 'object' ||
+        typeof config[key] === 'string',
+      `mock value of ${
+        key
+      } should be function or object or string, but got ${typeof config[key]}`,
     );
     if (typeof config[key] === 'string') {
-      let path = keyParsed.path;
-      if (/\(.+\)/.test(keyParsed.path)) {
-        path = new RegExp(`^${keyParsed.path}$`);
+      let { path } = keyParsed;
+      if (/\(.+\)/.test(path)) {
+        path = new RegExp(`^${path}$`);
       }
-      app.use(
-        path,
-        createProxy(keyParsed.method, path, config[key]),
-      );
+      app.use(path, createProxy(keyParsed.method, path, config[key]));
     } else {
       app[keyParsed.method](
         keyParsed.path,
@@ -148,11 +135,11 @@ function realApplyMock(devServer) {
     app._router.stack = newStack;
   }
 
-  const watcher = chokidar.watch(files, {
+  const watcher = chokidar.watch([configFile, mockDir], {
     ignored: /node_modules/,
     persistent: true,
   });
-  watcher.on('change', (path) => {
+  watcher.on('change', path => {
     console.log(chalk.green('CHANGED'), path.replace(paths.appDirectory, '.'));
     watcher.close();
 
@@ -181,7 +168,8 @@ export function outputError() {
 
   const filePath = error.message.split(': ')[0];
   const relativeFilePath = filePath.replace(paths.appDirectory, '.');
-  const errors = error.stack.split('\n')
+  const errors = error.stack
+    .split('\n')
     .filter(line => line.trim().indexOf('at ') !== 0)
     .map(line => line.replace(`${filePath}: `, ''));
   errors.splice(1, 0, ['']);
