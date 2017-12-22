@@ -55,6 +55,7 @@
     "is-plain-object": "^2.0.3",
     "parse-json-pretty": "^0.1.0",
     "strip-json-comments": "^2.0.1",
+    "umi-test": "^0.2.0",
     "yargs": "^8.0.1"
   },
   "devDependencies": {
