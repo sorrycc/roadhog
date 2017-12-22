@@ -17,7 +17,11 @@ export default function(opts = {}) {
     cwd,
     ...config,
 
-    entry: getEntry(config, paths.appDirectory, /* isBuild */ !isDev),
+    entry: getEntry({
+      cwd: paths.appDirectory,
+      entry: config.entry,
+      isBuild: !isDev,
+    }),
     babel: config.babel || {
       presets: [
         [babel, { browsers: browserslist }],
