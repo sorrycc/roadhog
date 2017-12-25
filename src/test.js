@@ -21,7 +21,7 @@ const mochaBin = require.resolve('mocha/bin/_mocha');
 const istanbul = join(require.resolve('istanbul'), '../lib/cli.js');
 const cmd = argv.coverage ?
   `node ${istanbul} cover ${mochaBin} -- --compilers .:${compiler} --require ${setup} ${mochaArgs}` :
-  `${mochaBin} --compilers .:${compiler} --require ${setup} ${mochaArgs}`;
+  `node ${mochaBin} --compilers .:${compiler} --require ${setup} ${mochaArgs}`;
 
 const command = (os.platform() === 'win32' ? 'cmd.exe' : 'sh');
 const args = (os.platform() === 'win32' ? ['/s', '/c'] : ['-c']);
