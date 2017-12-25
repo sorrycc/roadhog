@@ -89,7 +89,7 @@
     "react-dev-utils": "^2.0.1",
     "recursive-readdir": "^2.2.1",
     "rimraf": "^2.5.4",
-    "strip-ansi": "^3.0.1",
+    "strip-ansi": "3.0.1",
     "strip-json-comments": "^2.0.1",
     "style-loader": "^0.18.1",
     "svg-sprite-loader": "^3.1.2",
