@@ -88,6 +88,7 @@ export default function (args, appBuild, config, paths) {
           screw_ie8: true,
           ascii_only: true,
         },
+        sourceMap: String.prototype.includes.call(devtool, 'source-map'),
       })]),
       ...(analyze ? [new Visualizer()] : []),
     ],
