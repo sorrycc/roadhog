@@ -53,12 +53,10 @@ export default function runDev(opts = {}) {
     paths,
   });
 
-  console.log(1);
   dev({
     webpackConfig,
     proxy: config.proxy || {},
     beforeServer(devServer) {
-      console.log('beforeServer');
       try {
         applyMock(devServer);
       } catch (e) {
