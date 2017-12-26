@@ -7,6 +7,9 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import normalizeDefine from '../utils/normalizeDefine';
 import winPath from '../utils/winPath';
+import getEntry from '../utils/getEntry';
+
+const cwd = process.cwd();
 
 export function getBabelOptions(config) {
   return {
@@ -278,6 +281,7 @@ export const node = {
 
 export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
   const ret = [];
+  const entries = getEntry(config, cwd, true);
 
   let defineObj = {
     'process.env': {
@@ -293,10 +297,20 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
   ret.push(new webpack.DefinePlugin(defineObj));
 
   if (existsSync(join(paths.appSrc, 'index.ejs'))) {
-    ret.push(new HtmlWebpackPlugin({
-      template: 'src/index.ejs',
-      inject: true,
-    }));
+    if (config.multipage) {
+      Object.keys(entries).forEach((name) => {
+        ret.push(new HtmlWebpackPlugin({
+          template: 'src/index.ejs',
+          inject: true,
+          filename: `${name}.html`,
+        }));
+      });
+    } else {
+      ret.push(new HtmlWebpackPlugin({
+        template: 'src/index.ejs',
+        inject: true,
+      }));
+    }
   }
 
   if (existsSync(paths.appPublic)) {
