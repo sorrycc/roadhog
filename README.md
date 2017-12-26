@@ -244,6 +244,16 @@ extraPostCSSPlugins: [
 ],
 ```
 
+### extraBabelIncludes
+
+配置额外的 babel 编译目录。
+
+比如：
+
+```
+"extraBabelIncludes":["/mock", "/test"],
+```
+
 ### autoprefixer
 
 配置 autoprefixer 参数，详见 [autoprefixer](https://github.com/postcss/autoprefixer) 和 [browserslist](https://github.com/ai/browserslist#queries)。
@@ -375,7 +385,7 @@ export default {
 * `HOST`, 默认 localhost
 * `HTTPS`，是否开启 https，默认关闭
 * `BROWSER`，设为 none 时不自动打开浏览器
-* `CLEAR_CONSOLE`，设为 none 时清屏
+* `CLEAR_CONSOLE`，设为 none 时不清屏
 
 比如，使用 3000 端口开启服务器可以这样：
 
