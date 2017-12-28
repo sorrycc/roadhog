@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const spawn = require('cross-spawn');
+const fork = require('child_process').fork;
+require('graceful-process')();
 
 const script = process.argv[2];
 const args = process.argv.slice(3);
@@ -34,12 +35,15 @@ switch (aliasedScript) {
   case 'dev':
   case 'test':
     require('atool-monitor').emit();
-    result = spawn.sync(
-      'node',
-      [require.resolve(`../lib/scripts/${script}`)].concat(args),
-      { stdio: 'inherit' }, // eslint-disable-line
-    );
-    process.exit(result.status);
+    const proc = fork(require.resolve(`../lib/scripts/${script}`), args, {
+      stdio: 'inherit',
+    });
+    proc.once('exit', code => {
+      process.exit(code);
+    });
+    process.once('exit', () => {
+      proc.kill();
+    });
     break;
   default:
     console.log(`Unknown script ${chalk.cyan(script)}.`);
