@@ -35,9 +35,13 @@ switch (aliasedScript) {
   case 'dev':
   case 'test':
     require('atool-monitor').emit();
-    const proc = fork(require.resolve(`../lib/scripts/${script}`), args, {
-      stdio: 'inherit',
-    });
+    const proc = fork(
+      require.resolve(`../lib/scripts/${aliasedScript}`),
+      args,
+      {
+        stdio: 'inherit',
+      },
+    );
     proc.once('exit', code => {
       process.exit(code);
     });
