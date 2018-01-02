@@ -58,10 +58,12 @@ export default {
 ```
 
 ## Use the public directory
+
 Files in the public directory would be copied to the output directory (by default `./dist`) on the dev and build. So favicon, iconfont, html, html quoted pictures could be stored here.
 
-## 配置
-umi 的 webpack 部分功能是基于 af-webpack 实现的。如需配置，在项目根目录新建 .webpackrc 完成，格式为 JSON，比如：
+## Configuration
+
+umi's webpack part is based on the af-webpack's implementation. For configuration, create `.webpackrc` in the project root. The format is JSON, e.g.
 
 ```js
 {
@@ -69,7 +71,7 @@ umi 的 webpack 部分功能是基于 af-webpack 实现的。如需配置，在�
 }
 ```
 
-如果你偏爱 JS 的配置方式，或者需要通过编程的方式做一些判断或者抽象，可以用 .webpackrc.js配置文件，支持 ES6 语法，比如：
+If you prefer JS configuration, or need to do some programming or abstract judgment, you can use `.webpackrc.js` configuration file, support ES6 syntax, e.g.
 
 ```js
 export default {
@@ -77,7 +79,7 @@ export default {
 }
 ```
 
-索引：
+Index:
 
 * [entry](#entry)
 * [theme](#theme)
@@ -104,8 +106,10 @@ export default {
 ### entry
 
 ### theme
-配置主题，实际上是配 less 变量。支持对象和字符串两种类型，字符串需要指向一个返回配置的文件。
-比如：
+
+Configure the theme, in fact, with less variables. Support both object and string type, the string needs to point to a file which return configurations.
+
+e.g.
 
 ```
 "theme": {
@@ -113,15 +117,17 @@ export default {
 }
 ```
 
-或者，
+or,
 
 ```
 "theme": "./theme-config.js"
 ```
 
 ### define
-通过 webpack 的 DefinePlugin 传递给代码，值会自动做 `JSON.stringify` 处理。
-比如：
+
+Pass to code through the webpack's DefinePlugin plugin, the value will automatically be processed with `JSON.stringify`.
+
+e.g.
 
 ```js
 "define": {
@@ -131,11 +137,13 @@ export default {
 ```
 
 ### externals
-配置 webpack 的 [externals](https://webpack.js.org/configuration/externals/) 属性。
-比如：
+
+Configure webpack's [externals] (https://webpack.js.org/configuration/externals/) property.
+
+e.g.
 
 ```js
-// 配置 react 和 react-dom 不打入代码
+// Don't pack react and react-dom
 "externals": {
   "react": "window.React",
   "react-dom": "window.ReactDOM"
@@ -143,11 +151,14 @@ export default {
 ```
 
 ### alias
-配置 webpack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias) 属性。
+
+Configure webpack's [resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias) property.
 
 ### browserslist
-配置 [browserslist](https://github.com/ai/browserslist)，同时作用于 babel-preset-env 和 autoprefixer。
-比如：
+
+Configure [browserslist](https://github.com/ai/browserslist), works on both babel-preset-env and autoprefixer.
+
+e.g.
 
 ```js
 "browserslist": [
@@ -157,17 +168,22 @@ export default {
 ```
 
 ### publicPath
-配置 webpack 的 [output.publicPath](https://webpack.js.org/configuration/output/#output-publicpath) 属性。
+
+Configure webpack's [output.publicPath](https://webpack.js.org/configuration/output/#output-publicpath) property.
 
 ### outputPath
-配置 webpack 的 [output.path](https://webpack.js.org/configuration/output/#output-path) 属性。
+
+Configure webpack's [output.path](https://webpack.js.org/configuration/output/#output-path) property.
 
 ### devtool
-配置 webpack 的 [devtool](https://webpack.js.org/configuration/devtool/) 属性。
+
+Configure webpack's [devtool](https://webpack.js.org/configuration/devtool/) property.
 
 ### commons
-配置 webpack 的 [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/) 插件，格式为数组，有几项配几个 CommonsChunkPlugin 。
-比如：
+
+Configure webpack's [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/) plugin, the format is Array.
+
+e.g.
 
 ```markup
 "commons": [
@@ -185,23 +201,32 @@ export default {
 ```
 
 ### disableCSSModules
-禁用 [CSS Modules](https://github.com/css-modules/css-modules)。
+
+### disableCSSModules
+
+Disable [CSS Modules](https://github.com/css-modules/css-modules)，we do not recommend doing this.
 
 ### disableCSSSourceMap
-禁用 CSS 的 SourceMap 生成。
+
+Disable generate CSS's SourceMap.
 
 ### extraBabelPresets
-定义额外的 babel preset 列表，格式为数组。
+
+Define an additional list of babel presets, the formatt is Array.
 
 ### extraBabelPlugins
-定义额外的 babel plugin 列表，格式为数组。
+
+Define an additional list of babel plugins, the formatt is Array.
 
 ### extraBabelIncludes
-定义额外需要做 babel 转换的文件匹配列表，格式为数组。
+
+Define an additional list of file matches that need to be transformed with babel, the format is Array.
 
 ### copy
-定义需要单纯做复制的文件列表，格式为数组，项的格式参考 [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin) 的配置。
-比如：
+
+Define a list of files that need to be copied. The format is an array, and the format of the item refers to the configuration of [copy-webpack-plugin] (https://github.com/webpack-contrib/copy-webpack-plugin).
+
+e.g.
 
 ```markup
 "copy": [
@@ -213,8 +238,10 @@ export default {
 ```
 
 ### proxy
-配置 webpack-dev-server 的 [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy) 属性。
-如果要代理请求到其他服务器，可以这样配：
+
+Configure the [proxy] (https://webpack.js.org/configuration/dev-server/#devserver-proxy) property of webpack-dev-server.
+
+e.g. proxy requests to other servers,
 
 ```markup
 "proxy": {
@@ -226,12 +253,14 @@ export default {
 }
 ```
 
-然后访问 `/api/users` 就能访问到 [http://jsonplaceholder.typicode.com/users](http://jsonplaceholder.typicode.com/users) 的数据。
+Then visit `/ api / users` to access the data from [http://jsonplaceholder.typicode.com/users](http://jsonplaceholder.typicode.com/users].
 
 ### sass
-配置 [node-sass](https://github.com/sass/node-sass#options) 的选项。注意：使用 sass 时需在项目目录安装 node-sass 和 sass-loader 依赖。
+
+Configure the options for [node-sass] (https://github.com/sass/node-sass#options). Note: node-sass and sass-loader dependencies must be installed in the project directory when using sass.
 
 ### manifest
+
 Configure to generate manifest.json, it's option will pass to [https://www.npmjs.com/package/webpack-manifest-plugin](https://www.npmjs.com/package/webpack-manifest-plugin).
 
 e.g.
@@ -243,9 +272,11 @@ e.g.
 ```
 
 ### ignoreMomentLocale
+
 Ignore moment locale file, used to reduce the size.
 
 ### env
+
 Set specific options for certain environment. `development` is for dev, and `production` is for build.
 
 e.g.
@@ -259,9 +290,10 @@ e.g.
 }
 ```
 
-这样，开发环境下的 extraBabelPlugins 是 `["transform-runtime", "dva-hmr"]`，而生产环境下是 `["transform-runtime"]`。
+Thus, extraBabelPlugins in development is `['transform-runtime', 'dva-hmr']`, and `['transform-runtime']` in production.
 
 ## Environment Variables
+
 You can temporarily configure some parameters for environment variables, including:
 
 * `PORT`, default 8000
@@ -282,11 +314,13 @@ $ cross-env PORT=3000 roadhog dev
 ```
 
 ## FAQ
+
 ### Why is it called roadhog ?
 
 roadhog is a hero from overwatch, just like [dva](https://github.com/dvajs/dva).
 
-<img src="https://zos.alipayobjects.com/rmsportal/guCnwwMItoLOTmcdbaEZ.png" width="200" height="200" />
+<img src="https://gw.alipayobjects.com/zos/rmsportal/nnuuSFhDFUOfvYSRyvBh.png" width="405" height="411" />
 
 ## LICENSE
+
 MIT
