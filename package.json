@@ -1,6 +1,6 @@
 {
   "name": "roadhog",
-  "version": "2.0.0-rc.2",
+  "version": "2.0.0-rc.3",
   "description": "Cli tool for creating react apps, configurable version of create-react-app.",
   "bin": {
     "roadhog": "./bin/roadhog.js"
