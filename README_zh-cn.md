@@ -290,7 +290,7 @@ $ cross-env PORT=3000 roadhog dev
 
 roadhog 即路霸，和 [dva](https://github.com/dvajs/dva) 一样，是守望先锋中的另一名英雄，希望能为 dva 保驾护航。
 
-<img src="https://zos.alipayobjects.com/rmsportal/guCnwwMItoLOTmcdbaEZ.png" width="200" height="200" />
+<img src="https://gw.alipayobjects.com/zos/rmsportal/BEPYXIglOwaeUroviDQr.png" width="200" height="200" />
 
 ## LICENSE
 MIT
