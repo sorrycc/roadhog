@@ -6,6 +6,7 @@ import glob from 'glob';
 import build from '../src/build';
 
 process.env.NO_COMPRESS = true;
+process.env.DISABLE_ESLINT = true;
 
 function assertResult(actualDir, expectDir) {
   const actualFiles = glob.sync('**/*', { cwd: actualDir, nodir: true });
