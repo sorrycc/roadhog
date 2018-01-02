@@ -191,7 +191,7 @@ export default {
 ```
 
 ### disableCSSModules
-禁用?[CSS Modules](https://github.com/css-modules/css-modules)。
+禁用 [CSS Modules](https://github.com/css-modules/css-modules)。
 
 ### disableCSSSourceMap
 禁用 CSS 的 SourceMap 生成。
