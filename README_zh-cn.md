@@ -7,7 +7,7 @@
 
 [查看英文版](./README.md)
 
-Roadhog 是一个包含 `dev`、`build` 和 `test` 的命令行工具，他基于 react-dev-utils，和 create-react-app 的体验保持一致。你可以想象他为可配置版的 create-react-app。
+Roadhog 是一个包含 `dev`、`build` 和 `test` 的命令行工具，他基于 [react-dev-utils](https://github.com/facebookincubator/create-react-app/tree/master/packages/react-dev-utils)，和 [create-react-app](https://github.com/facebookincubator/create-react-app) 的体验保持一致。你可以想象他为可配置版的 create-react-app。
 
 ## Features
 * 📦 开箱即用的 react 应用开发工具，内置 css-modules、babel、postcss、HMR 等
@@ -77,29 +77,37 @@ export default {
 
 索引：
 
-* entry
-* theme
-* define
-* externals
-* alias
-* browserslist
-* publicPath
-* outputPath
-* devtool
-* commons
-* disableCSSModules
-* disableCSSSourceMap
-* extraBabelPresets
-* extraBabelPlugins
-* extraBabelIncludes
-* copy
-* proxy
-* sass
-* manifest
-* ignoreMomentLocale
-* env
+* [entry](#entry)
+* [theme](#theme)
+* [define](#define)
+* [externals](#externals)
+* [alias](#alias)
+* [browserslist](#browserslist)
+* [publicPath](#publicPath)
+* [outputPath](#outputPath)
+* [devtool](#devtool)
+* [commons](#commons)
+* [disableCSSModules](#disableCSSModules)
+* [disableCSSSourceMap](#disableCSSSourceMap)
+* [extraBabelPresets](#extraBabelPresets)
+* [extraBabelPlugins](#extraBabelPlugins)
+* [extraBabelIncludes](#extraBabelIncludes)
+* [copy](#copy)
+* [proxy](#proxy)
+* [sass](#sass)
+* [manifest](#manifest)
+* [ignoreMomentLocale](#ignoreMomentLocale)
+* [env](#env)
 
 ### entry
+
+指定 webpack 入口文件，支持 [glob](https://github.com/isaacs/node-glob) 格式。
+
+比如你的项目是多页类型，会希望把 src/pages 的文件作为入口。可以这样配：
+
+```
+"entry": "src/pages/*.js"
+```
 
 ### theme
 配置主题，实际上是配 less 变量。支持对象和字符串两种类型，字符串需要指向一个返回配置的文件。
