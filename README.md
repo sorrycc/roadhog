@@ -10,6 +10,9 @@
 Roadhog is a cli tool with `dev`、`build` and `test` commands. It's based on react-dev-utils and is consistent with the experience of create-react-app. You can imagine this is a configurable version of create-react-app.
 
 ## Docs
+
+* [2.0 发布日志](https://github.com/sorrycc/blog/issues/55)
+* [Migrate from 1.x](./migrate-from-1.x.md)
 * [1.x docs](https://github.com/sorrycc/roadhog/blob/1.x/README_en-us.md)
 
 ## Features

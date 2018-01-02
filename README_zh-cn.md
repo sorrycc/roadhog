@@ -5,9 +5,15 @@
 [![NPM downloads](http://img.shields.io/npm/dm/roadhog.svg?style=flat)](https://npmjs.org/package/roadhog)
 [![Dependencies](https://david-dm.org/sorrycc/roadhog/status.svg)](https://david-dm.org/sorrycc/roadhog)
 
-[查看英文版](./README.md)
+[View English version](./README.md)
 
 Roadhog 是一个包含 `dev`、`build` 和 `test` 的命令行工具，他基于 [react-dev-utils](https://github.com/facebookincubator/create-react-app/tree/master/packages/react-dev-utils)，和 [create-react-app](https://github.com/facebookincubator/create-react-app) 的体验保持一致。你可以想象他为可配置版的 create-react-app。
+
+## Docs
+
+* [2.0 发布日志](https://github.com/sorrycc/blog/issues/55)
+* [如何从 1.x 升级？](./migrate-from-1.x.md)
+* [1.x 文档](https://github.com/sorrycc/roadhog/blob/1.x/README_en-us.md)
 
 ## Features
 * 📦 开箱即用的 react 应用开发工具，内置 css-modules、babel、postcss、HMR 等
