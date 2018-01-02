@@ -1,3 +1,0 @@
-import '../c';
-
-alert('a');

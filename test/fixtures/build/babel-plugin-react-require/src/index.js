@@ -1,4 +1,0 @@
-
-function Foo() {
-  return <div />;
-}

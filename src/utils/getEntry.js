@@ -1,66 +1,97 @@
-import { basename, sep } from 'path';
-import assert from 'assert';
+import { join, basename, sep } from 'path';
+import { existsSync } from 'fs';
 import glob from 'glob';
 import isPlainObject from 'is-plain-object';
+import { webpackHotDevClientPath } from 'af-webpack/react-dev-utils';
 
-const DEFAULT_ENTRY = './src/index.js';
+// entry 支持 4 种格式：
+//
+// 1. 什么都没配，取 src/index.(j|t)sx?
+// 2. 对象
+// 3. 字符串
+// 4. 数组
+export default function(opts = {}) {
+  const { cwd, entry, isBuild } = opts;
 
-function getEntry(filePath, isBuild) {
-  const key = basename(filePath).replace(/\.(jsx?|tsx?)$/, '');
-  const value = isBuild
-    ? [filePath]
-    : [
-      require.resolve('react-dev-utils/webpackHotDevClient'),
-      filePath,
-    ];
+  let entryObj = null;
+  if (!entry) {
+    entryObj = {
+      index: getExistsDefaultEntry(cwd),
+    };
+  } else if (typeof entry === 'string') {
+    const files = getFiles(entry, cwd);
+    entryObj = getEntries(files);
+  } else if (Array.isArray(entry)) {
+    const files = entry.reduce((memo, entryItem) => {
+      return memo.concat(getFiles(entryItem, cwd));
+    }, []);
+    entryObj = getEntries(files);
+  } else if (isPlainObject(entry)) {
+    entryObj = entry;
+  } else {
+    throw new Error(
+      `entry should be String, Array or Plain Object, but got ${entry}`,
+    );
+  }
+
+  // Add HotDevClient
+  if (isBuild) {
+    return entryObj;
+  } else {
+    return Object.keys(entryObj).reduce(
+      (memo, key) =>
+        !Array.isArray(entryObj[key])
+          ? {
+              ...memo,
+              [key]: [webpackHotDevClientPath, entryObj[key]],
+            }
+          : {
+              ...memo,
+              [key]: entryObj[key],
+            },
+      {},
+    );
+  }
+}
+
+function getEntry(filePath) {
+  const key = basename(filePath).replace(/\.(j|t)sx?$/, '');
   return {
-    [key]: value,
+    [key]: filePath,
   };
 }
 
-export function getFiles(entry, cwd) {
-  if (Array.isArray(entry)) {
-    return entry.reduce((memo, entryItem) => {
-      return memo.concat(getFiles(entryItem, cwd));
-    }, []);
-  } else {
-    assert(
-      typeof entry === 'string',
-      `getEntry/getFiles: entry type should be string, but got ${typeof entry}`,
-    );
-    const files = glob.sync(entry, {
-      cwd,
-    });
-    return files.map((file) => {
-      return (file.charAt(0) === '.') ? file : `.${sep}${file}`;
-    });
-  }
+function getFiles(entry, cwd) {
+  const files = glob.sync(entry, {
+    cwd,
+  });
+  return files.map(file => {
+    return file.charAt(0) === '.' ? file : `.${sep}${file}`;
+  });
 }
 
-export function getEntries(files, isBuild) {
+function getEntries(files) {
   return files.reduce((memo, file) => {
-    return Object.assign(memo, getEntry(file, isBuild));
+    return {
+      ...memo,
+      ...getEntry(file),
+    };
   }, {});
 }
 
-export default function (config, appDirectory, isBuild) {
-  const entry = config.entry;
-  if (isPlainObject(entry)) {
-    if (isBuild) {
-      return entry;
-    }
-
-    return Object.keys(entry).reduce((memo, key) => (!Array.isArray(entry[key]) ? ({
-      ...memo,
-      [key]: [
-        require.resolve('react-dev-utils/webpackHotDevClient'),
-        entry[key],
-      ],
-    }) : ({
-      ...memo,
-      [key]: entry[key],
-    })), {});
+function getExistsDefaultEntry(cwd) {
+  if (existsSync(join(cwd, './src/index.js'))) {
+    return './src/index.js';
   }
-  const files = entry ? getFiles(entry, appDirectory) : [DEFAULT_ENTRY];
-  return getEntries(files, isBuild);
+  if (existsSync(join(cwd, './src/index.jsx'))) {
+    return './src/index.jsx';
+  }
+  if (existsSync(join(cwd, './src/index.ts'))) {
+    return './src/index.ts';
+  }
+  if (existsSync(join(cwd, './src/index.tsx'))) {
+    return './src/index.tsx';
+  }
+  // default
+  return './src/index.js';
 }
