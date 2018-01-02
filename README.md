@@ -46,13 +46,13 @@ e.g.
 
 ```js
 export default {
-  // 支持值为 Object 和 Array
+  // Support type as Object and Array
   'GET /api/users': { users: [1,2] },
 
-  // GET POST 可省略
+  // Method like GET or POST can be omitted
   '/api/users/1': { id: 1 },
 
-  // 支持自定义函数，API 参考 express@4
+  // Support for custom functions, the API is the same as express@4
   'POST /api/users/create': (req, res) => { res.end('OK'); },
 };
 ```
