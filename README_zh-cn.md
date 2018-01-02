@@ -5,16 +5,16 @@
 [![NPM downloads](http://img.shields.io/npm/dm/roadhog.svg?style=flat)](https://npmjs.org/package/roadhog)
 [![Dependencies](https://david-dm.org/sorrycc/roadhog/status.svg)](https://david-dm.org/sorrycc/roadhog)
 
-[²é¿´Ó¢ÎÄ°æ](./README.md)
+[æŸ¥çœ‹è‹±æ–‡ç‰ˆ](./README.md)
 
-Roadhog ÊÇÒ»¸ö°üº¬ `dev`¡¢`build` ºÍ `test` µÄÃüÁîĞĞ¹¤¾ß£¬Ëû»ùÓÚ react-dev-utils£¬ºÍ create-react-app µÄÌåÑé±£³ÖÒ»ÖÂ¡£Äã¿ÉÒÔÏëÏóËûÎª¿ÉÅäÖÃ°æµÄ create-react-app¡£
+Roadhog æ˜¯ä¸€ä¸ªåŒ…å« `dev`ã€`build` å’Œ `test` çš„å‘½ä»¤è¡Œå·¥å…·ï¼Œä»–åŸºäº react-dev-utilsï¼Œå’Œ create-react-app çš„ä½“éªŒä¿æŒä¸€è‡´ã€‚ä½ å¯ä»¥æƒ³è±¡ä»–ä¸ºå¯é…ç½®ç‰ˆçš„ create-react-appã€‚
 
 ## Features
-* ? ¿ªÏä¼´ÓÃµÄ react Ó¦ÓÃ¿ª·¢¹¤¾ß£¬ÄÚÖÃ css-modules¡¢babel¡¢postcss¡¢HMR µÈ
-* ? create-react-app µÄÌåÑé
-* ? JSON ¸ñÊ½µÄ webpack ÅäÖÃ
-* ? mock
-* ?? »ùÓÚ jest µÄ test£¨Ôİ²»Ö§³Ö  UI ²âÊÔ£©
+* ğŸ“¦ å¼€ç®±å³ç”¨çš„ react åº”ç”¨å¼€å‘å·¥å…·ï¼Œå†…ç½® css-modulesã€babelã€postcssã€HMR ç­‰
+* ğŸš¨ create-react-app çš„ä½“éªŒ
+* ğŸ  JSON æ ¼å¼çš„ webpack é…ç½®
+* âœ‚ï¸ mock
+* ğŸ”¥ åŸºäº jest çš„ testï¼ˆæš‚ä¸æ”¯æŒ  UI æµ‹è¯•ï¼‰
 
 
 ## Getting started
@@ -38,28 +38,28 @@ $ raodhog test
 ```
 
 ## Mock
-roadhog dev Ö§³Ö mock ¹¦ÄÜ£¬ÔÚ `.roadhogrc.mock.js` ÖĞ½øĞĞÅäÖÃ£¬Ö§³Ö»ùÓÚ require ¶¯Ì¬·ÖÎöµÄÊµÊ±Ë¢ĞÂ£¬Ö§³Ö ES6 Óï·¨£¬ÒÔ¼°ÓÑºÃµÄ³ö´íÌáÊ¾¡£
+roadhog dev æ”¯æŒ mock åŠŸèƒ½ï¼Œåœ¨ `.roadhogrc.mock.js` ä¸­è¿›è¡Œé…ç½®ï¼Œæ”¯æŒåŸºäº require åŠ¨æ€åˆ†æçš„å®æ—¶åˆ·æ–°ï¼Œæ”¯æŒ ES6 è¯­æ³•ï¼Œä»¥åŠå‹å¥½çš„å‡ºé”™æç¤ºã€‚
 
-Ê¾Àı£º
+ç¤ºä¾‹ï¼š
 
 ```js
 export default {
-  // Ö§³ÖÖµÎª Object ºÍ Array
+  // æ”¯æŒå€¼ä¸º Object å’Œ Array
   'GET /api/users': { users: [1,2] },
 
-  // GET POST ¿ÉÊ¡ÂÔ
+  // GET POST å¯çœç•¥
   '/api/users/1': { id: 1 },
 
-  // Ö§³Ö×Ô¶¨Òåº¯Êı£¬API ²Î¿¼ express@4
+  // æ”¯æŒè‡ªå®šä¹‰å‡½æ•°ï¼ŒAPI å‚è€ƒ express@4
   'POST /api/users/create': (req, res) => { res.end('OK'); },
 };
 ```
 
-## Ê¹ÓÃ public Ä¿Â¼
-ÎÒÃÇÔ¼¶¨ public Ä¿Â¼ÏÂµÄÎÄ¼ş»áÔÚ server ºÍ build Ê±±»×Ô¶¯ copy µ½Êä³öÄ¿Â¼£¨Ä¬ÈÏÊÇ ./dist£©ÏÂ¡£ËùÒÔ¿ÉÒÔÔÚÕâÀï´æ·Å favicon, iconfont, html, html ÀïÒıÓÃµÄÍ¼Æ¬µÈ¡£
+## ä½¿ç”¨ public ç›®å½•
+æˆ‘ä»¬çº¦å®š public ç›®å½•ä¸‹çš„æ–‡ä»¶ä¼šåœ¨ server å’Œ build æ—¶è¢«è‡ªåŠ¨ copy åˆ°è¾“å‡ºç›®å½•ï¼ˆé»˜è®¤æ˜¯ ./distï¼‰ä¸‹ã€‚æ‰€ä»¥å¯ä»¥åœ¨è¿™é‡Œå­˜æ”¾ favicon, iconfont, html, html é‡Œå¼•ç”¨çš„å›¾ç‰‡ç­‰ã€‚
 
-## ÅäÖÃ
-umi µÄ webpack ²¿·Ö¹¦ÄÜÊÇ»ùÓÚ af-webpack ÊµÏÖµÄ¡£ÈçĞèÅäÖÃ£¬ÔÚÏîÄ¿¸ùÄ¿Â¼ĞÂ½¨ .webpackrc Íê³É£¬¸ñÊ½Îª JSON£¬±ÈÈç£º
+## é…ç½®
+umi çš„ webpack éƒ¨åˆ†åŠŸèƒ½æ˜¯åŸºäº af-webpack å®ç°çš„ã€‚å¦‚éœ€é…ç½®ï¼Œåœ¨é¡¹ç›®æ ¹ç›®å½•æ–°å»º .webpackrc å®Œæˆï¼Œæ ¼å¼ä¸º JSONï¼Œæ¯”å¦‚ï¼š
 
 ```js
 {
@@ -67,7 +67,7 @@ umi µÄ webpack ²¿·Ö¹¦ÄÜÊÇ»ùÓÚ af-webpack ÊµÏÖµÄ¡£ÈçĞèÅäÖÃ£¬ÔÚÏîÄ¿¸ùÄ¿Â¼ĞÂ½¨ .web
 }
 ```
 
-Èç¹ûÄãÆ«°® JS µÄÅäÖÃ·½Ê½£¬»òÕßĞèÒªÍ¨¹ı±à³ÌµÄ·½Ê½×öÒ»Ğ©ÅĞ¶Ï»òÕß³éÏó£¬¿ÉÒÔÓÃ .webpackrc.jsÅäÖÃÎÄ¼ş£¬Ö§³Ö ES6 Óï·¨£¬±ÈÈç£º
+å¦‚æœä½ åçˆ± JS çš„é…ç½®æ–¹å¼ï¼Œæˆ–è€…éœ€è¦é€šè¿‡ç¼–ç¨‹çš„æ–¹å¼åšä¸€äº›åˆ¤æ–­æˆ–è€…æŠ½è±¡ï¼Œå¯ä»¥ç”¨ .webpackrc.jsé…ç½®æ–‡ä»¶ï¼Œæ”¯æŒ ES6 è¯­æ³•ï¼Œæ¯”å¦‚ï¼š
 
 ```js
 export default {
@@ -75,7 +75,7 @@ export default {
 }
 ```
 
-Ë÷Òı£º
+ç´¢å¼•ï¼š
 
 * entry
 * theme
@@ -102,8 +102,8 @@ export default {
 ### entry
 
 ### theme
-ÅäÖÃÖ÷Ìâ£¬Êµ¼ÊÉÏÊÇÅä less ±äÁ¿¡£Ö§³Ö¶ÔÏóºÍ×Ö·û´®Á½ÖÖÀàĞÍ£¬×Ö·û´®ĞèÒªÖ¸ÏòÒ»¸ö·µ»ØÅäÖÃµÄÎÄ¼ş¡£
-±ÈÈç£º
+é…ç½®ä¸»é¢˜ï¼Œå®é™…ä¸Šæ˜¯é… less å˜é‡ã€‚æ”¯æŒå¯¹è±¡å’Œå­—ç¬¦ä¸²ä¸¤ç§ç±»å‹ï¼Œå­—ç¬¦ä¸²éœ€è¦æŒ‡å‘ä¸€ä¸ªè¿”å›é…ç½®çš„æ–‡ä»¶ã€‚
+æ¯”å¦‚ï¼š
 
 ```
 "theme": {
@@ -111,15 +111,15 @@ export default {
 }
 ```
 
-»òÕß£¬
+æˆ–è€…ï¼Œ
 
 ```
 "theme": "./theme-config.js"
 ```
 
 ### define
-Í¨¹ı webpack µÄ DefinePlugin ´«µİ¸ø´úÂë£¬Öµ»á×Ô¶¯×ö `JSON.stringify` ´¦Àí¡£
-±ÈÈç£º
+é€šè¿‡ webpack çš„ DefinePlugin ä¼ é€’ç»™ä»£ç ï¼Œå€¼ä¼šè‡ªåŠ¨åš `JSON.stringify` å¤„ç†ã€‚
+æ¯”å¦‚ï¼š
 
 ```js
 "define": {
@@ -129,11 +129,11 @@ export default {
 ```
 
 ### externals
-ÅäÖÃ webpack µÄ?[externals](https://webpack.js.org/configuration/externals/)?ÊôĞÔ¡£
-±ÈÈç£º
+é…ç½® webpack çš„?[externals](https://webpack.js.org/configuration/externals/)?å±æ€§ã€‚
+æ¯”å¦‚ï¼š
 
 ```js
-// ÅäÖÃ react ºÍ react-dom ²»´òÈë´úÂë
+// é…ç½® react å’Œ react-dom ä¸æ‰“å…¥ä»£ç 
 "externals": {
   "react": "window.React",
   "react-dom": "window.ReactDOM"
@@ -141,11 +141,11 @@ export default {
 ```
 
 ### alias
-ÅäÖÃ webpack µÄ [resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias) ÊôĞÔ¡£
+é…ç½® webpack çš„ [resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias) å±æ€§ã€‚
 
 ### browserslist
-ÅäÖÃ [browserslist](https://github.com/ai/browserslist)£¬Í¬Ê±×÷ÓÃÓÚ babel-preset-env ºÍ autoprefixer¡£
-±ÈÈç£º
+é…ç½® [browserslist](https://github.com/ai/browserslist)ï¼ŒåŒæ—¶ä½œç”¨äº babel-preset-env å’Œ autoprefixerã€‚
+æ¯”å¦‚ï¼š
 
 ```js
 "browserslist": [
@@ -155,17 +155,17 @@ export default {
 ```
 
 ### publicPath
-ÅäÖÃ webpack µÄ [output.publicPath](https://webpack.js.org/configuration/output/#output-publicpath) ÊôĞÔ¡£
+é…ç½® webpack çš„ [output.publicPath](https://webpack.js.org/configuration/output/#output-publicpath) å±æ€§ã€‚
 
 ### outputPath
-ÅäÖÃ webpack µÄ?[output.path](https://webpack.js.org/configuration/output/#output-path)?ÊôĞÔ¡£
+é…ç½® webpack çš„?[output.path](https://webpack.js.org/configuration/output/#output-path)?å±æ€§ã€‚
 
 ### devtool
-ÅäÖÃ webpack µÄ [devtool](https://webpack.js.org/configuration/devtool/) ÊôĞÔ¡£
+é…ç½® webpack çš„ [devtool](https://webpack.js.org/configuration/devtool/) å±æ€§ã€‚
 
 ### commons
-ÅäÖÃ webpack µÄ [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/) ²å¼ş£¬¸ñÊ½ÎªÊı×é£¬ÓĞ¼¸ÏîÅä¼¸¸ö CommonsChunkPlugin ¡£
-±ÈÈç£º
+é…ç½® webpack çš„ [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/) æ’ä»¶ï¼Œæ ¼å¼ä¸ºæ•°ç»„ï¼Œæœ‰å‡ é¡¹é…å‡ ä¸ª CommonsChunkPlugin ã€‚
+æ¯”å¦‚ï¼š
 
 ```markup
 "commons": [
@@ -183,23 +183,23 @@ export default {
 ```
 
 ### disableCSSModules
-½ûÓÃ?[CSS Modules](https://github.com/css-modules/css-modules)¡£
+ç¦ç”¨?[CSS Modules](https://github.com/css-modules/css-modules)ã€‚
 
 ### disableCSSSourceMap
-½ûÓÃ CSS µÄ SourceMap Éú³É¡£
+ç¦ç”¨ CSS çš„ SourceMap ç”Ÿæˆã€‚
 
 ### extraBabelPresets
-¶¨Òå¶îÍâµÄ babel preset ÁĞ±í£¬¸ñÊ½ÎªÊı×é¡£
+å®šä¹‰é¢å¤–çš„ babel preset åˆ—è¡¨ï¼Œæ ¼å¼ä¸ºæ•°ç»„ã€‚
 
 ### extraBabelPlugins
-¶¨Òå¶îÍâµÄ babel plugin ÁĞ±í£¬¸ñÊ½ÎªÊı×é¡£
+å®šä¹‰é¢å¤–çš„ babel plugin åˆ—è¡¨ï¼Œæ ¼å¼ä¸ºæ•°ç»„ã€‚
 
 ### extraBabelIncludes
-¶¨Òå¶îÍâĞèÒª×ö babel ×ª»»µÄÎÄ¼şÆ¥ÅäÁĞ±í£¬¸ñÊ½ÎªÊı×é¡£
+å®šä¹‰é¢å¤–éœ€è¦åš babel è½¬æ¢çš„æ–‡ä»¶åŒ¹é…åˆ—è¡¨ï¼Œæ ¼å¼ä¸ºæ•°ç»„ã€‚
 
 ### copy
-¶¨ÒåĞèÒªµ¥´¿×ö¸´ÖÆµÄÎÄ¼şÁĞ±í£¬¸ñÊ½ÎªÊı×é£¬ÏîµÄ¸ñÊ½²Î¿¼ [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin) µÄÅäÖÃ¡£
-±ÈÈç£º
+å®šä¹‰éœ€è¦å•çº¯åšå¤åˆ¶çš„æ–‡ä»¶åˆ—è¡¨ï¼Œæ ¼å¼ä¸ºæ•°ç»„ï¼Œé¡¹çš„æ ¼å¼å‚è€ƒ [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin) çš„é…ç½®ã€‚
+æ¯”å¦‚ï¼š
 
 ```markup
 "copy": [
@@ -211,8 +211,8 @@ export default {
 ```
 
 ### proxy
-ÅäÖÃ webpack-dev-server µÄ [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy) ÊôĞÔ¡£
-Èç¹ûÒª´úÀíÇëÇóµ½ÆäËû·şÎñÆ÷£¬¿ÉÒÔÕâÑùÅä£º
+é…ç½® webpack-dev-server çš„ [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy) å±æ€§ã€‚
+å¦‚æœè¦ä»£ç†è¯·æ±‚åˆ°å…¶ä»–æœåŠ¡å™¨ï¼Œå¯ä»¥è¿™æ ·é…ï¼š
 
 ```markup
 "proxy": {
@@ -224,14 +224,14 @@ export default {
 }
 ```
 
-È»ºó·ÃÎÊ?`/api/users`?¾ÍÄÜ·ÃÎÊµ½?[http://jsonplaceholder.typicode.com/users](http://jsonplaceholder.typicode.com/users)?µÄÊı¾İ¡£
+ç„¶åè®¿é—®?`/api/users`?å°±èƒ½è®¿é—®åˆ°?[http://jsonplaceholder.typicode.com/users](http://jsonplaceholder.typicode.com/users)?çš„æ•°æ®ã€‚
 
 ### sass
-ÅäÖÃ [node-sass](https://github.com/sass/node-sass#options) µÄÑ¡Ïî¡£×¢Òâ£ºÊ¹ÓÃ sass Ê±ĞèÔÚÏîÄ¿Ä¿Â¼°²×° node-sass ºÍ sass-loader ÒÀÀµ¡£
+é…ç½® [node-sass](https://github.com/sass/node-sass#options) çš„é€‰é¡¹ã€‚æ³¨æ„ï¼šä½¿ç”¨ sass æ—¶éœ€åœ¨é¡¹ç›®ç›®å½•å®‰è£… node-sass å’Œ sass-loader ä¾èµ–ã€‚
 
 ### manifest
-ÅäÖÃºó»áÉú³É manifest.json£¬option ´«¸ø [https://www.npmjs.com/package/webpack-manifest-plugin](https://www.npmjs.com/package/webpack-manifest-plugin)¡£
-±ÈÈç£º
+é…ç½®åä¼šç”Ÿæˆ manifest.jsonï¼Œoption ä¼ ç»™ [https://www.npmjs.com/package/webpack-manifest-plugin](https://www.npmjs.com/package/webpack-manifest-plugin)ã€‚
+æ¯”å¦‚ï¼š
 
 ```markup
 "manifest": {
@@ -240,11 +240,11 @@ export default {
 ```
 
 ### ignoreMomentLocale
-ºöÂÔ moment µÄ locale ÎÄ¼ş£¬ÓÃÓÚ¼õÉÙ³ß´ç¡£
+å¿½ç•¥ moment çš„ locale æ–‡ä»¶ï¼Œç”¨äºå‡å°‘å°ºå¯¸ã€‚
 
 ### env
-Õë¶ÔÌØ¶¨µÄ»·¾³½øĞĞÅäÖÃ¡£server µÄ»·¾³±äÁ¿ÊÇ?`development`£¬build µÄ»·¾³±äÁ¿ÊÇ?`production`¡£
-±ÈÈç£º
+é’ˆå¯¹ç‰¹å®šçš„ç¯å¢ƒè¿›è¡Œé…ç½®ã€‚server çš„ç¯å¢ƒå˜é‡æ˜¯?`development`ï¼Œbuild çš„ç¯å¢ƒå˜é‡æ˜¯?`production`ã€‚
+æ¯”å¦‚ï¼š
 
 ```js
 "extraBabelPlugins": ["transform-runtime"],
@@ -255,16 +255,16 @@ export default {
 }
 ```
 
-ÕâÑù£¬¿ª·¢»·¾³ÏÂµÄ extraBabelPlugins ÊÇ?`["transform-runtime", "dva-hmr"]`£¬¶øÉú²ú»·¾³ÏÂÊÇ?`["transform-runtime"]`¡£
+è¿™æ ·ï¼Œå¼€å‘ç¯å¢ƒä¸‹çš„ extraBabelPlugins æ˜¯?`["transform-runtime", "dva-hmr"]`ï¼Œè€Œç”Ÿäº§ç¯å¢ƒä¸‹æ˜¯?`["transform-runtime"]`ã€‚
 
-## »·¾³±äÁ¿
-¿É»·¾³±äÁ¿ÁÙÊ±ÅäÖÃÒ»Ğ©²ÎÊı£¬°üÀ¨£º
+## ç¯å¢ƒå˜é‡
+å¯ç¯å¢ƒå˜é‡ä¸´æ—¶é…ç½®ä¸€äº›å‚æ•°ï¼ŒåŒ…æ‹¬ï¼š
 
-* `PORT`, ¶Ë¿ÚºÅ£¬Ä¬ÈÏ 8000
-* `HOST,` Ä¬ÈÏ localhost
-* `HTTPS`£¬ÊÇ·ñ¿ªÆô https£¬Ä¬ÈÏ¹Ø±Õ
+* `PORT`, ç«¯å£å·ï¼Œé»˜è®¤ 8000
+* `HOST,` é»˜è®¤ localhost
+* `HTTPS`ï¼Œæ˜¯å¦å¼€å¯ httpsï¼Œé»˜è®¤å…³é—­
 
-±ÈÈçÊ¹ÓÃ 3000 ¶Ë¿ÚÆô¶¯ dev server£¬
+æ¯”å¦‚ä½¿ç”¨ 3000 ç«¯å£å¯åŠ¨ dev serverï¼Œ
 
 ```bash
 # OS X, Linux
@@ -278,9 +278,9 @@ $ cross-env PORT=3000 roadhog dev
 ```
 
 ## FAQ
-### ÎªÊ²Ã´½Ğ roadhog ?
+### ä¸ºä»€ä¹ˆå« roadhog ?
 
-roadhog ¼´Â·°Ô£¬ºÍ [dva](https://github.com/dvajs/dva) Ò»Ñù£¬ÊÇÊØÍûÏÈ·æÖĞµÄÁíÒ»ÃûÓ¢ĞÛ£¬Ï£ÍûÄÜÎª dva ±£¼İ»¤º½¡£
+roadhog å³è·¯éœ¸ï¼Œå’Œ [dva](https://github.com/dvajs/dva) ä¸€æ ·ï¼Œæ˜¯å®ˆæœ›å…ˆé”‹ä¸­çš„å¦ä¸€åè‹±é›„ï¼Œå¸Œæœ›èƒ½ä¸º dva ä¿é©¾æŠ¤èˆªã€‚
 
 <img src="https://zos.alipayobjects.com/rmsportal/guCnwwMItoLOTmcdbaEZ.png" width="200" height="200" />
 
