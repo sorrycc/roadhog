@@ -5,6 +5,6 @@ build:
 publish: build
 	npm publish
 
-publish-sync: publish
+sync:
 	cnpm sync roadhog
 	tnpm sync roadhog
