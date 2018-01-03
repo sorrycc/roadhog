@@ -39,7 +39,7 @@ $ roadhog build
 $ NO_COMPRESS=1 roadhog build
 
 ## Test
-$ raodhog test
+$ roadhog test
 ```
 
 ## Mock
