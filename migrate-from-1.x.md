@@ -1,6 +1,6 @@
 ## Migrate from 1.x
 
-[查看中文版](./migrate-from-1.x_zh-cn.md)
+[鏌ョ湅涓枃鐗圿(./migrate-from-1.x_zh-cn.md)
 
 Upgrading to roadhog@2 is easy, we can follow the PR of [ant-design-pro upgrade PR] (https://github.com/ant-design/ant-design-pro/pull/542).
 
