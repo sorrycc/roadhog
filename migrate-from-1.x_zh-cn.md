@@ -14,7 +14,7 @@
 
 然后，由于内置了 babel@7 的，
 
-* 如果你有用 babel-polyfill，更换为 `@babel/polifill`
+* 如果你有用 babel-polyfill，更换为 `@babel/polyfill`
 * 如果有 babel-runtime 依赖，可删除，因为已内置处理
 * 由于 babel@7 无法使用 babel-plugin-add-module-exports，所有的 `require('./file')` 需改为 `require('./file').default`
 * 如果有用 babel-plugin-dva-hmr，请升级到 0.4.x，

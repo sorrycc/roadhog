@@ -14,7 +14,7 @@ For most applications, just:
 
 Then, since the built-in of babel@7,
 
-* If you are using `babel-polyfill`, use `@babel/polifill` instead
+* If you are using `babel-polyfill`, use `@babel/polyfill` instead
 * If you have dependency `babel-runtime`, delete it, it's built-in
 * Since we can't use babel-plugin-add-module-exports together with babel@7, modify all the `require('./file')` to `require('./file').default`
 * If you are using  babel-plugin-dva-hmr, upgrade to 0.4.x,
