@@ -6,6 +6,8 @@ export default function(babelPreset, opts) {
   const { configOnly, disablePreventTest, ignore, cwd } = opts;
   const files = [
     '.roadhogrc.mock.js',
+    'webpack.config.js',
+    '.webpackrc.js',
     winPath(join(cwd, 'mock')),
     winPath(join(cwd, 'src')),
   ];
