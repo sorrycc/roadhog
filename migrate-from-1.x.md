@@ -23,6 +23,12 @@ Then, since it does not support of `src/index.ejs` and it's automatic injection,
 
 * If you are using `src/index.ejs`, move to `public/index.html`, and inject CSS and JS manually
 
+Then, if you have file `src/index.ejs`, need to config [html](https://github.com/sorrycc/roadhog#html),
+
+```
+"html": { "template": "./src/index.ejs" }
+```
+
 Finally, the following configuration is no longer supported, consider alternatives or use `webpack.config.js` for configuration.
 
 * multipage (use commons instead)

@@ -12,16 +12,18 @@
 * 更名 .roadhogrc 为 .webpackrc
 * 更名 roadhog server 为 roadhog dev
 
-然后，由于内置了 babel@7 的，
+然后，由于内置了 `babel@7`，
 
 * 如果你有用 babel-polyfill，更换为 `@babel/polyfill`
 * 如果有 babel-runtime 依赖，可删除，因为已内置处理
 * 由于 babel@7 无法使用 babel-plugin-add-module-exports，所有的 `require('./file')` 需改为 `require('./file').default`
 * 如果有用 babel-plugin-dva-hmr，请升级到 0.4.x，
 
-然后，由于不支持 src/index.ejs 的自动注入，
+再然后，如果有 `src/index.ejs`，需要额外配置 [html](https://github.com/sorrycc/roadhog#html) 属性，
 
-* 如果之前有用 `src/index.ejs`，需移到 `public/index.html`，并手动引入 CSS 和 JS
+```
+"html": { "template": "./src/index.ejs" }
+```
 
 最后，以下配置不再支持，需考虑替代方案或使用 webpack.config.js 进行配置。
 
