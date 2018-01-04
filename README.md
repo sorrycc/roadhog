@@ -94,6 +94,7 @@ Index:
 * [outputPath](#outputpath)
 * [devtool](#devtool)
 * [commons](#commons)
+* [html](#html)
 * [disableCSSModules](#disablecssmodules)
 * [disableCSSSourceMap](#disablecsssourcemap)
 * [extraBabelPresets](#extrababelpresets)
@@ -201,6 +202,18 @@ e.g.
     },
   },
 ]
+```
+
+### html
+
+Configure [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) plugin.
+
+e.g.
+
+```markup
+"html": {
+  "template": "./src/index.ejs"
+}
 ```
 
 ### disableCSSModules

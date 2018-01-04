@@ -93,6 +93,7 @@ export default {
 * [outputPath](#outputpath)
 * [devtool](#devtool)
 * [commons](#commons)
+* [html](#html)
 * [disableCSSModules](#disablecssmodules)
 * [disableCSSSourceMap](#disablecsssourcemap)
 * [extraBabelPresets](#extrababelpresets)
@@ -178,7 +179,9 @@ export default {
 配置 webpack 的 [devtool](https://webpack.js.org/configuration/devtool/) 属性。
 
 ### commons
+
 配置 webpack 的 [CommonsChunkPlugin](https://webpack.js.org/plugins/commons-chunk-plugin/) 插件，格式为数组，有几项配几个 CommonsChunkPlugin 。
+
 比如：
 
 ```markup
@@ -196,23 +199,42 @@ export default {
 ]
 ```
 
+### html
+
+配置 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 插件。
+
+比如：
+
+```markup
+"html": {
+  "template": "./src/index.ejs"
+}
+```
+
 ### disableCSSModules
+
 禁用 [CSS Modules](https://github.com/css-modules/css-modules)。
 
 ### disableCSSSourceMap
+
 禁用 CSS 的 SourceMap 生成。
 
 ### extraBabelPresets
+
 定义额外的 babel preset 列表，格式为数组。
 
 ### extraBabelPlugins
+
 定义额外的 babel plugin 列表，格式为数组。
 
 ### extraBabelIncludes
+
 定义额外需要做 babel 转换的文件匹配列表，格式为数组。
 
 ### copy
+
 定义需要单纯做复制的文件列表，格式为数组，项的格式参考 [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin) 的配置。
+
 比如：
 
 ```markup
@@ -225,6 +247,7 @@ export default {
 ```
 
 ### proxy
+
 配置 webpack-dev-server 的 [proxy](https://webpack.js.org/configuration/dev-server/#devserver-proxy) 属性。
 如果要代理请求到其他服务器，可以这样配：
 
@@ -254,9 +277,11 @@ export default {
 ```
 
 ### ignoreMomentLocale
+
 忽略 moment 的 locale 文件，用于减少尺寸。
 
 ### env
+
 针对特定的环境进行配置。server 的环境变量是?`development`，build 的环境变量是?`production`。
 比如：
 
@@ -272,6 +297,7 @@ export default {
 这样，开发环境下的 extraBabelPlugins 是?`["transform-runtime", "dva-hmr"]`，而生产环境下是?`["transform-runtime"]`。
 
 ## 环境变量
+
 可环境变量临时配置一些参数，包括：
 
 * `PORT`, 端口号，默认 8000
@@ -292,6 +318,7 @@ $ cross-env PORT=3000 roadhog dev
 ```
 
 ## FAQ
+
 ### 为什么叫 roadhog ?
 
 roadhog 即路霸，和 [dva](https://github.com/dvajs/dva) 一样，是守望先锋中的另一名英雄，希望能为 dva 保驾护航。
@@ -299,4 +326,5 @@ roadhog 即路霸，和 [dva](https://github.com/dvajs/dva) 一样，是守望�
 <img src="https://gw.alipayobjects.com/zos/rmsportal/BEPYXIglOwaeUroviDQr.png" width="200" height="200" />
 
 ## LICENSE
+
 MIT
