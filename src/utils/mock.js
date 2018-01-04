@@ -26,6 +26,8 @@ function getConfig() {
       }
     });
     return require(configFile);
+  } else {
+    return {};
   }
 }
 
