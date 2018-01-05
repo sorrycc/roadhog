@@ -1,35 +1,35 @@
-## ´Ó 1.x Éı¼¶¹ıÀ´
+## ä» 1.x å‡çº§è¿‡æ¥
 
 [View English version](./migrate-from-1.x.md)
 
-Éı¼¶µ½ roadhog@2 ²¢²»Âé·³£¬ÎÒÃÇ¿ÉÒÔ²Î¿¼ [ant-design-pro µÄÉı¼¶ PR](https://github.com/ant-design/ant-design-pro/pull/542) À´²Ù×÷¡£
+å‡çº§åˆ° roadhog@2 å¹¶ä¸éº»çƒ¦ï¼Œæˆ‘ä»¬å¯ä»¥å‚è€ƒ [ant-design-pro çš„å‡çº§ PR](https://github.com/ant-design/ant-design-pro/pull/542) æ¥æ“ä½œã€‚
 
 ---
 
-¶ÔÓÚ´ó²¿·ÖµÄÓ¦ÓÃÀ´Ëµ£¬Ö»Òª£º
+å¯¹äºå¤§éƒ¨åˆ†çš„åº”ç”¨æ¥è¯´ï¼Œåªè¦ï¼š
 
-* Éı¼¶ roadhog °æ±¾Îª 2.x
-* ¸üÃû .roadhogrc Îª .webpackrc
-* ¸üÃû roadhog server Îª roadhog dev
+* å‡çº§ roadhog ç‰ˆæœ¬ä¸º 2.x
+* æ›´å .roadhogrc ä¸º .webpackrc
+* æ›´å roadhog server ä¸º roadhog dev
 
-È»ºó£¬ÓÉÓÚÄÚÖÃÁË `babel@7`£¬
+ç„¶åï¼Œç”±äºå†…ç½®äº† `babel@7`ï¼Œ
 
-* Èç¹ûÄãÓĞÓÃ babel-polyfill£¬¸ü»»Îª `@babel/polyfill`
-* Èç¹ûÓĞ babel-runtime ÒÀÀµ£¬¿ÉÉ¾³ı£¬ÒòÎªÒÑÄÚÖÃ´¦Àí
-* ÓÉÓÚ babel@7 ÎŞ·¨Ê¹ÓÃ babel-plugin-add-module-exports£¬ËùÓĞµÄ `require('./file')` Ğè¸ÄÎª `require('./file').default`
-* Èç¹ûÓĞÓÃ babel-plugin-dva-hmr£¬ÇëÉı¼¶µ½ 0.4.x£¬
+* å¦‚æœä½ æœ‰ç”¨ babel-polyfillï¼Œæ›´æ¢ä¸º `@babel/polyfill`
+* å¦‚æœæœ‰ babel-runtime ä¾èµ–å’Œé…ç½®äº† babel-plugin-transform-runtime æ’ä»¶ï¼Œéœ€åˆ é™¤ï¼Œå› ä¸ºå·²å†…ç½®å¤„ç†ï¼Œå¦åˆ™å¯èƒ½ä¼šæŠ¥ `this.setDynamic is not a function` çš„é”™è¯¯
+* ç”±äº babel@7 æ— æ³•ä½¿ç”¨ babel-plugin-add-module-exportsï¼Œæ‰€æœ‰çš„ `require('./file')` éœ€æ”¹ä¸º `require('./file').default`
+* å¦‚æœæœ‰ç”¨ babel-plugin-dva-hmrï¼Œè¯·å‡çº§åˆ° 0.4.xï¼Œ
 
-ÔÙÈ»ºó£¬Èç¹ûÓĞ `src/index.ejs`£¬ĞèÒª¶îÍâÅäÖÃ [html](https://github.com/sorrycc/roadhog#html) ÊôĞÔ£¬
+å†ç„¶åï¼Œå¦‚æœæœ‰ `src/index.ejs`ï¼Œéœ€è¦é¢å¤–é…ç½® [html](https://github.com/sorrycc/roadhog#html) å±æ€§ï¼Œ
 
 ```
 "html": { "template": "./src/index.ejs" }
 ```
 
-×îºó£¬ÒÔÏÂÅäÖÃ²»ÔÙÖ§³Ö£¬Ğè¿¼ÂÇÌæ´ú·½°¸»òÊ¹ÓÃ webpack.config.js ½øĞĞÅäÖÃ¡£
+æœ€åï¼Œä»¥ä¸‹é…ç½®ä¸å†æ”¯æŒï¼Œéœ€è€ƒè™‘æ›¿ä»£æ–¹æ¡ˆæˆ–ä½¿ç”¨ webpack.config.js è¿›è¡Œé…ç½®ã€‚
 
 * multipage (use commons instead)
 * autoprefixer (use browserslist instead)
-* dllPlugin (Ñ§Ï°³É±¾Ì«¸ß£¬²¢ÇÒÓĞÆäËû·½·¨¿ÉÒÔÌáÉı dev server Æô¶¯ËÙ¶È)
+* dllPlugin (å­¦ä¹ æˆæœ¬å¤ªé«˜ï¼Œå¹¶ä¸”æœ‰å…¶ä»–æ–¹æ³•å¯ä»¥æå‡ dev server å¯åŠ¨é€Ÿåº¦)
 * svgSpriteLoaderDirs
 * library
 * libraryTarget
