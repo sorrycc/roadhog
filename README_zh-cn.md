@@ -104,6 +104,7 @@ export default {
 * [sass](#sass)
 * [manifest](#manifest)
 * [ignoreMomentLocale](#ignoremomentlocale)
+* [disableDynamicImport](#disabledynamicimport)
 * [env](#env)
 
 ### entry
@@ -279,6 +280,10 @@ export default {
 ### ignoreMomentLocale
 
 忽略 moment 的 locale 文件，用于减少尺寸。
+
+### disableDynamicImport
+
+禁用 `import()` 按需加载，全部打包在一个文件里，通过 [babel-plugin-dynamic-import-node-sync](https://github.com/seeden/babel-plugin-dynamic-import-node-sync) 实现。
 
 ### env
 
