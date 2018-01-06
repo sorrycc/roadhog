@@ -1,6 +1,6 @@
 import server from '../dev';
 
-// ÐÞ¸´ Ctrl+C Ê± dev server Ã»ÓÐÕý³£ÍË³öµÄÎÊÌâ
+// ä¿®å¤ Ctrl+C æ—¶ dev server æ²¡æœ‰æ­£å¸¸é€€å‡ºçš„é—®é¢˜
 process.on('SIGINT', () => {
   process.exit(1);
 });
