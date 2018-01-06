@@ -1,6 +1,7 @@
 import { join } from 'path';
 import registerBabel from 'af-webpack/registerBabel';
 import winPath from './utils/winPath';
+import excapeRegExp from 'lodash.escaperegexp';
 
 export default function(babelPreset, opts) {
   const { configOnly, disablePreventTest, ignore, cwd } = opts;
@@ -8,9 +9,11 @@ export default function(babelPreset, opts) {
     '.roadhogrc.mock.js',
     'webpack.config.js',
     '.webpackrc.js',
-    winPath(join(cwd, 'mock')),
-    winPath(join(cwd, 'src')),
+    // 'dead-simple\\mock',
+    excapeRegExp(join(cwd, 'mock')),
+    excapeRegExp(join(cwd, 'src')),
   ];
+  console.log('mock files', files);
   const only = configOnly ? [new RegExp(`(${files.join('|')})`)] : null;
 
   registerBabel({
