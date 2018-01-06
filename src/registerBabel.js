@@ -9,11 +9,9 @@ export default function(babelPreset, opts) {
     '.roadhogrc.mock.js',
     'webpack.config.js',
     '.webpackrc.js',
-    // 'dead-simple\\mock',
     excapeRegExp(join(cwd, 'mock')),
     excapeRegExp(join(cwd, 'src')),
   ];
-  console.log('mock files', files);
   const only = configOnly ? [new RegExp(`(${files.join('|')})`)] : null;
 
   registerBabel({
