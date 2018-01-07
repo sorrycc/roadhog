@@ -292,7 +292,7 @@ Ignore moment locale file, used to reduce the size.
 
 ### disableDynamicImport
 
-Disable `import ()` to load on demand, but bundle all the files in a single file, implement via [babel-plugin-dynamic-import-node-sync] (https://github.com/seeden/babel-plugin-dynamic-import-node-sync).
+Disable `import ()` to load on demand, but bundle all the files in a single file, implement via [babel-plugin-dynamic-import-node-sync](https://github.com/seeden/babel-plugin-dynamic-import-node-sync).
 
 ### env
 
