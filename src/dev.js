@@ -53,6 +53,9 @@ export default function runDev(opts = {}) {
     paths,
   });
 
+  // 判断是否要开启浏览器
+  const openBrowser = process.argv.every(param => param !== '--no-open');
+
   dev({
     webpackConfig,
     proxy: config.proxy || {},
@@ -66,6 +69,6 @@ export default function runDev(opts = {}) {
     afterServer(devServer) {
       returnedWatchConfig(devServer);
     },
-    openBrowser: true,
+    openBrowser,
   });
 }
