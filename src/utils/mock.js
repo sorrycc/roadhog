@@ -53,7 +53,7 @@ function createProxy(method, path, target) {
       if (matches.length > 1) {
         matchPath = matches[1];
       }
-      return join(winPath(url.parse(target).path), matchPath);
+      return winPath(join(url.parse(target).path, matchPath));
     },
   });
 }
