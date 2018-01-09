@@ -304,6 +304,7 @@ export function getCommonPlugins({ config, paths, appBuild, NODE_ENV }) {
       {
         from: paths.appPublic,
         to: appBuild,
+        toType: 'dir',
       },
     ]));
   }
