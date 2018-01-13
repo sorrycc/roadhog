@@ -93,6 +93,7 @@ export default {
 * [outputPath](#outputpath)
 * [devtool](#devtool)
 * [commons](#commons)
+* [hash](#hash)
 * [html](#html)
 * [disableCSSModules](#disablecssmodules)
 * [disableCSSSourceMap](#disablecsssourcemap)
@@ -200,6 +201,10 @@ export default {
 ]
 ```
 
+### hash
+
+配置让构建产物文件名带 hash，通常会和 [manifest](#manifest) 配合使用。
+
 ### html
 
 配置 [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) 插件。
@@ -305,9 +310,11 @@ export default {
 
 可环境变量临时配置一些参数，包括：
 
-* `PORT`, 端口号，默认 8000
-* `HOST,` 默认 localhost
-* `HTTPS`，是否开启 https，默认关闭
+* `PORT`，端口号，默认 8000
+* `HOST`，默认 localhost
+* `ANALYZE`，是否在 build 时分析构建产物
+* `DISABLE_ESLINT`，禁用 eslint 检测
+* `NO_COMPRESS`, build 时不压缩
 
 比如使用 3000 端口启动 dev server，
 

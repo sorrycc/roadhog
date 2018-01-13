@@ -94,6 +94,7 @@ Index:
 * [outputPath](#outputpath)
 * [devtool](#devtool)
 * [commons](#commons)
+* [hash](#hash)
 * [html](#html)
 * [disableCSSModules](#disablecssmodules)
 * [disableCSSSourceMap](#disablecsssourcemap)
@@ -204,6 +205,10 @@ e.g.
   },
 ]
 ```
+
+### hash
+
+Configuration to build with hash file name, and it's usually used in conjunction with the [manifest](#manifest).
 
 ### html
 
@@ -316,8 +321,10 @@ Thus, extraBabelPlugins in development is `['transform-runtime', 'dva-hmr']`, an
 You can temporarily configure some parameters for environment variables, including:
 
 * `PORT`, default 8000
-* `HOST,` default localhost
-* `HTTPS`，whether to enable https, default false
+* `HOST`, default localhost
+* `ANALYZE`, whether to analyze the output bundle in `roadhog build`
+* `DISABLE_ESLINT`, disable eslint check
+* `NO_COMPRESS`, don't compress file in `roadhog build`
 
 e.g. start dev server with port 3000,
 
