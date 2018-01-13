@@ -20,7 +20,7 @@ Roadhog 是一个包含 `dev`、`build` 和 `test` 的命令行工具，他基�
 * 🚨 create-react-app 的体验
 * 🐠 JSON 格式的 webpack 配置
 * ✂️ mock
-* 🔥 基于 jest 的 test（暂不支持  UI 测试）
+* 🔥 基于 jest 的 test，包括 UI 测试（基于 enzyme）
 
 
 ## Getting started

@@ -20,7 +20,7 @@ Roadhog is a cli tool with `dev`、`build` and `test` commands. It's based on re
 * 🐠 create-react-app experience
 * 🚨 webpack configuration in JSON format
 * 🔥 mock
-* ✂️ test based on jest (UI testing is not supported at this time)
+* ✂️ test based on jest, ui test with enzyme
 
 ## Getting started
 ```bash
