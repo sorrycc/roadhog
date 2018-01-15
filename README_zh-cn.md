@@ -62,7 +62,7 @@ export default {
 ```
 
 ## 使用 public 目录
-我们约定 public 目录下的文件会在 server 和 build 时被自动 copy 到输出目录（默认是 ./dist）下。所以可以在这里存放 favicon, iconfont, html, html 里引用的图片等。
+我们约定 public 目录下的文件会在 dev 和 build 时被自动 copy 到输出目录（默认是 ./dist）下。所以可以在这里存放 favicon, iconfont, html, html 里引用的图片等。
 
 ## 配置
 umi 的 webpack 部分功能是基于 af-webpack 实现的。如需配置，在项目根目录新建 .webpackrc 完成，格式为 JSON，比如：
@@ -292,7 +292,7 @@ export default {
 
 ### env
 
-针对特定的环境进行配置。server 的环境变量是?`development`，build 的环境变量是?`production`。
+针对特定的环境进行配置。dev 的环境变量是?`development`，build 的环境变量是?`production`。
 比如：
 
 ```js
