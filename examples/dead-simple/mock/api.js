@@ -1,5 +1,5 @@
 export default {
   '/api/hello'(req, res) {
-    res.end('hello');
+    res.end(`hello ${Math.random()}`);
   },
 };
