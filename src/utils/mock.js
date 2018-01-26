@@ -1,4 +1,4 @@
-import fs, { existsSync } from 'fs';
+import { existsSync } from 'fs';
 import assert from 'assert';
 import chokidar from 'chokidar';
 import chalk from 'chalk';
