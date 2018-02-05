@@ -29,7 +29,7 @@ export default function runDev(opts = {}) {
   let returnedWatchConfig = null;
   try {
     const configObj = getConfig({ cwd });
-    config = configObj.config;
+    ({ config } = configObj);
     returnedWatchConfig = configObj.watch;
     debug(`user config: ${JSON.stringify(config)}`);
   } catch (e) {

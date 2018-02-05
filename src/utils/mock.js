@@ -25,6 +25,8 @@ function getConfig() {
         delete require.cache[file];
       }
     });
+    /* eslint-disable global-require */
+    /* eslint-disable import/no-dynamic-require */
     return require(configFile);
   } else {
     return {};
@@ -51,6 +53,7 @@ function createProxy(method, path, target) {
       let matchPath = req.originalUrl;
       const matches = matchPath.match(path);
       if (matches.length > 1) {
+        /* eslint-disable prefer-destructuring */
         matchPath = matches[1];
       }
       return winPath(join(url.parse(target).path, matchPath));
