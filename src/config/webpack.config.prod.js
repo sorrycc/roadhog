@@ -4,6 +4,7 @@ import Visualizer from 'webpack-visualizer-plugin';
 import getEntry from '../utils/getEntry';
 import getTheme from '../utils/getTheme';
 import getCSSLoaders from '../utils/getCSSLoaders';
+import getDevtool from '../utils/getDevtool';
 import addExtraBabelIncludes from '../utils/addExtraBabelIncludes';
 import {
   getBabelOptions,
@@ -88,6 +89,7 @@ export default function (args, appBuild, config, paths) {
           screw_ie8: true,
           ascii_only: true,
         },
+        sourceMap: devtool ? getDevtool(devtool) : false
       })]),
       ...(analyze ? [new Visualizer()] : []),
     ],
