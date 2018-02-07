@@ -13,7 +13,7 @@ import { applyMock } from './utils/mock';
 const debug = require('debug')('roadhog:dev');
 
 export default function runDev(opts = {}) {
-  const { cwd = process.cwd() } = opts;
+  const { cwd = process.cwd(), entry } = opts;
 
   const babel = resolve(__dirname, './babel.js');
   const paths = getPaths(cwd);
@@ -29,7 +29,7 @@ export default function runDev(opts = {}) {
   let returnedWatchConfig = null;
   try {
     const configObj = getConfig({ cwd });
-    config = configObj.config;
+    ({ config } = configObj);
     returnedWatchConfig = configObj.watch;
     debug(`user config: ${JSON.stringify(config)}`);
   } catch (e) {
@@ -51,6 +51,7 @@ export default function runDev(opts = {}) {
     config,
     babel,
     paths,
+    entry,
   });
 
   dev({
