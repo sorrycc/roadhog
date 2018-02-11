@@ -66,7 +66,7 @@ Files in the public directory would be copied to the output directory (by defaul
 
 ## Configuration
 
-umi's webpack part is based on the af-webpack's implementation. For configuration, create `.webpackrc` in the project root. The format is JSON, e.g.
+roadhog's webpack part is based on the af-webpack's implementation. For configuration, create `.webpackrc` in the project root. The format is JSON, e.g.
 
 ```js
 {
