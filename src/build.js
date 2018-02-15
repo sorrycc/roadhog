@@ -8,7 +8,7 @@ import registerBabel from './registerBabel';
 const debug = require('debug')('roadhog:build');
 
 export default function(opts = {}) {
-  const { cwd = process.cwd(), watch } = opts;
+  const { cwd = process.cwd(), watch, entry } = opts;
 
   const babel = resolve(__dirname, './babel.js');
   const paths = getPaths(cwd);
@@ -30,6 +30,7 @@ export default function(opts = {}) {
       config,
       babel,
       paths,
+      entry,
     });
 
     build({

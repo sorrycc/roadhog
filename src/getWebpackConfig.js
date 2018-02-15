@@ -7,7 +7,7 @@ const debug = require('debug')('roadhog:getWebpackConfig');
 const isDev = process.env.NODE_ENV === 'development';
 
 export default function(opts = {}) {
-  const { cwd, config, babel, paths } = opts;
+  const { cwd, config, babel, paths, entry } = opts;
 
   const browserslist = config.browserslist || defaultBrowsers;
   debug(`babel: ${babel}`);
@@ -19,7 +19,7 @@ export default function(opts = {}) {
 
     entry: getEntry({
       cwd: paths.appDirectory,
-      entry: config.entry,
+      entry: entry || config.entry,
       isBuild: !isDev,
     }),
     babel: config.babel || {
