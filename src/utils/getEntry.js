@@ -34,11 +34,8 @@ export default function(opts = {}) {
     );
   }
 
-  // Add HotDevClient
-  if (isBuild) {
-    return entryObj;
-  } else {
-    return Object.keys(entryObj).reduce(
+  if (!isBuild) {
+    entryObj = Object.keys(entryObj).reduce(
       (memo, key) =>
         !Array.isArray(entryObj[key])
           ? {
@@ -52,6 +49,22 @@ export default function(opts = {}) {
       {},
     );
   }
+
+  // add setPublicPath
+  const setPublicPathFile = join(__dirname, '../../template/setPublicPath.js');
+  if (process.env.SET_PUBLIC_PATH) {
+    entryObj = Object.keys(entryObj).reduce((memo, key) => {
+      return {
+        ...memo,
+        [key]: [
+          setPublicPathFile,
+          ...(Array.isArray(entryObj[key]) ? entryObj[key] : [entryObj[key]]),
+        ],
+      };
+    }, {});
+  }
+
+  return entryObj;
 }
 
 function getEntry(filePath) {

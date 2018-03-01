@@ -22,7 +22,8 @@
   "files": [
     "bin",
     "src",
-    "lib"
+    "lib",
+    "template"
   ],
   "scripts": {
     "build": "node scripts/build.js",
