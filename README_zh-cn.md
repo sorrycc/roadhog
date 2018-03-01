@@ -313,8 +313,10 @@ export default {
 * `PORT`，端口号，默认 8000
 * `HOST`，默认 localhost
 * `ANALYZE`，是否在 build 时分析构建产物
-* `DISABLE_ESLINT`，禁用 eslint 检测
-* `NO_COMPRESS`, build 时不压缩
+* `ESLINT`，设为 `none` 时禁用 eslint 检测
+* `TSLINT`，设为 `none` 时禁用 tslint 检测
+* `COMPRESS`, 设为 `none` 时 build 时不压缩
+* `BROWSER`, 设为 `none` 时不自动打开浏览器
 
 比如使用 3000 端口启动 dev server，
 

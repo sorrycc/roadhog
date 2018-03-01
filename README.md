@@ -331,8 +331,10 @@ You can temporarily configure some parameters for environment variables, includi
 * `PORT`, default 8000
 * `HOST`, default localhost
 * `ANALYZE`, whether to analyze the output bundle in `roadhog build`
-* `DISABLE_ESLINT`, disable eslint check
-* `NO_COMPRESS`, don't compress file in `roadhog build`
+* `ESLINT`, set `none` disable eslint check
+* `TSLINT`, set `none` disable tslint check
+* `COMPRESS`, set `none` to disable file compressing in `roadhog build`
+* `BROWSER`, set `none` to disable browser open in `roadhog dev`
 
 e.g. start dev server with port 3000,
 
