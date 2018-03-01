@@ -6,10 +6,12 @@ npm-debug.log*
 /test/**/dist
 /examples/**/dist
 /examples/**/node_modules
+package-lock.json
 
 # tnpm cache directory
 /test/**/.cache
 
 # IDE
 .idea
+.vscode
 

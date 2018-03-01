@@ -38,19 +38,17 @@ export default function(opts = {}) {
   if (isBuild) {
     return entryObj;
   } else {
-    return Object.keys(entryObj).reduce(
-      (memo, key) =>
-        !Array.isArray(entryObj[key])
-          ? {
-              ...memo,
-              [key]: [webpackHotDevClientPath, entryObj[key]],
-            }
-          : {
-              ...memo,
-              [key]: entryObj[key],
-            },
-      {},
-    );
+    return Object.keys(entryObj).reduce((memo, key) => {
+      return !Array.isArray(entryObj[key])
+        ? {
+            ...memo,
+            [key]: [webpackHotDevClientPath, entryObj[key]],
+          }
+        : {
+            ...memo,
+            [key]: entryObj[key],
+          };
+    }, {});
   }
 }
 

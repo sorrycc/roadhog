@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 import chalk from 'chalk';
 import { fork } from 'child_process';
 
@@ -19,7 +21,8 @@ if (major * 10 + minor * 1 < 65) {
 // Notify update when process exits
 const updater = require('update-notifier');
 const pkg = require('../package.json');
-updater({ pkg: pkg }).notify({ defer: true });
+
+updater({ pkg }).notify({ defer: true });
 
 const scriptAlias = {
   server: 'dev',
@@ -27,16 +30,17 @@ const scriptAlias = {
 const aliasedScript = scriptAlias[script] || script;
 switch (aliasedScript) {
   case '-v':
-  case '--version':
+  case '--version': {
     const pkg = require('../package.json');
     console.log(pkg.version);
     if (!(pkg._from && pkg._resolved)) {
       console.log(chalk.cyan('@local'));
     }
     break;
+  }
   case 'build':
   case 'dev':
-  case 'test':
+  case 'test': {
     require('atool-monitor').emit();
     const proc = fork(
       require.resolve(`../lib/scripts/${aliasedScript}`),
@@ -52,6 +56,7 @@ switch (aliasedScript) {
       proc.kill();
     });
     break;
+  }
   default:
     console.log(`Unknown script ${chalk.cyan(script)}.`);
     break;
