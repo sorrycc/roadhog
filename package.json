@@ -40,7 +40,7 @@
     "@babel/core": "^7.0.0-beta.38",
     "@babel/polyfill": "^7.0.0-beta.38",
     "@babel/runtime": "^7.0.0-beta.38",
-    "af-webpack": "^0.15.0",
+    "af-webpack": "^0.17.2",
     "atool-monitor": "^0.4.3",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-umi": "^0.2.0",
@@ -55,7 +55,7 @@
     "lodash.escaperegexp": "^4.1.2",
     "parse-json-pretty": "^0.1.0",
     "strip-json-comments": "^2.0.1",
-    "umi-test": "^0.3.0",
+    "umi-test": "^0.4.3",
     "update-notifier": "^2.3.0",
     "yargs": "^8.0.1"
   },
