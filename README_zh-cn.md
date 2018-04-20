@@ -88,6 +88,7 @@ export default {
 * [define](#define)
 * [externals](#externals)
 * [alias](#alias)
+* [extraResolveExtensions](#extraresolveextensions)
 * [browserslist](#browserslist)
 * [publicPath](#publicpath)
 * [outputPath](#outputpath)
@@ -159,6 +160,10 @@ export default {
 
 ### alias
 配置 webpack 的 [resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias) 属性。
+
+### extraResolveExtensions
+
+配置 webpack 的 [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolve-extensions) 属性。
 
 ### browserslist
 配置 [browserslist](https://github.com/ai/browserslist)，同时作用于 babel-preset-env 和 autoprefixer。

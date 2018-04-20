@@ -89,6 +89,7 @@ Index:
 * [define](#define)
 * [externals](#externals)
 * [alias](#alias)
+* [extraResolveExtensions](#extraresolveextensions)
 * [browserslist](#browserslist)
 * [publicPath](#publicpath)
 * [outputPath](#outputpath)
@@ -167,6 +168,10 @@ e.g.
 ### alias
 
 Configure webpack's [resolve.alias](https://webpack.js.org/configuration/resolve/#resolve-alias) property.
+
+### extraResolveExtensions
+
+Configure webpack's [resolve.extensions](https://webpack.js.org/configuration/resolve/#resolve-extensions) property.
 
 ### browserslist
 
