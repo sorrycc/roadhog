@@ -41,7 +41,7 @@
     "@babel/core": "^7.0.0-beta.38",
     "@babel/polyfill": "^7.0.0-beta.38",
     "@babel/runtime": "^7.0.0-beta.38",
-    "af-webpack": "^0.20.0",
+    "af-webpack": "^0.21.0",
     "atool-monitor": "^0.4.3",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-umi": "^0.3.0",
