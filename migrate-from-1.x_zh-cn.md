@@ -19,6 +19,7 @@
 * 由于 babel@7 无法使用 babel-plugin-add-module-exports，所有的 `require('./file')` 需改为 `require('./file').default`
 * 如果有用 babel-plugin-dva-hmr，请升级到 0.4.x，
 * 由于 babel@7 plugin 的 option 不允许数组，所以遇到 `Error: .plugins[1][1] must be an object, false, or undefined` 的错误时需要修改为引多次插件的方式，[#564](https://github.com/sorrycc/roadhog/issues/564)
+* 由于 [babel@7 升级](https://github.com/babel/babel/pull/7734) 导致的 break change，`transform-decorators-legacy` 无需引入了，不删会有这个报错：`Property right of AssignmentExpression expected node to be of a type ["Expression"] but instead got null`。
 
 再然后，如果有 `src/index.ejs`，需要额外配置 [html](https://github.com/sorrycc/roadhog#html) 属性，
 
