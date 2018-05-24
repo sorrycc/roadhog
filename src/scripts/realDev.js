@@ -1,4 +1,3 @@
-import server from '../dev';
 import { argv } from 'yargs';
 
 // 修复 Ctrl+C 时 dev server 没有正常退出的问题
@@ -12,4 +11,5 @@ if (argv._.length > 0) {
   ops.entry = entry;
 }
 
-server(ops);
+process.env.NODE_ENV = 'development';
+require('../dev').default(ops);
