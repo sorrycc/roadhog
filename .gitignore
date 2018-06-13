@@ -7,4 +7,7 @@ npm-debug.log*
 
 # tnpm cache directory
 /test/**/.cache
+
 .run
+yarn.lock
+
