@@ -153,7 +153,7 @@ function realApplyMock(devServer) {
 }
 
 function parseKey(key) {
-  let method = 'get';
+  let method = 'all';
   let path = key;
 
   if (key.indexOf(' ') > -1) {
