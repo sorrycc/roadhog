@@ -37,7 +37,10 @@ switch (aliasedScript) {
   case 'build':
   case 'dev':
   case 'test':
-    require('atool-monitor').emit();
+    if (process.env.ALI_MONITOR !== 'none') {
+      // Disable atool monitor when ALI_MONITOR=none
+      require('atool-monitor').emit();
+    }
     const proc = fork(
       require.resolve(`../lib/scripts/${aliasedScript}`),
       args,
