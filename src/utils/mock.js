@@ -2,7 +2,7 @@ import { existsSync } from 'fs';
 import assert from 'assert';
 import chokidar from 'chokidar';
 import chalk from 'chalk';
-import proxy from 'express-http-proxy';
+import proxy from 'http-proxy-middleware';
 import url from 'url';
 import { join } from 'path';
 import bodyParser from 'body-parser';
@@ -43,19 +43,18 @@ function createMockHandler(method, path, value) {
 }
 
 function createProxy(method, path, target) {
-  return proxy(target, {
-    filter(req) {
-      return method ? req.method.toLowerCase() === method.toLowerCase() : true;
-    },
-    forwardPath(req) {
-      let matchPath = req.originalUrl;
-      const matches = matchPath.match(path);
-      if (matches.length > 1) {
-        matchPath = matches[1];
-      }
-      return winPath(join(url.parse(target).path, matchPath));
-    },
-  });
+  const filter = req => {
+    return method ? req.method.toLowerCase() === method.toLowerCase() : true;
+  };
+  const router = req => {
+    let matchPath = req.originalUrl;
+    const matches = matchPath.match(path);
+    if (matches.length > 1) {
+      matchPath = matches[1];
+    }
+    return winPath(join(url.parse(target).path, matchPath));
+  };
+  return proxy(filter, { router });
 }
 
 export function applyMock(devServer) {
