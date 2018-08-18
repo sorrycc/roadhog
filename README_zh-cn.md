@@ -108,6 +108,7 @@ export default {
 * [ignoreMomentLocale](#ignoremomentlocale)
 * [disableDynamicImport](#disabledynamicimport)
 * [env](#env)
+* [urlLoaderExcludes](#urlLoaderExcludes)
 
 ### entry
 
@@ -310,6 +311,17 @@ export default {
 ```
 
 这样，开发环境下的 extraBabelPlugins 是?`["transform-runtime", "dva-hmr"]`，而生产环境下是?`["transform-runtime"]`。
+
+### urlLoaderExcludes
+
+配置不需要通过 `url-loader` 处理的文件。
+
+当使用其他非默认 `webpack loader` 生成代码时需要配置这个选项。
+否则生成出来的代码会被 base64 编码。
+
+```js
+"urlLoaderExcludes": [path.join(__dirname, 'src/parser.jison')],
+```
 
 ## 环境变量
 
