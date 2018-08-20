@@ -4,10 +4,8 @@ import chokidar from 'chokidar';
 import chalk from 'chalk';
 import proxy from 'http-proxy-middleware';
 import url from 'url';
-import { join } from 'path';
 import bodyParser from 'body-parser';
 import getPaths from '../getPaths';
-import winPath from './winPath';
 
 const debug = require('debug')('roadhog:mock');
 
@@ -42,19 +40,26 @@ function createMockHandler(method, path, value) {
   };
 }
 
-function createProxy(method, path, target) {
-  const filter = req => {
+function createProxy(method, pathPattern, target) {
+  const filter = (_, req) => {
     return method ? req.method.toLowerCase() === method.toLowerCase() : true;
   };
-  const router = req => {
+  const parsedUrl = url.parse(target);
+  const realTarget = [parsedUrl.protocol, parsedUrl.host].join('//');
+  const targetPath = parsedUrl.path;
+
+  const pathRewrite = (path, req) => {
     let matchPath = req.originalUrl;
-    const matches = matchPath.match(path);
+    const matches = matchPath.match(pathPattern);
+
     if (matches.length > 1) {
       matchPath = matches[1];
     }
-    return winPath(join(url.parse(target).path, matchPath));
+
+    return path.replace(req.originalUrl.replace(matchPath, ''), targetPath);
   };
-  return proxy(filter, { router });
+
+  return proxy(filter, { target: realTarget, pathRewrite });
 }
 
 export function applyMock(devServer) {
