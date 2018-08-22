@@ -92,13 +92,8 @@ function realApplyMock(devServer) {
   const config = getConfig();
   const { app } = devServer;
 
-  devServer.use(bodyParser.json({ limit: '5mb', strict: false }));
-  devServer.use(
-    bodyParser.urlencoded({
-      extended: true,
-      limit: '5mb',
-    }),
-  );
+  const proxyRules = [];
+  const mockRules = [];
 
   Object.keys(config).forEach(key => {
     const keyParsed = parseKey(key);
@@ -116,13 +111,41 @@ function realApplyMock(devServer) {
       if (/\(.+\)/.test(path)) {
         path = new RegExp(`^${path}$`);
       }
-      app.use(path, createProxy(keyParsed.method, path, config[key]));
+      proxyRules.push({
+        path,
+        method: keyParsed.method,
+        target: config[key],
+      });
     } else {
-      app[keyParsed.method](
-        keyParsed.path,
-        createMockHandler(keyParsed.method, keyParsed.path, config[key]),
-      );
+      mockRules.push({
+        path: keyParsed.path,
+        method: keyParsed.method,
+        target: config[key],
+      });
     }
+
+    proxyRules.forEach(proxy => {
+      app.use(proxy.path, createProxy(proxy.method, proxy.path, proxy.target));
+    });
+
+    /**
+     * body-parser must be placed after http-proxy-middleware
+     * https://github.com/chimurai/http-proxy-middleware/blob/master/recipes/modify-post.md
+     */
+    devServer.use(bodyParser.json({ limit: '5mb', strict: false }));
+    devServer.use(
+      bodyParser.urlencoded({
+        extended: true,
+        limit: '5mb',
+      }),
+    );
+
+    mockRules.forEach(mock => {
+      app[mock.method](
+        mock.path,
+        createMockHandler(mock.method, mock.path, mock.target),
+      );
+    });
   });
 
   // 调整 stack，把 historyApiFallback 放到最后
