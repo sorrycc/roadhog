@@ -3,7 +3,7 @@ const babel = require('@babel/core');
 const through = require('through2');
 const chalk = require('chalk');
 const rimraf = require('rimraf');
-const { readdirSync, readFileSync, writeFileSync } = require('fs');
+const { readFileSync, writeFileSync } = require('fs');
 const { join } = require('path');
 const chokidar = require('chokidar');
 
@@ -17,7 +17,11 @@ const nodeBabelConfig = {
         },
       },
     ],
-    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
+  ],
+  plugins: [
+    require.resolve('@babel/plugin-proposal-export-default-from'),
+    require.resolve('@babel/plugin-proposal-do-expressions'),
+    require.resolve('@babel/plugin-proposal-class-properties'),
   ],
 };
 const browserBabelConfig = {
@@ -29,7 +33,11 @@ const browserBabelConfig = {
       },
     ],
     require.resolve('@babel/preset-react'),
-    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
+  ],
+  plugins: [
+    require.resolve('@babel/plugin-proposal-export-default-from'),
+    require.resolve('@babel/plugin-proposal-do-expressions'),
+    require.resolve('@babel/plugin-proposal-class-properties'),
   ],
 };
 
