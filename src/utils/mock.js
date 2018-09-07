@@ -123,29 +123,29 @@ function realApplyMock(devServer) {
         target: config[key],
       });
     }
+  });
 
-    proxyRules.forEach(proxy => {
-      app.use(proxy.path, createProxy(proxy.method, proxy.path, proxy.target));
-    });
+  proxyRules.forEach(proxy => {
+    app.use(proxy.path, createProxy(proxy.method, proxy.path, proxy.target));
+  });
 
-    /**
-     * body-parser must be placed after http-proxy-middleware
-     * https://github.com/chimurai/http-proxy-middleware/blob/master/recipes/modify-post.md
-     */
-    devServer.use(bodyParser.json({ limit: '5mb', strict: false }));
-    devServer.use(
-      bodyParser.urlencoded({
-        extended: true,
-        limit: '5mb',
-      }),
+  /**
+   * body-parser must be placed after http-proxy-middleware
+   * https://github.com/chimurai/http-proxy-middleware/blob/master/recipes/modify-post.md
+   */
+  devServer.use(bodyParser.json({ limit: '5mb', strict: false }));
+  devServer.use(
+    bodyParser.urlencoded({
+      extended: true,
+      limit: '5mb',
+    }),
+  );
+
+  mockRules.forEach(mock => {
+    app[mock.method](
+      mock.path,
+      createMockHandler(mock.method, mock.path, mock.target),
     );
-
-    mockRules.forEach(mock => {
-      app[mock.method](
-        mock.path,
-        createMockHandler(mock.method, mock.path, mock.target),
-      );
-    });
   });
 
   // 调整 stack，把 historyApiFallback 放到最后
