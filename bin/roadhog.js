@@ -36,7 +36,13 @@ switch (script) {
   case 'buildDll':
   case 'server':
   case 'test':
-    require('atool-monitor').emit();
+    if (script === 'server') {
+      const appData = {
+        reportFrom: 'roadhog',
+        roadhogVersion: require('../package.json').version,
+      };
+      require('atool-monitor').reportData({ appData });
+    }
     result = spawn.sync(
       'node',
       [require.resolve(`../lib/${script}`)].concat(args),
