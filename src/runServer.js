@@ -1,4 +1,7 @@
 import fs from 'fs';
+import path from 'path';
+import BuildStatistics from 'build-statistics-webpack-plugin';
+import BigBrother from 'bigbrother-webpack-plugin';
 import clearConsole from 'react-dev-utils/clearConsole';
 import formatWebpackMessages from 'react-dev-utils/formatWebpackMessages';
 import openBrowser from 'react-dev-utils/openBrowser';
@@ -220,6 +223,29 @@ function setupWatch(devServer) {
 function run(port) {
   const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   const host = process.env.HOST || 'localhost';
+
+  const stagesPath = path.join(
+    __dirname,
+    '../.run/build-statistics/compilation.json',
+  );
+  const roadhogPkg = require(path.join(__dirname, '../package.json'));   // eslint-disable-line
+
+  runArray(config, (item) => {
+    item.plugins.push(
+      new BuildStatistics({
+        path: stagesPath,
+      }),
+      new BigBrother({
+        cwd,
+        tool: {
+          name: 'roadhog',
+          version: roadhogPkg.version,
+          stagesPath,
+        },
+      }),
+    );
+  });
+
   setupCompiler(host, port, protocol);
   runDevServer(host, port, protocol);
 }
