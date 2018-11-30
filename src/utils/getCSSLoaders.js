@@ -1,5 +1,6 @@
 
 export default function getCSSLoaders(config) {
+  const isDev = process.env.NODE_ENV === 'development';
   const own = [];
   const nodeModules = [];
   const noCSSModules = [];
@@ -7,6 +8,14 @@ export default function getCSSLoaders(config) {
   const baseCSSOptions = {
     importLoaders: 1,
     sourceMap: !config.disableCSSSourceMap,
+    ...(isDev ? {} : {
+      minimize: process.env.CSS_COMPRESS
+        ? {
+          // ref: https://github.com/umijs/umi/issues/164
+          minifyFontValues: false,
+        }
+        : false,
+    }),
   };
 
   if (config.disableCSSModules) {
