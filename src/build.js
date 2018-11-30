@@ -5,6 +5,8 @@ import filesize from 'filesize';
 import { sync as gzipSize } from 'gzip-size';
 import webpack from 'webpack';
 import recursive from 'recursive-readdir';
+import BuildStatistics from 'build-statistics-webpack-plugin';
+import BigBrother from 'bigbrother-webpack-plugin';
 import stripAnsi from 'strip-ansi';
 import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
@@ -215,6 +217,28 @@ function realBuild(previousSizeMap, resolve, argv) {
   } else {
     console.log('Creating an optimized production build...');
   }
+
+  const stagesPath = path.join(
+    __dirname,
+    '../.run/build-statistics/compilation.json',
+  );
+  const roadhogPkg = require(path.join(__dirname, '../package.json'));   // eslint-disable-line
+
+  runArray(config, (item) => {
+    item.plugins.push(
+      new BuildStatistics({
+        path: stagesPath,
+      }),
+      new BigBrother({
+        cwd: argv.cwd,
+        tool: {
+          name: 'roadhog',
+          version: roadhogPkg.version,
+          stagesPath,
+        },
+      }),
+    );
+  });
 
   const compiler = webpack(config);
   const done = doneHandler.bind(null, previousSizeMap, argv, resolve);
