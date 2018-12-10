@@ -37,7 +37,13 @@ switch (aliasedScript) {
   case 'build':
   case 'dev':
   case 'test':
-    require('atool-monitor').emit();
+    if (aliasedScript === 'dev') {
+      const appData = {
+        reportFrom: 'roadhog',
+        roadhogVersion: require('../package.json').version,
+      };
+      require('atool-monitor').reportData({ appData });
+    }
     const proc = fork(
       require.resolve(`../lib/scripts/${aliasedScript}`),
       args,

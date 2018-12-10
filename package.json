@@ -42,7 +42,7 @@
     "@babel/polyfill": "^7.0.0",
     "@babel/runtime": "^7.0.0",
     "af-webpack": "^0.23.0-beta.1",
-    "atool-monitor": "^0.4.3",
+    "atool-monitor": "^1.0.9",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-umi": "^1.0.0",
     "bigbrother-webpack-plugin": "^1.1.2",
