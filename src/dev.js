@@ -1,5 +1,7 @@
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 import dev from 'af-webpack/dev';
+import BuildStatistics from 'build-statistics-webpack-plugin';
+import BigBrother from 'bigbrother-webpack-plugin';
 import chalk from 'chalk';
 import notify from 'umi-notify';
 import getConfig, {
@@ -62,6 +64,25 @@ export default function runDev(opts = {}) {
     paths,
     entry,
   });
+
+  const stagesPath = join(
+    __dirname,
+    '../.run/build-statistics/compilation.json',
+  );
+  const roadhogPkg = require(join(__dirname, '../package.json')); // eslint-disable-line
+  webpackConfig.plugins.push(
+    new BuildStatistics({
+      path: stagesPath,
+    }),
+    new BigBrother({
+      cwd,
+      tool: {
+        name: 'roadhog',
+        version: roadhogPkg.version,
+        stagesPath,
+      },
+    }),
+  );
 
   function onCompileDone() {
     notify.onDevComplete({ name: 'roadhog', version: '2-beta' });

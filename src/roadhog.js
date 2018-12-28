@@ -37,7 +37,6 @@ switch (aliasedScript) {
   case 'build':
   case 'dev':
   case 'test':
-    require('atool-monitor').emit();
     const proc = fork(
       require.resolve(`../lib/scripts/${aliasedScript}`),
       args,
