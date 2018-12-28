@@ -7,6 +7,7 @@ import webpack from 'webpack';
 import recursive from 'recursive-readdir';
 import BuildStatistics from 'build-statistics-webpack-plugin';
 import BigBrother from 'bigbrother-webpack-plugin';
+import notify from 'umi-notify';
 import stripAnsi from 'strip-ansi';
 import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
@@ -56,6 +57,7 @@ function getOutputPath(rcConfig) {
 }
 
 export function build(argv) {
+  notify.onBuildStart({ name: 'roadhog', version: 1 });
   const paths = getPaths(argv.cwd);
 
   try {
@@ -170,6 +172,7 @@ function printErrors(summary, errors) {
 }
 
 function doneHandler(previousSizeMap, argv, resolve, err, stats) {
+  notify.onBuildComplete({ name: 'roadhog', version: 1 }, { err });
   if (err) {
     printErrors('Failed to compile.', [err]);
     if (!argv.watch) {

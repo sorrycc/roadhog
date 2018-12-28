@@ -13,6 +13,7 @@ import historyApiFallback from 'connect-history-api-fallback';
 import WebpackDevServer from 'webpack-dev-server';
 import chalk from 'chalk';
 import chokidar from 'chokidar';
+import notify from 'umi-notify';
 import getPaths from './config/paths';
 import getConfig from './utils/getConfig';
 import runArray from './utils/runArray';
@@ -95,6 +96,12 @@ function setupCompiler(host, port, protocol) {
       } else {
         console.log(chalk.green(`Compiled successfully in ${(json.time / 1000).toFixed(1)}s!`));
       }
+    }
+
+    if (isFirstCompile) {
+      notify.onDevComplete({
+        name: 'roadhog', version: 1,
+      });
     }
 
     if (showInstructions) {
@@ -251,6 +258,7 @@ function run(port) {
 }
 
 function init() {
+  notify.onDevStart({ name: 'roadhog', version: 1 });
   readRcConfig();
 
   if (rcConfig.dllPlugin && !fs.existsSync(paths.dllManifest)) {
