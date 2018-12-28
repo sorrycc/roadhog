@@ -36,7 +36,6 @@ switch (script) {
   case 'buildDll':
   case 'server':
   case 'test':
-    require('atool-monitor').emit();
     result = spawn.sync(
       'node',
       [require.resolve(`../lib/${script}`)].concat(args),
