@@ -3,6 +3,7 @@ import dev from 'af-webpack/dev';
 import chalk from 'chalk';
 import BuildStatistics from 'build-statistics-webpack-plugin';
 import BigBrother from 'bigbrother-webpack-plugin';
+import notify from 'umi-notify';
 import getConfig, {
   watchConfigs,
   unwatchConfigs,
@@ -14,7 +15,15 @@ import { applyMock } from './utils/mock';
 
 const debug = require('debug')('roadhog:dev');
 
+function once(fn) {
+  if (!fn.__runned) {
+    fn.__runned = true;
+    fn();
+  }
+}
+
 export default function runDev(opts = {}) {
+  notify.onDevStart({ name: 'roadhog', version: '2-beta' });
   const { cwd = process.cwd(), entry } = opts;
 
   const babel = resolve(__dirname, './babel.js');
@@ -75,6 +84,10 @@ export default function runDev(opts = {}) {
     }),
   );
 
+  function onCompileDone() {
+    notify.onDevComplete({ name: 'roadhog', version: '2-beta' });
+  }
+
   dev({
     webpackConfig,
     proxy: config.proxy || {},
@@ -89,5 +102,8 @@ export default function runDev(opts = {}) {
       returnedWatchConfig(devServer);
     },
     openBrowser: true,
+    onCompileDone() {
+      once(onCompileDone);
+    },
   });
 }
