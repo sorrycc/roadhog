@@ -59,7 +59,7 @@ function createProxy(method, pathPattern, target) {
     return path.replace(req.originalUrl.replace(matchPath, ''), targetPath);
   };
 
-  return proxy(filter, { target: realTarget, pathRewrite });
+  return proxy(filter, { target: realTarget, pathRewrite, changeOrigin: true });
 }
 
 export function applyMock(devServer) {
@@ -125,6 +125,13 @@ function realApplyMock(devServer) {
     }
   });
 
+  mockRules.forEach(mock => {
+    app[mock.method](
+      mock.path,
+      createMockHandler(mock.method, mock.path, mock.target),
+    );
+  });
+
   proxyRules.forEach(proxy => {
     app.use(proxy.path, createProxy(proxy.method, proxy.path, proxy.target));
   });
@@ -140,13 +147,6 @@ function realApplyMock(devServer) {
       limit: '5mb',
     }),
   );
-
-  mockRules.forEach(mock => {
-    app[mock.method](
-      mock.path,
-      createMockHandler(mock.method, mock.path, mock.target),
-    );
-  });
 
   // 调整 stack，把 historyApiFallback 放到最后
   let lastIndex = null;
