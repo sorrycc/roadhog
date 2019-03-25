@@ -114,7 +114,7 @@ Index:
 
 Specify webpack entries, support [glob](https://github.com/isaacs/node-glob) format.
 
-suppose your project is multipages, wanting files in src/pages as entries. your can do the followings.
+suppose your project is multipages, wanting files in src/pages as entries. you can do the followings.
 
 ```
 "entry": "src/pages/*.js"
