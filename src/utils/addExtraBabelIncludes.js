@@ -8,22 +8,19 @@ export default function (webpackConfig, paths, includes = [], babelOptions) {
       loader: 'babel',
       options: babelOptions,
     });
-    
     webpackConfig.module.rules.push({
       test: /\.tsx?$/,
       include: join(paths.appDirectory, include),
-      use: [
-        {
-          loader: 'babel',
-          options: babelOptions,
+      use: [{
+        loader: 'babel',
+        options: babelOptions,
+      },
+      {
+        loader: 'awesome-typescript',
+        options: {
+          transpileOnly: true,
         },
-        {
-          loader: 'awesome-typescript',
-          options: {
-            transpileOnly: true,
-            },
-          },
-        ],
+      }],
     });
   });
   return webpackConfig;
