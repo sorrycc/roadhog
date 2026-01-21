@@ -109,6 +109,7 @@ Index:
 * [ignoreMomentLocale](#ignoremomentlocale)
 * [disableDynamicImport](#disabledynamicimport)
 * [env](#env)
+* [urlLoaderExcludes](#urlLoaderExcludes)
 
 ### entry
 
@@ -328,6 +329,17 @@ e.g.
 ```
 
 Thus, extraBabelPlugins in development is `['transform-runtime', 'dva-hmr']`, and `['transform-runtime']` in production.
+
+### urlLoaderExcludes
+
+Exclude files for `url-loader`.
+
+You should configure this option when you are using `webpack loader` to generate source code.
+Otherwise the generated source code will be encoded as base64 data url.
+
+```js
+"urlLoaderExcludes": [path.join(__dirname, 'src/parser.jison')],
+```
 
 ## Environment Variables
 
