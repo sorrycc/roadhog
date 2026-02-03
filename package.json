@@ -71,7 +71,7 @@
     "@babel/plugin-proposal-do-expressions": "^7.24.7",
     "@babel/plugin-proposal-export-default-from": "^7.25.9",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.57.1",
+    "eslint": "^9.26.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
