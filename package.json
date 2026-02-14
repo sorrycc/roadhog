@@ -41,7 +41,7 @@
     "@babel/core": "^7.26.0",
     "@babel/polyfill": "^7.12.1",
     "@babel/runtime": "^7.26.0",
-    "af-webpack": "^0.23.0-beta.1",
+    "af-webpack": "^1.2.8",
     "babel-plugin-add-module-exports": "^1.0.4",
     "babel-preset-umi": "^1.0.0",
     "bigbrother-webpack-plugin": "^1.1.2",
@@ -58,7 +58,7 @@
     "parse-json-pretty": "^0.1.0",
     "strip-json-comments": "^5.0.1",
     "umi-notify": "^0.1.0",
-    "umi-test": "^0.6.0-beta.1",
+    "umi-test": "^1.9.7",
     "update-notifier": "^7.3.1",
     "yargs": "^17.7.2"
   },
